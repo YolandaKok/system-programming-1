@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "IOUtils.h"
+#include "ListNode.h"
 
 /* Read the arguments */
 int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, double& bitcoinValue,
@@ -41,6 +42,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
     size_t len = 0;
     ssize_t read;
     char *token;
+    ListNode *list;
 
     if (fp == NULL)
         exit(EXIT_FAILURE);
@@ -55,11 +57,18 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
                 printf("userId: %s \n", token);
             }
             else {
-                printf("CoinID: %s \n", token);
+                if(count == 1) {
+                    list = new ListNode(atoi(token));
+                }
+                else {
+                    list->insert(atoi(token), list);
+                }
+                //printf("CoinID: %s \n", token);
             }
             token = strtok(NULL, " ");
             count++;
         }
+        list->print(list);
     }
 
     fclose(fp);

@@ -8,11 +8,12 @@
 class ListNode {
     private:
         ListNode *next;
-        int coin;
+        char* coin;
     public:
-        ListNode(int coin);
-        void insert(int coin, ListNode *head);
+        ListNode(char* coin);
+        void insert(char* coin, ListNode *head);
         void print(ListNode *head);
+        ListNode* getNext();
         ~ListNode();
 };
 

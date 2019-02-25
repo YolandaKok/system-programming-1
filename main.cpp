@@ -19,10 +19,10 @@ int main(int argc, char* argv[]) {
 
     /* Read the bitcoin balances files */
     fp = fopen( bitCoinBalancesFile, "r");
-    fp1 = fopen( transactionsFile, "r");
+    //fp1 = fopen( transactionsFile, "r");
 
     readCoinsBalance(fp, bitCoinBalancesFile);
-    readTransactions(fp1, transactionsFile);
+    //readTransactions(fp1, transactionsFile);
 
     free(bitCoinBalancesFile);
     free(transactionsFile);

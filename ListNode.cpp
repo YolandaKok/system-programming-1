@@ -4,13 +4,17 @@
 
 #include "ListNode.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-ListNode::ListNode(int coin) {
-    this->coin = coin;
+ListNode::ListNode(char* coin) {
+    //this->coin = coin;
+    this->coin = (char*)malloc((strlen(coin) + 1) * sizeof(char));
+    strcpy(this->coin, coin);
     this->next = NULL;
 }
 
-void ListNode::insert(int coin, ListNode *head) {
+void ListNode::insert(char* coin, ListNode *head) {
     ListNode *current = head;
     while(current->next != NULL) {
         current = current->next;
@@ -21,8 +25,16 @@ void ListNode::insert(int coin, ListNode *head) {
 void ListNode::print(ListNode *head) {
     ListNode *current = head;
     while(current != NULL) {
-        printf("Bitcoin: %d ", current->coin);
+        printf("Bitcoin: %s ", current->coin);
         current = current->next;
     }
     printf("\n");
+}
+
+ListNode* ListNode::getNext() {
+    return this->next;
+}
+
+ListNode::~ListNode() {
+    free(this->coin);
 }

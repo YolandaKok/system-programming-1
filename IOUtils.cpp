@@ -6,7 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "IOUtils.h"
+#include "Wallet.h"
 #include "ListNode.h"
+#include "HashTable.h"
 
 /* Read the arguments */
 int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, double& bitcoinValue,
@@ -43,6 +45,9 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
     ssize_t read;
     char *token;
     ListNode *list;
+    Wallet *wallet;
+    HashTable *hashTable;
+    hashTable = new HashTable(10);
 
     if (fp == NULL)
         exit(EXIT_FAILURE);
@@ -55,13 +60,14 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
         while( token != NULL ) {
             if(count == 0) {
                 printf("userId: %s \n", token);
+                printf("User Hash: %d \n", hashTable->hashFunction(token));
             }
             else {
                 if(count == 1) {
-                    list = new ListNode(atoi(token));
+                    list = new ListNode(token);
                 }
                 else {
-                    list->insert(atoi(token), list);
+                    list->insert(token, list);
                 }
                 //printf("CoinID: %s \n", token);
             }
@@ -69,7 +75,11 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
             count++;
         }
         list->print(list);
+        wallet = new Wallet(list);
+        delete wallet;
     }
+
+    delete hashTable;
 
     fclose(fp);
     free(line);

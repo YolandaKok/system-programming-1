@@ -4,11 +4,18 @@
 
 #ifndef SYSTEM_PROGRAMMING_1_HASHTABLE_H
 #define SYSTEM_PROGRAMMING_1_HASHTABLE_H
+#include "ListNode.h"
 
 class HashTable {
     private:
         int size;
-        Bucket **nodes;
+        ListNode **lists;
+        //Bucket **nodes;
+    public:
+        HashTable(int size);
+        int hashFunction(char *userId);
+        void insertUser(char *userId);
+        ~HashTable();
 };
 
 #endif //SYSTEM_PROGRAMMING_1_HASHTABLE_H

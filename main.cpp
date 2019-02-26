@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "IOUtils.h"
+#include "Record.h"
+#include "Bucket.h"
 
 int main(int argc, char* argv[]) {
     char *bitCoinBalancesFile, *transactionsFile;
@@ -27,4 +29,7 @@ int main(int argc, char* argv[]) {
     free(bitCoinBalancesFile);
     free(transactionsFile);
 
+    Bucket *bucket = new Bucket(200);
+    bucket->sizeInBytes();
+    delete bucket;
 }

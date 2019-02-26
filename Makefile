@@ -8,7 +8,9 @@ Wallet.o: Wallet.cpp
 	g++ -c Wallet.cpp
 HashTable.o: HashTable.cpp
 	g++ -c HashTable.cpp
-all: main.o IOUtils.o ListNode.o Wallet.o HashTable.o
-	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o HashTable.o
+Bucket.o: Bucket.cpp
+	g++ -c Bucket.cpp
+all: main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o
+	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o
 clean:
 	rm -f *.o bitcoin

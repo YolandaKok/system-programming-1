@@ -1,5 +1,5 @@
 //
-// Created by yolanda on 24/2/2019.
+// Created by yolanda on 26/2/2019.
 //
 
 #ifndef SYSTEM_PROGRAMMING_1_BUCKET_H
@@ -7,13 +7,13 @@
 
 class Bucket {
     private:
-        char **walletIDs;
-        int currentSize;
-        /* In bytes */
-        int bucketSize;
+        void *records;
         Bucket *next;
-        /* Pointers to some linked lists */
-        Wallet **wallets;
+    public:
+        Bucket(int bytes);
+        int sizeInBytes();
+        ~Bucket();
+
 };
 
 #endif //SYSTEM_PROGRAMMING_1_BUCKET_H

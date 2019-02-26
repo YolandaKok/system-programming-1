@@ -15,6 +15,12 @@ int Wallet::addCoin(char *coin) {
     this->start->insert(coin, this->start);
 }
 
+void Wallet::printCoins() {
+    ListNode *current;
+    current = this->start;
+    current->print(current);
+}
+
 Wallet::~Wallet() {
     /* Delete the next */
     ListNode *current, *temp;

@@ -7,7 +7,6 @@
 #include <string.h>
 #include "IOUtils.h"
 #include "Wallet.h"
-#include "ListNode.h"
 #include "HashTable.h"
 
 /* Read the arguments */
@@ -46,6 +45,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
     char *token;
     ListNode *list;
     Wallet *wallet;
+    char *userId;
     HashTable *hashTable;
     hashTable = new HashTable(10);
 
@@ -59,7 +59,9 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
         /* walk through other tokens */
         while( token != NULL ) {
             if(count == 0) {
-                printf("userId: %s \n", token);
+                //printf("userId: %s \n", token);
+                userId = (char*)malloc(strlen(token) + 1);
+                strcpy(userId, token);
                 printf("User Hash: %d \n", hashTable->hashFunction(token));
             }
             else {
@@ -69,16 +71,19 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
                 else {
                     list->insert(token, list);
                 }
-                //printf("CoinID: %s \n", token);
             }
             token = strtok(NULL, " ");
             count++;
         }
-        list->print(list);
+        //list->print(list);
         wallet = new Wallet(list);
-        delete wallet;
+        hashTable->insertUser(userId, wallet);
+        free(userId);
+        //delete wallet;
     }
 
+    //hashTable->printUsers();
+    hashTable->printUsersWallet("Ioanna");
     delete hashTable;
 
     fclose(fp);

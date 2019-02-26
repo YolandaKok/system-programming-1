@@ -4,6 +4,7 @@
 
 #ifndef SYSTEM_PROGRAMMING_1_HASHTABLE_H
 #define SYSTEM_PROGRAMMING_1_HASHTABLE_H
+
 #include "ListNode.h"
 
 class HashTable {
@@ -14,7 +15,10 @@ class HashTable {
     public:
         HashTable(int size);
         int hashFunction(char *userId);
-        void insertUser(char *userId);
+        void insertUser(char *userId, Wallet *wallet);
+        void printUsers();
+        void printUsersWallet(char *userId);
+        void addWallet(Wallet *wallet);
         ~HashTable();
 };
 

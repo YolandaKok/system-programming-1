@@ -4,9 +4,10 @@
 
 #ifndef SYSTEM_PROGRAMMING_1_WALLET_H
 #define SYSTEM_PROGRAMMING_1_WALLET_H
-
 #include "ListNode.h"
 #include <stdio.h>
+
+class ListNode;
 
 class Wallet {
     private:
@@ -16,6 +17,7 @@ class Wallet {
     public:
         Wallet(ListNode *start);
         int addCoin(char* coin);
+        void printCoins();
         ~Wallet();
 };
 

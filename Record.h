@@ -8,10 +8,8 @@
 #include "ListNode.h"
 
 /* Bucket that holds the DAT */
-class Record {
-    private:
-        char *name;
-        ListNode *head;
-};
+typedef struct Record {
+    char name[50];
+}Record;
 
 #endif //SYSTEM_PROGRAMMING_1_RECORD_H

@@ -9,9 +9,13 @@ class Bucket {
     private:
         void *records;
         Bucket *next;
+        int remainingBytes;
+        int offset;
     public:
         Bucket(int bytes);
         int sizeInBytes();
+        int addUser(char *name);
+        void printUsers();
         ~Bucket();
 
 };

@@ -10,7 +10,9 @@ HashTable.o: HashTable.cpp
 	g++ -c HashTable.cpp
 Bucket.o: Bucket.cpp
 	g++ -c Bucket.cpp
-all: main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o
-	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o
+DataBucket.o: DataBucket.cpp
+	g++ -c DataBucket.cpp
+all: main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o
+	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o
 clean:
 	rm -f *.o bitcoin

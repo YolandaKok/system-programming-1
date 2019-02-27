@@ -7,6 +7,9 @@
 #include "IOUtils.h"
 #include "Record.h"
 #include "Bucket.h"
+#include "DataBucket.h"
+#include "Record.h"
+#include <cstring>
 
 int main(int argc, char* argv[]) {
     char *bitCoinBalancesFile, *transactionsFile;
@@ -29,7 +32,36 @@ int main(int argc, char* argv[]) {
     free(bitCoinBalancesFile);
     free(transactionsFile);
 
-    Bucket *bucket = new Bucket(200);
-    bucket->sizeInBytes();
+    Bucket *bucket = new Bucket(bucketSize);
+    bucket->addUser("Maria");
+    bucket->addUser("Eleni");
+    bucket->addUser("Dimitra");
+    bucket->addUser("Yorgos");
+    bucket->addUser("Thanasis");
+    bucket->addUser("Kostas");
+
+    bucket->printUsers();
+
+    /*void *records = (void*)malloc(bucketSize);
+    Record record1;
+    strcpy(record1.name, "Maria");
+    memcpy(records, &record1, sizeof(Record));
+    Record record2;
+    memcpy(&record2, records, sizeof(Record));
+    printf("%s \n", record2.name);
+    int offset = sizeof(Record);
+    Record record3, record4, record5;
+
+    strcpy(record3.name, "Eleni");
+    memcpy(records + offset, &record3, sizeof(Record));
+    offset += sizeof(Record);
+
+    strcpy(record4.name, "Katerina");
+    memcpy(records + offset, &record4, sizeof(Record));
+    offset += sizeof(Record);
+
+    memcpy(&record2, records + 100, sizeof(Record));
+    printf("%s \n", record2.name);*/
+
     delete bucket;
 }

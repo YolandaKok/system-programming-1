@@ -52,6 +52,9 @@ void Bucket::printUsers() {
         dataBucket.printName();
         off += sizeof(DataBucket);
     }
+    if(this->next != NULL) {
+        this->next->printUsers();
+    }
 }
 
 Bucket::~Bucket() {

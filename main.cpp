@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
     free(bitCoinBalancesFile);
     free(transactionsFile);
 
-    Bucket *bucket = new Bucket(bucketSize);
+    /* Bucket *bucket = new Bucket(bucketSize);
     bucket->addUser("Maria");
     bucket->addUser("Eleni");
     bucket->addUser("Dimitra");
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
     bucket->addUser("Thanasis");
     bucket->addUser("Kostas");
 
-    bucket->printUsers();
+    bucket->printUsers(); */
 
     /*void *records = (void*)malloc(bucketSize);
     Record record1;
@@ -63,5 +63,5 @@ int main(int argc, char* argv[]) {
     memcpy(&record2, records + 100, sizeof(Record));
     printf("%s \n", record2.name);*/
 
-    delete bucket;
+    //delete bucket;
 }

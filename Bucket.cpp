@@ -41,6 +41,39 @@ int Bucket::addUser(char *name) {
     }
 }
 
+/* Returns true or false */
+int Bucket::findUser(char *name) {
+    DataBucket dataBucket;
+    int found = 0;
+    /* Search Into the Buckets */
+    Bucket *current = this;
+    while( current != NULL ) {
+        int off = 0;
+        while ( off < this->offset ) {
+            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+            /* We can see if it is the current name */
+            printf("%s %s!!!!! \n", name, dataBucket.getName());
+            if(strcmp(name, dataBucket.getName()) == 0) {
+                printf("Found \n");
+                found = 1;
+                break;
+            }
+            off += sizeof(DataBucket);
+        }
+        if(found)
+            break;
+        current = current->getNext();
+    }
+    return found;
+}
+
+/*int Bucket::addTransaction(char *name, Transaction *transaction) {
+    /* Find if user exists into the buckets */
+
+    /* If it exists insert the transaction into this */
+    /* If it does not exist make a new DataBucket */
+//}
+
 /* Traverse the buckets' list */
 void Bucket::printUsers() {
     /* Print all the users */

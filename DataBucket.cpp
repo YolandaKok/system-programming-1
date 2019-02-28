@@ -19,6 +19,10 @@ void DataBucket::setName(char name[50]) {
     strcpy(this->name, name);
 }
 
+char* DataBucket::getName() {
+    return this->name;
+}
+
 void DataBucket::printName() {
     printf("%s NAME \n", this->name);
 }

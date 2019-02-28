@@ -11,11 +11,12 @@ class Bucket {
         Bucket *next;
         int remainingBytes;
         int offset;
-
     public:
         Bucket(int bytes);
         int sizeInBytes();
         int addUser(char *name);
+        int findUser(char *name);
+        //int addTransaction(char *name, Transaction *transaction);
         Bucket* getNext();
         void printUsers();
         ~Bucket();

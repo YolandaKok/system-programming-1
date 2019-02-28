@@ -10,11 +10,12 @@ class DataBucket {
     private:
         char name[50];
         /* Pointer to a transaction linked list */
-        Transaction *transactions;
+        Transaction *head;
     public:
         DataBucket();
         DataBucket(char name[50]);
         void setName(char name[50]);
+        char* getName();
         void printName();
         ~DataBucket();
 };

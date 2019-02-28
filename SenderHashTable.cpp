@@ -46,6 +46,7 @@ int SenderHashTable::addTransaction(Transaction *transaction) {
         /* Add User to the bucket */
         this->buckets[i]->addUser(transaction->getSender());
     }
+    printf("%d found\n", this->buckets[i]->findUser(transaction->getSender()));
 }
 
 /* Insert the sender and the transaction */

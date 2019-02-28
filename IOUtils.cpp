@@ -8,6 +8,8 @@
 #include "IOUtils.h"
 #include "Wallet.h"
 #include "HashTable.h"
+#include "Transaction.h"
+#include "SenderHashTable.h"
 
 /* Read the arguments */
 int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, double& bitcoinValue,
@@ -90,16 +92,18 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
     free(line);
 }
 
-int readTransactions( FILE *fp, char* transactionsFile) {
+int readTransactions( FILE *fp, char* transactionsFile, SenderHashTable *senderHashTable) {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
     char *token;
+    Transaction *transaction;
 
     if (fp == NULL)
         exit(EXIT_FAILURE);
 
     while ((read = getline(&line, &len, fp)) != -1) {
+        transaction = new Transaction();
         /* get the first token */
         token = strtok(line, " ");
         int count = 0;
@@ -107,15 +111,19 @@ int readTransactions( FILE *fp, char* transactionsFile) {
         while( token != NULL ) {
             if(count == 0) {
                 printf("TransactionID: %s \n", token);
+                transaction->setTransactionId(token);
             }
             else if(count == 1) {
                 printf("SenderWalletID: %s \n", token);
+                transaction->setSender(token);
             }
             else if(count == 2) {
                 printf("ReceiverWalletID: %s \n", token);
+                transaction->setReceiver(token);
             }
             else if(count == 3) {
                 printf("Value: %s \n", token);
+                transaction->setAmount(atoi(token));
             }
             else if(count == 4) {
                 printf("Date: %s \n", token);
@@ -126,7 +134,11 @@ int readTransactions( FILE *fp, char* transactionsFile) {
             token = strtok(NULL, " ");
             count++;
         }
+        /* Insert into senderHashTable */
+        senderHashTable->addTransaction(transaction);
+        delete transaction;
     }
+    delete senderHashTable;
 
     fclose(fp);
     free(line);

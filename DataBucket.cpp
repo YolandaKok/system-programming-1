@@ -11,7 +11,11 @@ DataBucket::DataBucket() {
 
 }
 
-DataBucket::DataBucket(char *name){
+DataBucket::DataBucket(char name[50]){
+    strcpy(this->name, name);
+}
+
+void DataBucket::setName(char name[50]) {
     strcpy(this->name, name);
 }
 
@@ -20,4 +24,5 @@ void DataBucket::printName() {
 }
 
 DataBucket::~DataBucket() {
+
 }

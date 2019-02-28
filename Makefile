@@ -12,7 +12,11 @@ Bucket.o: Bucket.cpp
 	g++ -c Bucket.cpp
 DataBucket.o: DataBucket.cpp
 	g++ -c DataBucket.cpp
-all: main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o
-	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o
+SenderHashTable.o: SenderHashTable.cpp
+	g++ -c SenderHashTable.cpp
+Transaction.o: Transaction.cpp
+	g++ -c Transaction.cpp
+all: main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o SenderHashTable.o Transaction.o
+	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o SenderHashTable.o Transaction.o
 clean:
 	rm -f *.o bitcoin

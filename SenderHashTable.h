@@ -5,15 +5,20 @@
 #ifndef SYSTEM_PROGRAMMING_1_SENDERHASHTABLE_H
 #define SYSTEM_PROGRAMMING_1_SENDERHASHTABLE_H
 
+#include "Transaction.h"
+#include "Bucket.h"
+
 class SenderHashTable {
     private:
         int size;
+        int bucketSize;
         Bucket **buckets;
     public:
-        SenderHashTable(int size);
+        SenderHashTable(int size, int bytes);
         int hashFunction(char *userId);
+        void insertSender(char *sender);
         /* Add Transaction to the bucket */
-        int addTransaction();
+        int addTransaction(Transaction *transaction);
         ~SenderHashTable();
 };
 

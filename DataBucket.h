@@ -14,6 +14,7 @@ class DataBucket {
     public:
         DataBucket();
         DataBucket(char name[50]);
+        void setName(char name[50]);
         void printName();
         ~DataBucket();
 };

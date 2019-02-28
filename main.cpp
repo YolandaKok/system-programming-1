@@ -4,18 +4,21 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstring>
 #include "IOUtils.h"
 #include "Record.h"
 #include "Bucket.h"
 #include "DataBucket.h"
 #include "Record.h"
-#include <cstring>
+#include "SenderHashTable.h"
 
 int main(int argc, char* argv[]) {
     char *bitCoinBalancesFile, *transactionsFile;
     double bitCoinValue;
     int senderHashTableNumOfEntries, receiverHashTableNumOfEntries, bucketSize;
     FILE *fp, *fp1;
+    /* Create a hashtable for the senders */
+    SenderHashTable *senderHashTable;
 
     readArgs( argc, argv, bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries, receiverHashTableNumOfEntries,
             bucketSize);
@@ -24,10 +27,12 @@ int main(int argc, char* argv[]) {
 
     /* Read the bitcoin balances files */
     fp = fopen( bitCoinBalancesFile, "r");
-    //fp1 = fopen( transactionsFile, "r");
+    fp1 = fopen( transactionsFile, "r");
+
+    senderHashTable = new SenderHashTable(senderHashTableNumOfEntries, bucketSize);
 
     readCoinsBalance(fp, bitCoinBalancesFile);
-    //readTransactions(fp1, transactionsFile);
+    readTransactions(fp1, transactionsFile, senderHashTable);
 
     free(bitCoinBalancesFile);
     free(transactionsFile);

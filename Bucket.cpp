@@ -21,11 +21,11 @@ int Bucket::sizeInBytes() {
 }
 
 int Bucket::addUser(char *name) {
-
     if(offset + sizeof(DataBucket) < this->remainingBytes) {
-        DataBucket *dataBucket = new DataBucket(name);
+        DataBucket dataBucket;
+        dataBucket.setName(name);
 
-        memcpy(this->records + offset, dataBucket, sizeof(DataBucket));
+        memcpy(this->records + offset, &dataBucket, sizeof(DataBucket));
         this->offset += sizeof(DataBucket);
     }
     else {
@@ -57,6 +57,11 @@ void Bucket::printUsers() {
     }
 }
 
+Bucket* Bucket::getNext() {
+    return this->next;
+}
+
 Bucket::~Bucket() {
     free(this->records);
+    /* Delete all the buckets recursively */
 }

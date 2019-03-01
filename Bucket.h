@@ -5,6 +5,8 @@
 #ifndef SYSTEM_PROGRAMMING_1_BUCKET_H
 #define SYSTEM_PROGRAMMING_1_BUCKET_H
 
+#include "Transaction.h"
+
 class Bucket {
     private:
         void *records;
@@ -14,7 +16,8 @@ class Bucket {
     public:
         Bucket(int bytes);
         int sizeInBytes();
-        int addUser(char *name);
+        int addUser(char *name, Transaction *transaction);
+        int addTransaction(Transaction *transaction);
         int findUser(char *name);
         //int addTransaction(char *name, Transaction *transaction);
         Bucket* getNext();

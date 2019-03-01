@@ -40,13 +40,21 @@ int SenderHashTable::addTransaction(Transaction *transaction) {
         /* Create a new bucket */
         this->buckets[i] = new Bucket(this->bucketSize);
         /* Add User to the bucket */
-        this->buckets[i]->addUser(transaction->getSender());
+        this->buckets[i]->addUser(transaction->getSender(), transaction);
     }
     else {
-        /* Add User to the bucket */
-        this->buckets[i]->addUser(transaction->getSender());
+        /* Find if the user exists */
+        /* If it does not exists */
+        if(this->buckets[i]->findUser(transaction->getSender()) == 0) {
+            /* Add User to the bucket and First Transaction to the DataBucket */
+            this->buckets[i]->addUser(transaction->getSender(), transaction);
+        }
+        else {
+            /* Add Transaction to the bucket */
+            this->buckets[i]->addTransaction(transaction);
+        }
     }
-    printf("%d found\n", this->buckets[i]->findUser(transaction->getSender()));
+    //printf("%d found\n", this->buckets[i]->findUser(transaction->getSender()));
 }
 
 /* Insert the sender and the transaction */
@@ -59,11 +67,11 @@ void insertSender(char *sender) {
 /* Destructor for this class */
 SenderHashTable::~SenderHashTable() {
     int i = 0;
+    Bucket *current, *temp;
     /* Deallocate memory for the buckets array */
     for( i = 0; i < this->size; i++ ) {
         if(this->buckets[i] != NULL) {
             // delete this->buckets[i];
-            Bucket *current, *temp;
             current = this->buckets[i];
             while( current != NULL ) {
                 temp = current->getNext();

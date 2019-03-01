@@ -15,6 +15,10 @@ class DataBucket {
         DataBucket();
         DataBucket(char name[50]);
         void setName(char name[50]);
+        void setTransactionListHead(Transaction *transaction);
+        void removeTransactions();
+        Transaction* getTransactionListHead();
+        void addTransaction(Transaction *head, Transaction *transaction);
         char* getName();
         void printName();
         ~DataBucket();

@@ -7,6 +7,7 @@
 #include <cstring>
 #include "Bucket.h"
 #include "DataBucket.h"
+#include "Transaction.h"
 
 /* Constructor of a bucket */
 Bucket::Bucket(int bytes) {
@@ -20,24 +21,51 @@ int Bucket::sizeInBytes() {
 
 }
 
-int Bucket::addUser(char *name) {
+/* Transaction will be added to the DataBucket */
+int Bucket::addUser(char *name, Transaction *transaction) {
     if(offset + sizeof(DataBucket) < this->remainingBytes) {
         DataBucket dataBucket;
         dataBucket.setName(name);
+        dataBucket.setTransactionListHead(transaction);
 
         memcpy(this->records + offset, &dataBucket, sizeof(DataBucket));
         this->offset += sizeof(DataBucket);
     }
     else {
-
         if( this->next == NULL ) {
             this->next = new Bucket(this->remainingBytes);
-            this->next->addUser(name);
+            this->next->addUser(name, transaction);
         }
         else {
-
-            this->next->addUser(name);
+            this->next->addUser(name, transaction);
         }
+    }
+}
+
+int Bucket::addTransaction(Transaction *transaction) {
+    /* Add Transaction To the Transactions List */
+    DataBucket dataBucket;
+    int found = 0;
+    /* Search Into the Buckets */
+    Bucket *current = this;
+    while( current != NULL ) {
+        int off = 0;
+        while ( off < current->offset ) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
+            /* We can see if it is the current name */
+            printf("%s %s!!!!! \n", transaction->getSender(), dataBucket.getName());
+            if(strcmp(transaction->getSender(), dataBucket.getName()) == 0) {
+                printf("Found \n");
+                // Add to the transaction list of this DataBucket for this user
+                dataBucket.addTransaction(dataBucket.getTransactionListHead(), transaction);
+                found = 1;
+                break;
+            }
+            off += sizeof(DataBucket);
+        }
+        if(found)
+            break;
+        current = current->next;
     }
 }
 
@@ -52,9 +80,7 @@ int Bucket::findUser(char *name) {
         while ( off < this->offset ) {
             memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
-            printf("%s %s!!!!! \n", name, dataBucket.getName());
             if(strcmp(name, dataBucket.getName()) == 0) {
-                printf("Found \n");
                 found = 1;
                 break;
             }
@@ -95,6 +121,21 @@ Bucket* Bucket::getNext() {
 }
 
 Bucket::~Bucket() {
+    /* For every DataBucket Delete The Transactions List */
+    DataBucket dataBucket;
+    int found = 0;
+    /* Search Into the Buckets */
+    Bucket *current = this;
+    while( current != NULL ) {
+        int off = 0;
+        while ( off < current->offset ) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
+            dataBucket.removeTransactions();
+            /* We can see if it is the current name */
+            off += sizeof(DataBucket);
+        }
+        current = current->next;
+    }
     free(this->records);
-    /* Delete all the buckets recursively */
 }
+

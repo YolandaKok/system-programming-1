@@ -136,7 +136,6 @@ int readTransactions( FILE *fp, char* transactionsFile, SenderHashTable *senderH
         }
         /* Insert into senderHashTable */
         senderHashTable->addTransaction(transaction);
-        delete transaction;
     }
     delete senderHashTable;
 

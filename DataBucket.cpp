@@ -19,6 +19,20 @@ void DataBucket::setName(char name[50]) {
     strcpy(this->name, name);
 }
 
+/* Set the head of the transaction head */
+void DataBucket::setTransactionListHead(Transaction *transaction) {
+    this->head = transaction;
+}
+
+/* Add Transaction to the DataBucket */
+void DataBucket::addTransaction(Transaction *head, Transaction *transaction) {
+    head->setNext(head, transaction);
+}
+
+Transaction* DataBucket::getTransactionListHead() {
+    return this->head;
+}
+
 char* DataBucket::getName() {
     return this->name;
 }
@@ -27,6 +41,16 @@ void DataBucket::printName() {
     printf("%s NAME \n", this->name);
 }
 
+void DataBucket::removeTransactions() {
+    Transaction *current = this->head, *temp;
+    while( current != NULL ) {
+        temp = current->getNext();
+        delete current;
+        current = temp;
+    }
+}
+
+/* Remove transactions from the DataBucket */
 DataBucket::~DataBucket() {
 
 }

@@ -22,6 +22,8 @@ class Transaction {
         char* getSender();
         void setReceiver(char *receiver);
         void setAmount(int amount);
+        void setNext(Transaction *head, Transaction *newTransaction);
+        Transaction* getNext();
         ~Transaction();
 };
 

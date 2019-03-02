@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <cstring>
 #include "IOUtils.h"
 #include "Wallet.h"
 #include "HashTable.h"
@@ -12,7 +12,7 @@
 #include "SenderHashTable.h"
 
 /* Read the arguments */
-int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, double& bitcoinValue,
+int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, int& bitcoinValue,
              int& senderHashtableNumOfEntries, int& receiverHashtableNumOfEntries, int& bucketSize) {
     int i;
     for ( i = 1; i < argc; i+=2 ) {
@@ -25,7 +25,7 @@ int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transact
             strcpy(transactionsFile, argv[i+1]);
         }
         else if(!strcmp(argv[i], "-v")) {
-            bitcoinValue = atof(argv[i+1]);
+            bitcoinValue = atoi(argv[i+1]);
         }
         else if(!strcmp(argv[i], "-h1")) {
             senderHashtableNumOfEntries = atoi(argv[i+1]);
@@ -40,7 +40,7 @@ int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transact
 }
 
 /* Read Coins Balance File */
-int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
+int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
@@ -68,7 +68,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile) {
             }
             else {
                 if(count == 1) {
-                    list = new ListNode(token);
+                    list = new ListNode(token, coinValue);
                 }
                 else {
                     list->insert(token, list);

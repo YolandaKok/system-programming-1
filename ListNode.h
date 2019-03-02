@@ -14,8 +14,9 @@ class ListNode {
         ListNode *next;
         Wallet *wallet;
         char* coin;
+        int coinValue;
     public:
-        ListNode(char* coin);
+        ListNode(char* coin, int coinValue);
         ListNode(char *coin, Wallet *wallet);
         void insert(char* coin, ListNode *head);
         void insert(char* coin, ListNode *head, Wallet *wallet);

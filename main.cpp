@@ -14,7 +14,7 @@
 
 int main(int argc, char* argv[]) {
     char *bitCoinBalancesFile, *transactionsFile;
-    double bitCoinValue;
+    int bitCoinValue;
     int senderHashTableNumOfEntries, receiverHashTableNumOfEntries, bucketSize;
     FILE *fp, *fp1;
     /* Create a hashtable for the senders */
@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 
     readArgs( argc, argv, bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries, receiverHashTableNumOfEntries,
             bucketSize);
-    printf("%s %s %lf %d %d %d \n", bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries,
+    printf("%s %s %d %d %d %d \n", bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries,
             receiverHashTableNumOfEntries, bucketSize);
 
     /* Read the bitcoin balances files */
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 
     senderHashTable = new SenderHashTable(senderHashTableNumOfEntries, bucketSize);
 
-    readCoinsBalance(fp, bitCoinBalancesFile);
+    readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue);
     readTransactions(fp1, transactionsFile, senderHashTable);
 
     free(bitCoinBalancesFile);

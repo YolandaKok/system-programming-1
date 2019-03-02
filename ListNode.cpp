@@ -8,12 +8,13 @@
 #include "Wallet.h"
 #include "ListNode.h"
 
-ListNode::ListNode(char* coin) {
+ListNode::ListNode(char* coin, int coinValue) {
     //this->coin = coin;
     this->coin = (char*)malloc((strlen(coin) + 1) * sizeof(char));
     strcpy(this->coin, coin);
     this->next = NULL;
     this->wallet = NULL;
+    this->coinValue = coinValue;
 }
 
 ListNode::ListNode(char* coin, Wallet *wallet) {
@@ -28,7 +29,7 @@ void ListNode::insert(char* coin, ListNode *head) {
     while(current->next != NULL) {
         current = current->next;
     }
-    current->next = new ListNode(coin);
+    current->next = new ListNode(coin, current->coinValue);
 }
 
 void ListNode::printWallet(char *userId, ListNode *head) {
@@ -48,7 +49,7 @@ void ListNode::insert(char *coin, ListNode *head, Wallet *wallet) {
     while (current->next != NULL) {
         current = current->next;
     }
-    current->next = new ListNode(coin);
+    current->next = new ListNode(coin, current->coinValue);
     current->next->wallet = wallet;
 }
 

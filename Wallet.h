@@ -12,8 +12,9 @@ class ListNode;
 class Wallet {
     private:
         char* userId;
+        /* List to keep the coins */
         ListNode *start;
-        double balance;
+        int balance;
     public:
         Wallet(ListNode *start);
         int addCoin(char* coin);

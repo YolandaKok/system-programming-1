@@ -10,6 +10,7 @@
 #include "HashTable.h"
 #include "Transaction.h"
 #include "SenderHashTable.h"
+#include "TreeHashTable.h"
 
 /* Read the arguments */
 int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, int& bitcoinValue,
@@ -50,6 +51,8 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
     char *userId;
     HashTable *hashTable;
     hashTable = new HashTable(10);
+    TreeHashTable *treeHashTable = new TreeHashTable(3);
+
 
     if (fp == NULL)
         exit(EXIT_FAILURE);
@@ -69,9 +72,11 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
             else {
                 if(count == 1) {
                     list = new ListNode(token, coinValue);
+                    treeHashTable->insert(token, userId);
                 }
                 else {
                     list->insert(token, list);
+                    treeHashTable->insert(token, userId);
                 }
             }
             token = strtok(NULL, " ");
@@ -84,9 +89,11 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
         //delete wallet;
     }
 
+    treeHashTable->print();
     //hashTable->printUsers();
-    hashTable->printUsersWallet("Ioanna");
+    //hashTable->printUsersWallet("Ioanna");
     delete hashTable;
+    delete treeHashTable;
 
     fclose(fp);
     free(line);

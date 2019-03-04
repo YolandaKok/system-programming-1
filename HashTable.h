@@ -11,7 +11,6 @@ class HashTable {
     private:
         int size;
         ListNode **lists;
-        //Bucket **nodes;
     public:
         HashTable(int size);
         int hashFunction(char *userId);

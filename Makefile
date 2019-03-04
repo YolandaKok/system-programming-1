@@ -16,7 +16,13 @@ SenderHashTable.o: SenderHashTable.cpp
 	g++ -c SenderHashTable.cpp
 Transaction.o: Transaction.cpp
 	g++ -c Transaction.cpp
-all: main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o SenderHashTable.o Transaction.o
-	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o SenderHashTable.o Transaction.o
+CoinTree.o: CoinTree.cpp
+	g++ -c CoinTree.cpp
+TreeHashTable.o: TreeHashTable.cpp
+	g++ -c TreeHashTable.cpp
+CoinNode.o: CoinNode.cpp
+	g++ -c CoinNode.cpp
+all: main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o SenderHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o
+	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o SenderHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o
 clean:
 	rm -f *.o bitcoin

@@ -10,10 +10,19 @@
 class CoinTree {
     private:
         char *coinId;
+        char *initialOwner;
+        /* Pointer to the CoinNode */
         CoinNode *root;
+        /* Pointer to the next CoinTree */
+        CoinTree *next;
     public:
-        CoinTree(char *coinId);
-        CoinTree();
+        CoinTree(char *coinId, char *initialOwner);
+        /* Insert new Coin */
+        int insert(char *coinId, char *initialOwner);
+        int find(char *coinId);
+        CoinTree* getNext();
+        void print();
+        ~CoinTree();
 };
 
 #endif //SYSTEM_PROGRAMMING_1_BITCOINTREE_H

@@ -41,7 +41,7 @@ int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transact
 }
 
 /* Read Coins Balance File */
-int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
+int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, WalletHashTable *walletHashTable) {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
@@ -49,7 +49,6 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
     ListNode *list;
     //Wallet *wallet;
     char *userId;
-    WalletHashTable *walletHashTable = new WalletHashTable(10);
     TreeHashTable *treeHashTable = new TreeHashTable(3);
 
 
@@ -90,7 +89,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
     //treeHashTable->print();
     //hashTable->printUsers();
     //hashTable->printUsersWallet("Ioanna");
-    delete walletHashTable;
+    //delete walletHashTable;
     delete treeHashTable;
 
     printf("%d BALANCE \n", balance);
@@ -99,7 +98,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
     free(line);
 }
 
-int readTransactions( FILE *fp, char* transactionsFile, SenderHashTable *senderHashTable) {
+int readTransactions( FILE *fp, char* transactionsFile, SenderHashTable *senderHashTable, WalletHashTable *walletHashTable) {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
@@ -142,13 +141,14 @@ int readTransactions( FILE *fp, char* transactionsFile, SenderHashTable *senderH
             count++;
         }
         transaction->setVirtualTransaction(0);
+        int balance = walletHashTable->getBalance(transaction->getSender());
+        //printf("%s %d \n", transaction->getSender(), balance);
         /* Insert into senderHashTable */
         senderHashTable->addTransaction(transaction);
     }
+    senderHashTable->printTransactions("Ioanna");
 
-    senderHashTable->printTransactions("Lionel");
-
-    delete senderHashTable;
+    //delete senderHashTable;
 
     fclose(fp);
     free(line);

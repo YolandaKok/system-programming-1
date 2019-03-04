@@ -19,6 +19,7 @@ int main(int argc, char* argv[]) {
     FILE *fp, *fp1;
     /* Create a hashtable for the senders */
     SenderHashTable *senderHashTable;
+    WalletHashTable *walletHashTable;
 
     readArgs( argc, argv, bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries, receiverHashTableNumOfEntries,
             bucketSize);
@@ -30,13 +31,16 @@ int main(int argc, char* argv[]) {
     fp1 = fopen( transactionsFile, "r");
 
     senderHashTable = new SenderHashTable(senderHashTableNumOfEntries, bucketSize);
+    walletHashTable = new WalletHashTable(10);
 
-    readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue);
-    readTransactions(fp1, transactionsFile, senderHashTable);
+    readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue, walletHashTable);
+    readTransactions(fp1, transactionsFile, senderHashTable, walletHashTable);
 
     free(bitCoinBalancesFile);
     free(transactionsFile);
 
+    delete walletHashTable;
+    delete senderHashTable;
     /* Bucket *bucket = new Bucket(bucketSize);
     bucket->addUser("Maria");
     bucket->addUser("Eleni");

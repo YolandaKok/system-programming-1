@@ -19,6 +19,7 @@ class SenderHashTable {
         void insertSender(char *sender);
         /* Add Transaction to the bucket */
         int addTransaction(Transaction *transaction);
+        void printTransactions(char* userId);
         ~SenderHashTable();
 };
 

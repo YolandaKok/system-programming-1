@@ -57,6 +57,11 @@ int SenderHashTable::addTransaction(Transaction *transaction) {
     //printf("%d found\n", this->buckets[i]->findUser(transaction->getSender()));
 }
 
+void SenderHashTable::printTransactions(char *userId) {
+    int hash = hashFunction(userId);
+    this->buckets[hash]->printTransactions(userId);
+}
+
 /* Insert the sender and the transaction */
 void insertSender(char *sender) {
     /* Hash the value */

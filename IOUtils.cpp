@@ -117,33 +117,37 @@ int readTransactions( FILE *fp, char* transactionsFile, SenderHashTable *senderH
         /* walk through other tokens */
         while( token != NULL ) {
             if(count == 0) {
-                printf("TransactionID: %s \n", token);
+                // printf("TransactionID: %s \n", token);
                 transaction->setTransactionId(token);
             }
             else if(count == 1) {
-                printf("SenderWalletID: %s \n", token);
+                // printf("SenderWalletID: %s \n", token);
                 transaction->setSender(token);
             }
             else if(count == 2) {
-                printf("ReceiverWalletID: %s \n", token);
+                // printf("ReceiverWalletID: %s \n", token);
                 transaction->setReceiver(token);
             }
             else if(count == 3) {
-                printf("Value: %s \n", token);
+                // printf("Value: %s \n", token);
                 transaction->setAmount(atoi(token));
             }
             else if(count == 4) {
-                printf("Date: %s \n", token);
+                // printf("Date: %s \n", token);
             }
             else if(count == 5) {
-                printf("Time: %s \n", token);
+                // printf("Time: %s \n", token);
             }
             token = strtok(NULL, " ");
             count++;
         }
+        transaction->setVirtualTransaction(0);
         /* Insert into senderHashTable */
         senderHashTable->addTransaction(transaction);
     }
+
+    senderHashTable->printTransactions("Lionel");
+
     delete senderHashTable;
 
     fclose(fp);

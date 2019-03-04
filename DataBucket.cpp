@@ -50,6 +50,14 @@ void DataBucket::removeTransactions() {
     }
 }
 
+void DataBucket::printTransactions() {
+    Transaction *current = this->head, *temp;
+    while( current != NULL ) {
+        printf("%s %s %d %s \n", current->getSender(), current->getReceiver(), current->getAmount(), current->getTransactionId());
+        current = current->getNext();
+    }
+}
+
 /* Remove transactions from the DataBucket */
 DataBucket::~DataBucket() {
 

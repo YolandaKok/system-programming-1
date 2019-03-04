@@ -52,6 +52,22 @@ void Transaction::setAmount(int amount) {
     this->amount = amount;
 }
 
+void Transaction::setVirtualTransaction(int virtualTransaction) {
+    this->virtualTransaction = virtualTransaction;
+}
+
+char* Transaction::getReceiver() {
+    return this->receiver;
+}
+
+int Transaction::getAmount() {
+    return this->amount;
+}
+
+char* Transaction::getTransactionId() {
+    return this->transactionId;
+}
+
 Transaction::~Transaction() {
     printf("delete transaction %s\n", this->transactionId);
     free(this->receiver); free(this->sender);

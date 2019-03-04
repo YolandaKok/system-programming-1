@@ -19,6 +19,7 @@ class Bucket {
         int addUser(char *name, Transaction *transaction);
         int addTransaction(Transaction *transaction);
         int findUser(char *name);
+        void printTransactions(char *userId);
         //int addTransaction(char *name, Transaction *transaction);
         Bucket* getNext();
         void printUsers();

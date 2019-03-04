@@ -42,6 +42,31 @@ int Bucket::addUser(char *name, Transaction *transaction) {
     }
 }
 
+void Bucket::printTransactions(char *userId) {
+    DataBucket dataBucket;
+    int found = 0;
+    /* Search Into the Buckets */
+    Bucket *current = this;
+    while( current != NULL ) {
+        int off = 0;
+        while ( off < this->offset ) {
+            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+            /* We can see if it is the current name */
+            if(strcmp(userId, dataBucket.getName()) == 0) {
+                found = 1;
+                // Print the list of the transactions
+                dataBucket.printTransactions();
+                break;
+            }
+            off += sizeof(DataBucket);
+        }
+        if(found)
+            break;
+        current = current->getNext();
+    }
+    //return found;
+}
+
 int Bucket::addTransaction(Transaction *transaction) {
     /* Add Transaction To the Transactions List */
     DataBucket dataBucket;

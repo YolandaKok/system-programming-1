@@ -20,6 +20,7 @@ class DataBucket {
         Transaction* getTransactionListHead();
         void addTransaction(Transaction *head, Transaction *transaction);
         char* getName();
+        void printTransactions();
         void printName();
         ~DataBucket();
 };

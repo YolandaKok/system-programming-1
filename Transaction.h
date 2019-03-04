@@ -11,6 +11,7 @@ class Transaction {
         char *sender;
         char *receiver;
         int amount;
+        int virtualTransaction;
         Transaction *next;
         // Date // Time make a struct for them
     public:
@@ -20,9 +21,13 @@ class Transaction {
         void setTransactionId(char *id);
         void setSender(char *sender);
         char* getSender();
+        char* getReceiver();
+        int getAmount();
+        char* getTransactionId();
         void setReceiver(char *receiver);
         void setAmount(int amount);
         void setNext(Transaction *head, Transaction *newTransaction);
+        void setVirtualTransaction(int virtualTransaction);
         Transaction* getNext();
         ~Transaction();
 };

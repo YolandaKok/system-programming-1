@@ -6,8 +6,6 @@ ListNode.o: ListNode.cpp
 	g++ -c ListNode.cpp
 Wallet.o: Wallet.cpp
 	g++ -c Wallet.cpp
-HashTable.o: HashTable.cpp
-	g++ -c HashTable.cpp
 Bucket.o: Bucket.cpp
 	g++ -c Bucket.cpp
 DataBucket.o: DataBucket.cpp
@@ -22,7 +20,9 @@ TreeHashTable.o: TreeHashTable.cpp
 	g++ -c TreeHashTable.cpp
 CoinNode.o: CoinNode.cpp
 	g++ -c CoinNode.cpp
-all: main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o SenderHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o
-	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o HashTable.o Bucket.o DataBucket.o SenderHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o
+WalletHashTable.o: WalletHashTable.cpp
+	g++ -c WalletHashTable.cpp
+all: main.o IOUtils.o ListNode.o Wallet.o Bucket.o DataBucket.o SenderHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o WalletHashTable.o
+	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o Bucket.o DataBucket.o SenderHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o WalletHashTable.o
 clean:
 	rm -f *.o bitcoin

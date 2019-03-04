@@ -7,10 +7,10 @@
 #include <cstring>
 #include "IOUtils.h"
 #include "Wallet.h"
-#include "HashTable.h"
 #include "Transaction.h"
 #include "SenderHashTable.h"
 #include "TreeHashTable.h"
+#include "WalletHashTable.h"
 
 /* Read the arguments */
 int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, int& bitcoinValue,
@@ -47,10 +47,9 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
     ssize_t read;
     char *token;
     ListNode *list;
-    Wallet *wallet;
+    //Wallet *wallet;
     char *userId;
-    HashTable *hashTable;
-    hashTable = new HashTable(10);
+    WalletHashTable *walletHashTable = new WalletHashTable(10);
     TreeHashTable *treeHashTable = new TreeHashTable(3);
 
 
@@ -67,7 +66,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
                 //printf("userId: %s \n", token);
                 userId = (char*)malloc(strlen(token) + 1);
                 strcpy(userId, token);
-                printf("User Hash: %d \n", hashTable->hashFunction(token));
+                //printf("User Hash: %d \n", hashTable->hashFunction(token));
             }
             else {
                 if(count == 1) {
@@ -82,18 +81,19 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue) {
             token = strtok(NULL, " ");
             count++;
         }
-        //list->print(list);
-        wallet = new Wallet(list);
-        hashTable->insertUser(userId, wallet);
+        // wallet = new Wallet(list);
+        walletHashTable->insert(userId, list);
         free(userId);
-        //delete wallet;
     }
-
-    treeHashTable->print();
+    walletHashTable->print("Yolanda");
+    int balance = walletHashTable->getBalance("Ioanna");
+    //treeHashTable->print();
     //hashTable->printUsers();
     //hashTable->printUsersWallet("Ioanna");
-    delete hashTable;
+    delete walletHashTable;
     delete treeHashTable;
+
+    printf("%d BALANCE \n", balance);
 
     fclose(fp);
     free(line);

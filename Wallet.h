@@ -12,13 +12,17 @@ class ListNode;
 class Wallet {
     private:
         char* userId;
+        Wallet *next;
         /* List to keep the coins */
-        ListNode *start;
+        ListNode *coins;
         int balance;
     public:
-        Wallet(ListNode *start);
+        Wallet(char *userId, ListNode *head);
         int addCoin(char* coin);
-        void printCoins();
+        int insert(char *userId, ListNode *head);
+        void printCoins(char *userId);
+        int getBalance(char* userId);
+        Wallet* getNext();
         ~Wallet();
 };
 

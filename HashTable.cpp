@@ -32,7 +32,7 @@ void HashTable::insertUser(char *userId, Wallet *wallet) {
 void HashTable::printUsers() {
     for( int i = 0; i < this->size; i++ ) {
         printf("Node %d \n", i);
-        this->lists[i]->print(this->lists[i]);
+        //this->lists[i]->print(this->lists[i]);
     }
 }
 
@@ -40,7 +40,7 @@ void HashTable::printUsersWallet(char *userId) {
     int hash = hashFunction(userId);
     printf("%s useridddd \n ", userId);
     //this->lists[hash]->print(this->lists[hash]);
-    this->lists[hash]->printWallet(userId, this->lists[hash]);
+    //this->lists[hash]->printWallet(userId, this->lists[hash]);
 }
 
 /* Hash Function for strings */

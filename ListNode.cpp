@@ -13,16 +13,9 @@ ListNode::ListNode(char* coin, int coinValue) {
     this->coin = (char*)malloc((strlen(coin) + 1) * sizeof(char));
     strcpy(this->coin, coin);
     this->next = NULL;
-    this->wallet = NULL;
     this->coinValue = coinValue;
 }
 
-ListNode::ListNode(char* coin, Wallet *wallet) {
-    this->coin = (char*)malloc((strlen(coin) + 1) * sizeof(char));
-    strcpy(this->coin, coin);
-    this->next = NULL;
-    this->wallet = wallet;
-}
 
 void ListNode::insert(char* coin, ListNode *head) {
     ListNode *current = head;
@@ -32,34 +25,22 @@ void ListNode::insert(char* coin, ListNode *head) {
     current->next = new ListNode(coin, current->coinValue);
 }
 
-void ListNode::printWallet(char *userId, ListNode *head) {
-    ListNode *current = head;
-    while(current != NULL) {
-        printf("%s userrrr\n", current->coin);
-        if(strcmp(current->coin, userId) == 0) {
-            current->wallet->printCoins();
-            break;
-        }
+int ListNode::getBalance() {
+    int balance = 0;
+    ListNode *current = this;
+    while( current != NULL ) {
+        balance += current->coinValue;
         current = current->next;
     }
+    return balance;
 }
 
-void ListNode::insert(char *coin, ListNode *head, Wallet *wallet) {
-    ListNode *current = head;
-    while (current->next != NULL) {
+void ListNode::print() {
+    ListNode *current = this;
+    while( current != NULL ) {
+        printf("Coin Id: %s \n", current->coin);
         current = current->next;
     }
-    current->next = new ListNode(coin, current->coinValue);
-    current->next->wallet = wallet;
-}
-
-void ListNode::print(ListNode *head) {
-    ListNode *current = head;
-    while(current != NULL) {
-        printf("Bitcoin: %s ", current->coin);
-        current = current->next;
-    }
-    //printf("\n");
 }
 
 ListNode* ListNode::getNext() {
@@ -68,7 +49,4 @@ ListNode* ListNode::getNext() {
 
 ListNode::~ListNode() {
     free(this->coin);
-    if(this->wallet != NULL) {
-        delete this->wallet;
-    }
 }

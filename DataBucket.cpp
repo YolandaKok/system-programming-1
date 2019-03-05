@@ -29,6 +29,10 @@ void DataBucket::addTransaction(Transaction *head, Transaction *transaction) {
     head->setNext(head, transaction);
 }
 
+void DataBucket::traverseTransactions(char *user, Transaction *transaction) {
+    this->head->traverseTransactions(user, transaction);
+}
+
 Transaction* DataBucket::getTransactionListHead() {
     return this->head;
 }
@@ -53,7 +57,10 @@ void DataBucket::removeTransactions() {
 void DataBucket::printTransactions() {
     Transaction *current = this->head, *temp;
     while( current != NULL ) {
-        printf("%s %s %d %s \n", current->getSender(), current->getReceiver(), current->getAmount(), current->getTransactionId());
+        //if(!current->getVirtualTransaction()) {
+            printf("Sender: %s, Receiver: %s, Amount: %d, Id: %s \n", current->getSender(), current->getReceiver(),
+                   current->getAmount(), current->getTransactionId());
+        //}
         current = current->getNext();
     }
 }

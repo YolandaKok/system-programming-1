@@ -5,17 +5,20 @@
 #ifndef SYSTEM_PROGRAMMING_1_IOUTILS_H
 #define SYSTEM_PROGRAMMING_1_IOUTILS_H
 
-#include "SenderHashTable.h"
+#include "UsersHashTable.h"
 #include "WalletHashTable.h"
+#include "TreeHashTable.h"
 
 /* Read the arguments from the command line */
 int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, int& bitcoinValue,
-        int& senderHashtableNumOfEntries, int& receiverHashtableNumOfEntries, int& bucketSize);
+        int& UsersHashTableNumOfEntries, int& receiverHashtableNumOfEntries, int& bucketSize);
 
 /* Read Coins Balance File */
-int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, WalletHashTable *walletHashTable);
+int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersHashTable *receiverHashTable,
+        UsersHashTable *senderHashTable, WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
 
 /* Read Transactions */
-int readTransactions( FILE *fp, char* transactionsFile, SenderHashTable *senderHashTable, WalletHashTable *walletHashTable);
+int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiverHashTable,
+                      UsersHashTable *senderHashTable, WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
 
 #endif //SYSTEM_PROGRAMMING_1_IOUTILS_H

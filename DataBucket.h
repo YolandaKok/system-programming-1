@@ -21,6 +21,7 @@ class DataBucket {
         void addTransaction(Transaction *head, Transaction *transaction);
         char* getName();
         void printTransactions();
+        void traverseTransactions(char *user, Transaction *transaction);
         void printName();
         ~DataBucket();
 };

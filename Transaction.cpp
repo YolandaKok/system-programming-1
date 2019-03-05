@@ -19,13 +19,42 @@ Transaction* Transaction::getNext () {
     return this->next;
 }
 
+void Transaction::traverseTransactions(char *user, Transaction *transaction) {
+    Transaction *current = this;
+    //CoinNode *coinNode;
+    /* Make the Transaction */
+    while( current != NULL ) {
+        //coinNode = current->coin;
+        if( current->coin->isLeaf() ) {
+            printf("%s IDDDD\n", current->coin->getCoinId());
+            printf("Insert if Leaf\n");
+            /* Let's see if we can insert two CoinNodes */
+            current->coin->insertTransaction(transaction);
+            //current->coin = coinNode;
+            //printf("is leaf %d\n",coinNode->isLeaf());
+            break;
+        }
+        else {
+            current = current->next;
+        }
+    }
+}
+
 void Transaction::setNext(Transaction *head, Transaction *newTransaction) {
-    printf("%s new transaction \n", newTransaction->transactionId);
+    //printf("%s new transaction \n", newTransaction->transactionId);
     Transaction *current = head;
     while( current->next != NULL ) {
         current = current->next;
     }
     current->next = newTransaction;
+}
+
+void Transaction::setCoinNode(CoinNode *coin) {
+    this->coin = coin;
+}
+
+CoinNode* Transaction::getCoinNode() {
+    return this->coin;
 }
 
 /* Getters and Setters */
@@ -68,8 +97,12 @@ char* Transaction::getTransactionId() {
     return this->transactionId;
 }
 
+int Transaction::getVirtualTransaction() {
+    return this->virtualTransaction;
+}
+
 Transaction::~Transaction() {
-    printf("delete transaction %s\n", this->transactionId);
+    //printf("delete transaction %s\n", this->transactionId);
     free(this->receiver); free(this->sender);
     free(this->transactionId);
 }

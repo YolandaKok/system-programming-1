@@ -8,13 +8,14 @@
 #include "IOUtils.h"
 #include "Wallet.h"
 #include "Transaction.h"
-#include "SenderHashTable.h"
+#include "UsersHashTable.h"
 #include "TreeHashTable.h"
 #include "WalletHashTable.h"
+#include "CoinNode.h"
 
 /* Read the arguments */
 int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, int& bitcoinValue,
-             int& senderHashtableNumOfEntries, int& receiverHashtableNumOfEntries, int& bucketSize) {
+             int& UsersHashTableNumOfEntries, int& receiverHashtableNumOfEntries, int& bucketSize) {
     int i;
     for ( i = 1; i < argc; i+=2 ) {
         if(!strcmp(argv[i], "-a")) {
@@ -29,7 +30,7 @@ int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transact
             bitcoinValue = atoi(argv[i+1]);
         }
         else if(!strcmp(argv[i], "-h1")) {
-            senderHashtableNumOfEntries = atoi(argv[i+1]);
+            UsersHashTableNumOfEntries = atoi(argv[i+1]);
         }
         else if(!strcmp(argv[i], "-h2")) {
             receiverHashtableNumOfEntries = atoi(argv[i+1]);
@@ -41,16 +42,17 @@ int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transact
 }
 
 /* Read Coins Balance File */
-int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, WalletHashTable *walletHashTable) {
+int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersHashTable *receiverHashTable,
+                      UsersHashTable *senderHashTable, WalletHashTable *walletHashTable, TreeHashTable *treeHashTable) {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
     char *token;
-    ListNode *list;
+    ListNode *list = NULL;
     //Wallet *wallet;
     char *userId;
-    TreeHashTable *treeHashTable = new TreeHashTable(3);
-
+    Transaction *transaction;
+    CoinNode *coinNode;
 
     if (fp == NULL)
         exit(EXIT_FAILURE);
@@ -59,57 +61,77 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, Wallet
         /* get the first token */
         token = strtok(line, " ");
         int count = 0;
+        list = NULL;
         /* walk through other tokens */
         while( token != NULL ) {
             if(count == 0) {
-                //printf("userId: %s \n", token);
                 userId = (char*)malloc(strlen(token) + 1);
                 strcpy(userId, token);
-                //printf("User Hash: %d \n", hashTable->hashFunction(token));
+                printf("Userid %s \n", userId);
             }
             else {
                 if(count == 1) {
+                    //printf("Coin Id: %s", token);
+                    coinNode = treeHashTable->insert(token, userId, coinValue);
+                    transaction = new Transaction();
+                    transaction->setReceiver(userId);
+                    transaction->setSender(userId);
+                    transaction->setAmount(coinValue);
+                    transaction->setTransactionId("1");
+                    transaction->setVirtualTransaction(1);
+                    transaction->setCoinNode(coinNode);
+                    receiverHashTable->addTransaction(userId, transaction);
                     list = new ListNode(token, coinValue);
-                    treeHashTable->insert(token, userId);
+                    //coinNode->print();
                 }
                 else {
+                    coinNode = treeHashTable->insert(token, userId, coinValue);
+                    transaction = new Transaction();
+                    transaction->setReceiver(userId);
+                    transaction->setSender(userId);
+                    transaction->setAmount(coinValue);
+                    transaction->setTransactionId("2");
+                    transaction->setVirtualTransaction(1);
+                    transaction->setCoinNode(coinNode);
+                    receiverHashTable->addTransaction(userId, transaction);
                     list->insert(token, list);
-                    treeHashTable->insert(token, userId);
+                    //coinNode->print();
                 }
             }
             token = strtok(NULL, " ");
             count++;
         }
-        // wallet = new Wallet(list);
-        walletHashTable->insert(userId, list);
+        if( list != NULL ) {
+            walletHashTable->insert(userId, list);
+        }
+        else {
+            //printf("%s !@# \n", userId);
+        }
         free(userId);
     }
-    walletHashTable->print("Yolanda");
-    int balance = walletHashTable->getBalance("Ioanna");
-    //treeHashTable->print();
-    //hashTable->printUsers();
-    //hashTable->printUsersWallet("Ioanna");
-    //delete walletHashTable;
-    delete treeHashTable;
-
-    printf("%d BALANCE \n", balance);
+    //walletHashTable->print("Kylian");
+    //int balance = walletHashTable->getBalance("Ioanna");
+    treeHashTable->print();
+    //delete treeHashTable;
 
     fclose(fp);
     free(line);
 }
 
-int readTransactions( FILE *fp, char* transactionsFile, SenderHashTable *senderHashTable, WalletHashTable *walletHashTable) {
+int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiverHashTable,
+                      UsersHashTable *senderHashTable, WalletHashTable *walletHashTable, TreeHashTable *treeHashTable) {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
     char *token;
-    Transaction *transaction;
+    Transaction *transaction, *transaction1;
 
     if (fp == NULL)
         exit(EXIT_FAILURE);
 
     while ((read = getline(&line, &len, fp)) != -1) {
         transaction = new Transaction();
+        transaction1 = new Transaction();
         /* get the first token */
         token = strtok(line, " ");
         int count = 0;
@@ -118,18 +140,22 @@ int readTransactions( FILE *fp, char* transactionsFile, SenderHashTable *senderH
             if(count == 0) {
                 // printf("TransactionID: %s \n", token);
                 transaction->setTransactionId(token);
+                transaction1->setTransactionId(token);
             }
             else if(count == 1) {
                 // printf("SenderWalletID: %s \n", token);
                 transaction->setSender(token);
+                transaction1->setSender(token);
             }
             else if(count == 2) {
                 // printf("ReceiverWalletID: %s \n", token);
                 transaction->setReceiver(token);
+                transaction1->setReceiver(token);
             }
             else if(count == 3) {
                 // printf("Value: %s \n", token);
                 transaction->setAmount(atoi(token));
+                transaction1->setAmount(atoi(token));
             }
             else if(count == 4) {
                 // printf("Date: %s \n", token);
@@ -141,14 +167,29 @@ int readTransactions( FILE *fp, char* transactionsFile, SenderHashTable *senderH
             count++;
         }
         transaction->setVirtualTransaction(0);
+        transaction1->setVirtualTransaction(0);
         int balance = walletHashTable->getBalance(transaction->getSender());
-        //printf("%s %d \n", transaction->getSender(), balance);
-        /* Insert into senderHashTable */
-        senderHashTable->addTransaction(transaction);
+        /* Let's do the transaction */
+        if( balance > transaction->getAmount() ) {
+            printf("We can do the transaction !\n");
+            printf("%s %d BALANCE\n", transaction->getSender(), balance);
+            /* Traverse the receiverHashTable and the virtual nodes */
+            receiverHashTable->traverseTransactions(transaction->getSender(), transaction);
+            //receiverHashTable->addTransaction(transaction->getSender(), transaction);
+            /* For every node, testify if it is leaf */
+            /* If it is a leaf go to the CoinNode and find the amount on this node */
+            /* Create two new nodes, One with the amount left to the initial user, the right node and one with the amount transfered to the other user */
+            /* Update the wallets of the two users */
+            /* If the amount is not transfered go to the next transaction node and do the same until you transfer all the amount to the receiver */
+            /* Return the CoinNodes */
+        }
+        /* Insert into UsersHashTable */
+        senderHashTable->addTransaction(transaction->getSender(), transaction);
+        receiverHashTable->addTransaction(transaction1->getReceiver(), transaction1);
     }
-    senderHashTable->printTransactions("Ioanna");
-
-    //delete senderHashTable;
+    //receiverHashTable->printTransactions("Katerina");
+    //receiverHashTable->printUsers();
+    //senderHashTable->printUsers();
 
     fclose(fp);
     free(line);

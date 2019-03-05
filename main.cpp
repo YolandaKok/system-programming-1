@@ -6,11 +6,10 @@
 #include <stdlib.h>
 #include <cstring>
 #include "IOUtils.h"
-#include "Record.h"
 #include "Bucket.h"
 #include "DataBucket.h"
-#include "Record.h"
-#include "SenderHashTable.h"
+#include "UsersHashTable.h"
+#include "TreeHashTable.h"
 
 int main(int argc, char* argv[]) {
     char *bitCoinBalancesFile, *transactionsFile;
@@ -18,11 +17,13 @@ int main(int argc, char* argv[]) {
     int senderHashTableNumOfEntries, receiverHashTableNumOfEntries, bucketSize;
     FILE *fp, *fp1;
     /* Create a hashtable for the senders */
-    SenderHashTable *senderHashTable;
+    UsersHashTable *senderHashTable, *receiverHashTable;
     WalletHashTable *walletHashTable;
+    TreeHashTable *treeHashTable;
 
-    readArgs( argc, argv, bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries, receiverHashTableNumOfEntries,
-            bucketSize);
+
+    readArgs( argc, argv, bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries,
+            receiverHashTableNumOfEntries, bucketSize);
     printf("%s %s %d %d %d %d \n", bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries,
             receiverHashTableNumOfEntries, bucketSize);
 
@@ -30,47 +31,27 @@ int main(int argc, char* argv[]) {
     fp = fopen( bitCoinBalancesFile, "r");
     fp1 = fopen( transactionsFile, "r");
 
-    senderHashTable = new SenderHashTable(senderHashTableNumOfEntries, bucketSize);
+    /* Initialize the HashTables */
+    senderHashTable = new UsersHashTable(senderHashTableNumOfEntries, bucketSize);
+    receiverHashTable = new UsersHashTable(receiverHashTableNumOfEntries, bucketSize);
     walletHashTable = new WalletHashTable(10);
+    treeHashTable = new TreeHashTable(3);
 
-    readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue, walletHashTable);
-    readTransactions(fp1, transactionsFile, senderHashTable, walletHashTable);
+    readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
+    readTransactions(fp1, transactionsFile, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
 
     free(bitCoinBalancesFile);
     free(transactionsFile);
 
+
+    // receiverHashTable->printTransactions("Antonella");
+
+    treeHashTable->printCoin("934");
+
+    //CoinNode *node = treeHashTable->getRoot("123");
+    //node->print();
+    //node->printNodes();
     delete walletHashTable;
     delete senderHashTable;
-    /* Bucket *bucket = new Bucket(bucketSize);
-    bucket->addUser("Maria");
-    bucket->addUser("Eleni");
-    bucket->addUser("Dimitra");
-    bucket->addUser("Yorgos");
-    bucket->addUser("Thanasis");
-    bucket->addUser("Kostas");
-
-    bucket->printUsers(); */
-
-    /*void *records = (void*)malloc(bucketSize);
-    Record record1;
-    strcpy(record1.name, "Maria");
-    memcpy(records, &record1, sizeof(Record));
-    Record record2;
-    memcpy(&record2, records, sizeof(Record));
-    printf("%s \n", record2.name);
-    int offset = sizeof(Record);
-    Record record3, record4, record5;
-
-    strcpy(record3.name, "Eleni");
-    memcpy(records + offset, &record3, sizeof(Record));
-    offset += sizeof(Record);
-
-    strcpy(record4.name, "Katerina");
-    memcpy(records + offset, &record4, sizeof(Record));
-    offset += sizeof(Record);
-
-    memcpy(&record2, records + 100, sizeof(Record));
-    printf("%s \n", record2.name);*/
-
-    //delete bucket;
+    delete receiverHashTable;
 }

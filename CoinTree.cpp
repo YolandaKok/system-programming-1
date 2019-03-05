@@ -8,14 +8,31 @@
 #include "CoinTree.h"
 #include "CoinNode.h"
 
-CoinTree::CoinTree(char *coinId, char *initialOwner) {
+CoinTree::CoinTree(char *coinId, char *initialOwner, int value) {
     this->coinId = (char*)malloc(strlen(coinId) + 1);
     strcpy(this->coinId, coinId);
     this->initialOwner = (char*)malloc(strlen(initialOwner) + 1);
     strcpy(this->initialOwner, initialOwner);
     /* Initialize the coin id with NULL */
-    this->root = NULL;
+    this->root = new CoinNode(initialOwner, value, coinId);
     this->next = NULL;
+}
+
+CoinNode* CoinTree::getRoot(char *coinId) {
+    CoinTree *current = this;
+
+    /* Traverse the list to find the last node */
+    while( current != NULL ) {
+        if(strcmp(current->coinId, coinId) == 0) {
+            break;
+        }
+        current = current->next;
+    }
+    return current->root;
+}
+
+void CoinTree::setRoot(char *owner, int value, char *coinId){
+    this->root = new CoinNode(owner, value, coinId);
 }
 
 /* Find if this coinId exists */
@@ -34,20 +51,17 @@ int CoinTree::find(char *coinId) {
     return found;
 }
 
-int CoinTree::insert(char *coinId, char *initialOwner) {
+CoinNode* CoinTree::insert(char *coinId, char *initialOwner, int value) {
     CoinTree *current = this;
-    int found = current->find(coinId);
-    if(found) {
-        return 0;
+
+    /* Traverse the list to find the last node */
+    while( current->next != NULL ) {
+        current = current->next;
     }
-    else {
-        /* Traverse the list to find the last node */
-        while( current->next != NULL ) {
-            current = current->next;
-        }
-    }
+
     /* If not found go to next node */
-    current->next = new CoinTree(coinId, initialOwner);
+    current->next = new CoinTree(coinId, initialOwner, value);
+    return current->next->root;
 }
 
 void CoinTree::print() {
@@ -58,6 +72,20 @@ void CoinTree::print() {
         current = current->next;
     }
     printf("\n");
+}
+
+void CoinTree::printNodes(char *coinId) {
+    CoinTree *current = this;
+    printf("xxxxxxxxxxxxxxxxxxxxxxxx \n");
+    while (current != NULL ) {
+        printf("%s xxxxmamakxksl\n", current->coinId);
+        if(strcmp(current->coinId, coinId) == 0) {
+            printf("LALALALLA \n");
+            current->root->printNodes();
+            break;
+        }
+        current = current->next;
+    }
 }
 
 CoinTree* CoinTree::getNext() {

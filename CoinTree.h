@@ -16,11 +16,14 @@ class CoinTree {
         /* Pointer to the next CoinTree */
         CoinTree *next;
     public:
-        CoinTree(char *coinId, char *initialOwner);
+        CoinTree(char *coinId, char *initialOwner, int value);
         /* Insert new Coin */
-        int insert(char *coinId, char *initialOwner);
+        CoinNode* insert(char *coinId, char *initialOwner, int value);
         int find(char *coinId);
+        void printNodes(char *coinId);
+        CoinNode* getRoot(char *coinId);
         CoinTree* getNext();
+        void setRoot(char *owner, int value, char *coinId);
         void print();
         ~CoinTree();
 };

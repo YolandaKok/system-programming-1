@@ -3,6 +3,7 @@
 //
 
 #include "TreeHashTable.h"
+#include "CoinNode.h"
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,17 +20,20 @@ TreeHashTable::TreeHashTable(int size) {
 }
 
 /* Insert CoinId */
-int TreeHashTable::insert(char *coinId, char *initialOwner) {
+CoinNode* TreeHashTable::insert(char *coinId, char *initialOwner, int value) {
+    CoinNode *coinNode;
     /* Find the hash */
     int hash = hashFunction(coinId);
     if(this->trees[hash] == NULL) {
         // Create the new list
-        this->trees[hash] = new CoinTree(coinId, initialOwner);
+        this->trees[hash] = new CoinTree(coinId, initialOwner, value);
+        coinNode = this->trees[hash]->getRoot(coinId);
     }
     else {
         // Add a new node to the hashtable
-        this->trees[hash]->insert(coinId, initialOwner);
+        coinNode = this->trees[hash]->insert(coinId, initialOwner, value);
     }
+    return coinNode;
 }
 
 /* Print the HashTable */
@@ -41,6 +45,17 @@ void TreeHashTable::print() {
             this->trees[i]->print();
         }
     }
+}
+
+void TreeHashTable::printCoin(char *coinId) {
+    int i = hashFunction(coinId);
+    printf("%d xiixixixixskalk!!!!\n", i);
+    this->trees[i]->printNodes(coinId);
+}
+
+CoinNode* TreeHashTable::getRoot(char *coinId) {
+    int i = hashFunction(coinId);
+    return this->trees[i]->getRoot(coinId);
 }
 
 /* Hash Function for strings */

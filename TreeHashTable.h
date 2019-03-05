@@ -6,6 +6,7 @@
 #define SYSTEM_PROGRAMMING_1_TREEHASHTABLE_H
 
 #include "CoinTree.h"
+#include "CoinNode.h"
 
 class TreeHashTable {
     private:
@@ -15,8 +16,10 @@ class TreeHashTable {
         TreeHashTable(int size);
         int hashFunction(char *coinId);
         /* Returns 0 if not found, 1 if found */
-        int insert(char *coinId, char *initialOwner);
+        CoinNode* insert(char *coinId, char *initialOwner, int value);
         void print();
+        void printCoin(char *coinId);
+        CoinNode* getRoot(char *coinId);
         ~TreeHashTable();
 
 };

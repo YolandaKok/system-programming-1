@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cstring>
-#include "SenderHashTable.h"
+#include "UsersHashTable.h"
 #include "Bucket.h"
 
-SenderHashTable::SenderHashTable(int size, int bytes) {
+UsersHashTable::UsersHashTable(int size, int bytes) {
     int i;
     this->size = size;
     this->bucketSize = bytes;
@@ -21,7 +21,7 @@ SenderHashTable::SenderHashTable(int size, int bytes) {
 }
 
 /* Hash Function for strings */
-int SenderHashTable::hashFunction(char *userId) {
+int UsersHashTable::hashFunction(char *userId) {
     unsigned long hash = 5381;
     int c;
 
@@ -31,35 +31,51 @@ int SenderHashTable::hashFunction(char *userId) {
     return hash % this->size;
 }
 
+void UsersHashTable::traverseTransactions(char *user, Transaction *transaction) {
+    int i = hashFunction(user);
+    /* If the user exists go to the next */
+    if( this->buckets[i]->findUser(user) == 1 ) {
+        this->buckets[i]->traverseTransactions(user, transaction);
+    }
+}
+
 /* Add The transaction to the right bucket */
-int SenderHashTable::addTransaction(Transaction *transaction) {
-    int i = hashFunction(transaction->getSender());
+int UsersHashTable::addTransaction(char *user, Transaction *transaction) {
+    int i = hashFunction(user);
     /* Find or insert the user */
     /* Let's see if a list of buckets exists */
     if(this->buckets[i] == NULL) {
         /* Create a new bucket */
         this->buckets[i] = new Bucket(this->bucketSize);
         /* Add User to the bucket */
-        this->buckets[i]->addUser(transaction->getSender(), transaction);
+        this->buckets[i]->addUser(user, transaction);
     }
     else {
         /* Find if the user exists */
         /* If it does not exists */
-        if(this->buckets[i]->findUser(transaction->getSender()) == 0) {
+        if(this->buckets[i]->findUser(user) == 0) {
             /* Add User to the bucket and First Transaction to the DataBucket */
-            this->buckets[i]->addUser(transaction->getSender(), transaction);
+            this->buckets[i]->addUser(user, transaction);
         }
         else {
             /* Add Transaction to the bucket */
-            this->buckets[i]->addTransaction(transaction);
+            this->buckets[i]->addTransaction(user, transaction);
         }
     }
     //printf("%d found\n", this->buckets[i]->findUser(transaction->getSender()));
 }
 
-void SenderHashTable::printTransactions(char *userId) {
+void UsersHashTable::printTransactions(char *userId) {
     int hash = hashFunction(userId);
     this->buckets[hash]->printTransactions(userId);
+}
+
+void UsersHashTable::printUsers() {
+    int i;
+    for ( i = 0; i < this->size; i++ ) {
+        if(this->buckets[i] != NULL)
+            this->buckets[i]->printUsers();
+    }
 }
 
 /* Insert the sender and the transaction */
@@ -70,7 +86,7 @@ void insertSender(char *sender) {
 }
 
 /* Destructor for this class */
-SenderHashTable::~SenderHashTable() {
+UsersHashTable::~UsersHashTable() {
     int i = 0;
     Bucket *current, *temp;
     /* Deallocate memory for the buckets array */

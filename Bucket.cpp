@@ -67,7 +67,32 @@ void Bucket::printTransactions(char *userId) {
     //return found;
 }
 
-int Bucket::addTransaction(Transaction *transaction) {
+void Bucket::traverseTransactions(char *user, Transaction *transaction) {
+    /*  */
+    DataBucket dataBucket;
+    int found = 0;
+    /* Search Into the Buckets */
+    Bucket *current = this;
+    while( current != NULL ) {
+        int off = 0;
+        while ( off < this->offset ) {
+            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+            /* We can see if it is the current name */
+            if(strcmp(user, dataBucket.getName()) == 0) {
+                dataBucket.traverseTransactions(user, transaction);
+                found = 1;
+                break;
+            }
+            off += sizeof(DataBucket);
+        }
+        if(found)
+            break;
+        current = current->getNext();
+    }
+    // return found;
+}
+
+int Bucket::addTransaction(char *user, Transaction *transaction) {
     /* Add Transaction To the Transactions List */
     DataBucket dataBucket;
     int found = 0;
@@ -78,9 +103,9 @@ int Bucket::addTransaction(Transaction *transaction) {
         while ( off < current->offset ) {
             memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
-            printf("%s %s!!!!! \n", transaction->getSender(), dataBucket.getName());
-            if(strcmp(transaction->getSender(), dataBucket.getName()) == 0) {
-                printf("Found \n");
+            // printf("%s %s!!!!! \n", user, dataBucket.getName());
+            if(strcmp(user, dataBucket.getName()) == 0) {
+                // printf("Found \n");
                 // Add to the transaction list of this DataBucket for this user
                 dataBucket.addTransaction(dataBucket.getTransactionListHead(), transaction);
                 found = 1;

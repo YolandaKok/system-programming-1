@@ -17,10 +17,11 @@ class Bucket {
         Bucket(int bytes);
         int sizeInBytes();
         int addUser(char *name, Transaction *transaction);
-        int addTransaction(Transaction *transaction);
+        int addTransaction(char* user, Transaction *transaction);
         int findUser(char *name);
         void printTransactions(char *userId);
         //int addTransaction(char *name, Transaction *transaction);
+        void traverseTransactions(char *user, Transaction *transaction);
         Bucket* getNext();
         void printUsers();
         ~Bucket();

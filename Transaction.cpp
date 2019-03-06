@@ -21,10 +21,12 @@ Transaction* Transaction::getNext () {
 
 void Transaction::traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
         WalletHashTable *walletHashTable) {
+
     Transaction *current = this;
-    //CoinNode *coinNode;
+    int remainder = transaction->getAmount();
+
     /* Make the Transaction */
-    while( current != NULL ) {
+    while( current != NULL && remainder != 0) {
         //coinNode = current->coin;
         if( current->coin->isLeaf() ) {
             printf("%s IDDDD\n", current->coin->getCoinId());
@@ -32,32 +34,50 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
             /* Let's see if we can insert two CoinNodes */
             CoinNode *coinNode;
             coinNode = current->coin->insertTransaction(transaction);
-            /* Add new transaction in the end of this list */
-            Transaction *transaction1 = new Transaction();
-            transaction1->setCoinNode(coinNode);
-            transaction1->setVirtualTransaction(1);
-            transaction1->setTransactionId("3");
-            transaction1->setSender(transaction->getSender());
-            transaction1->setReceiver(transaction->getSender());
-            transaction1->setAmount(coinNode->getValue());
-            /* Add to the end of the list */
-            current->insertLast(transaction1);
-            /* Get Left Node */
-            CoinNode *left;
-            left = current->coin->getLeft();
-            /* Insert into the receiverHashTable */
-            /* Add Pointer from left coinNode to the transaction */
-            left->setTransaction(transaction);
-            receiverHashTable->addTransaction(transaction->getReceiver(), transaction);
-            /* Put money into the receiver's wallet */
-            walletHashTable->addToWallet(transaction->getReceiver(), current->coin->getCoinId(), transaction->getAmount());
-            walletHashTable->subtractFromWallet(transaction->getSender(), current->coin->getCoinId(), transaction->getAmount());
-            break;
+            /* If it is not NULL the right node */
+            if(coinNode != NULL) {
+                /* Add new transaction in the end of this list */
+                Transaction *transaction1 = new Transaction();
+                transaction1->setCoinNode(coinNode);
+                transaction1->setVirtualTransaction(1);
+                transaction1->setTransactionId("3");
+                transaction1->setSender(transaction->getSender());
+                transaction1->setReceiver(transaction->getSender());
+                transaction1->setAmount(coinNode->getValue());
+                /* Add to the end of the list */
+                current->insertLast(transaction1);
+                /* Get Left Node */
+                CoinNode *left = current->coin->getLeft();
+                /* Insert into the receiverHashTable */
+                /* Add Pointer from left coinNode to the transaction */
+                left->setTransaction(transaction);
+                receiverHashTable->addTransaction(transaction->getReceiver(), transaction);
+                /* Put money into the receiver's wallet */
+                walletHashTable->addToWallet(transaction->getReceiver(), current->coin->getCoinId(), transaction->getAmount());
+                walletHashTable->subtractFromWallet(transaction->getSender(), current->coin->getCoinId(), transaction->getAmount());
+                break;
+            }
+            else {
+                /* Let's see if we have a remainder */
+                remainder = current->coin->calculateRemainder(transaction);
+                /* Set Remainder for your transaction */
+                transaction->setRemainder(remainder);
+                /* Pass CoinNode to the transaction */
+            }
+            // break;
         }
         else {
             current = current->next;
         }
     }
+}
+
+void Transaction::setRemainder(int remainder) {
+    this->remainder = remainder;
+}
+
+int Transaction::getRemainder() {
+    return this->remainder;
 }
 
 void Transaction::insertLast(Transaction *transaction) {

@@ -25,6 +25,7 @@ class Transaction {
         int virtualTransaction;
         Transaction *next;
         CoinNode *coin;
+        int remainder;
         // Date // Time make a struct for them
     public:
         Transaction();
@@ -41,6 +42,8 @@ class Transaction {
         void setNext(Transaction *head, Transaction *newTransaction);
         void setVirtualTransaction(int virtualTransaction);
         void setCoinNode(CoinNode *coin);
+        void setRemainder(int remainder);
+        int getRemainder();
         void insertLast(Transaction *transaction);
         CoinNode* getCoinNode();
         int getVirtualTransaction();

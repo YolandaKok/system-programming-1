@@ -155,6 +155,8 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
             else if(count == 3) {
                 // printf("Value: %s \n", token);
                 transaction->setAmount(atoi(token));
+                /* It's the transaction that we want to pass */
+                transaction1->setRemainder(atoi(token));
                 transaction1->setAmount(atoi(token));
             }
             else if(count == 4) {
@@ -182,6 +184,9 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
             /* Update the wallets of the two users */
             /* If the amount is not transfered go to the next transaction node and do the same until you transfer all the amount to the receiver */
             /* Return the CoinNodes */
+        }
+        else {
+            printf("Transaction Error !");
         }
         /* Insert into UsersHashTable */
         senderHashTable->addTransaction(transaction->getSender(), transaction);

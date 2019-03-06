@@ -25,6 +25,8 @@ class CoinNode {
         CoinNode* getLeft();
         int isLeaf();
         int getValue();
+        int calculateRemainder(Transaction *transaction);
+        int findRemainder(Transaction *transaction);
         void setTransaction(Transaction *transaction);
         CoinNode* insertTransaction(Transaction *transaction);
         ~CoinNode();

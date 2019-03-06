@@ -73,7 +73,14 @@ void Wallet::addToWallet(char *user, char *coin, int amount) {
 }
 
 void Wallet::subtractFromWallet(char *user, char *coin, int amount) {
-
+    Wallet *current = this;
+    while ( current != NULL ) {
+        if(strcmp(user, current->userId) == 0) {
+            current->coins->subtractFromWallet(coin, amount);
+            break;
+        }
+        current = current->next;
+    }
 }
 
 Wallet::~Wallet() {

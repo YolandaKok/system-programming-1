@@ -45,7 +45,6 @@ int WalletHashTable::getBalance(char *userId) {
 
 void WalletHashTable::addToWallet(char *userId, char *coin, int amount) {
     int hash = hashFunction(userId);
-    //printf("%d add to wallet hash \n", hash);
     this->wallets[hash]->addToWallet(userId, coin, amount);
 }
 

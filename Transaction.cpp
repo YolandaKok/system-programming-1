@@ -51,7 +51,7 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
             receiverHashTable->addTransaction(transaction->getReceiver(), transaction);
             /* Put money into the receiver's wallet */
             walletHashTable->addToWallet(transaction->getReceiver(), current->coin->getCoinId(), transaction->getAmount());
-            //walletHashTable->subtractFromWallet(transaction->getSender(), left->getCoinId(), transaction->getAmount());
+            walletHashTable->subtractFromWallet(transaction->getSender(), current->coin->getCoinId(), transaction->getAmount());
             break;
         }
         else {

@@ -54,11 +54,14 @@ void ListNode::addToWallet(char *coin, int amount) {
 }
 
 void ListNode::subtractFromWallet(char *coin, int amount) {
+    int found = 0;
+    /* Add to the wallet */
     ListNode *current = this;
     while( current != NULL ) {
         /* If you find the coin just + into the amount else add a new node to the list */
-        if(!strcmp(current->coin, coin)) {
+        if(strcmp(current->coin, coin) == 0) {
             current->coinValue -= amount;
+            found = 1;
             break;
         }
         current = current->next;

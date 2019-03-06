@@ -53,6 +53,7 @@ int main(int argc, char* argv[]) {
     walletHashTable->print("Ioanna");
     //walletHashTable->addToWallet("Ioanna", "123", 30);
     printf("BALANCE %d \n", walletHashTable->getBalance("Antonella"));
+    printf("BALANCE %d \n", walletHashTable->getBalance("Ioanna"));
     //senderHashTable->printTransactions("Ioanna");
     //CoinNode *node = treeHashTable->getRoot("123");
     //node->print();

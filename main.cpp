@@ -48,6 +48,12 @@ int main(int argc, char* argv[]) {
 
     treeHashTable->printCoin("934");
 
+    receiverHashTable->printTransactions("Antonella");
+
+    walletHashTable->print("Ioanna");
+    //walletHashTable->addToWallet("Ioanna", "123", 30);
+    printf("BALANCE %d \n", walletHashTable->getBalance("Antonella"));
+    //senderHashTable->printTransactions("Ioanna");
     //CoinNode *node = treeHashTable->getRoot("123");
     //node->print();
     //node->printNodes();

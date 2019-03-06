@@ -67,7 +67,8 @@ void Bucket::printTransactions(char *userId) {
     //return found;
 }
 
-void Bucket::traverseTransactions(char *user, Transaction *transaction) {
+void Bucket::traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
+        WalletHashTable *walletHashTable) {
     /*  */
     DataBucket dataBucket;
     int found = 0;
@@ -79,7 +80,7 @@ void Bucket::traverseTransactions(char *user, Transaction *transaction) {
             memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
             if(strcmp(user, dataBucket.getName()) == 0) {
-                dataBucket.traverseTransactions(user, transaction);
+                dataBucket.traverseTransactions(user, transaction, receiverHashTable, walletHashTable);
                 found = 1;
                 break;
             }

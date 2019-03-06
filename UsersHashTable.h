@@ -7,6 +7,12 @@
 
 #include "Transaction.h"
 #include "Bucket.h"
+#include "WalletHashTable.h"
+
+class WalletHashTable;
+
+class Bucket;
+class Transaction;
 
 class UsersHashTable {
     private:
@@ -20,7 +26,7 @@ class UsersHashTable {
         /* Add Transaction to the bucket */
         int addTransaction(char *user, Transaction *transaction);
         void printUsers();
-        void traverseTransactions(char *user, Transaction *transaction);
+        void traverseTransactions(char *user, Transaction *transaction, WalletHashTable *walletHashTable);
         void printTransactions(char* userId);
         ~UsersHashTable();
 };

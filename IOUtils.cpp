@@ -174,7 +174,7 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
             printf("We can do the transaction !\n");
             printf("%s %d BALANCE\n", transaction->getSender(), balance);
             /* Traverse the receiverHashTable and the virtual nodes */
-            receiverHashTable->traverseTransactions(transaction->getSender(), transaction);
+            receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable);
             //receiverHashTable->addTransaction(transaction->getSender(), transaction);
             /* For every node, testify if it is leaf */
             /* If it is a leaf go to the CoinNode and find the amount on this node */
@@ -185,7 +185,7 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
         }
         /* Insert into UsersHashTable */
         senderHashTable->addTransaction(transaction->getSender(), transaction);
-        receiverHashTable->addTransaction(transaction1->getReceiver(), transaction1);
+        //receiverHashTable->addTransaction(transaction1->getReceiver(), transaction1);
     }
     //receiverHashTable->printTransactions("Katerina");
     //receiverHashTable->printUsers();

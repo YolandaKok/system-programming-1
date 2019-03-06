@@ -7,6 +7,8 @@
 #include <cstring>
 #include "DataBucket.h"
 
+
+
 DataBucket::DataBucket() {
 
 }
@@ -29,8 +31,9 @@ void DataBucket::addTransaction(Transaction *head, Transaction *transaction) {
     head->setNext(head, transaction);
 }
 
-void DataBucket::traverseTransactions(char *user, Transaction *transaction) {
-    this->head->traverseTransactions(user, transaction);
+void DataBucket::traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
+        WalletHashTable *walletHashTable) {
+    this->head->traverseTransactions(user, transaction, receiverHashTable, walletHashTable);
 }
 
 Transaction* DataBucket::getTransactionListHead() {

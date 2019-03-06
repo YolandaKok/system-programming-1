@@ -58,6 +58,24 @@ int Wallet::getBalance(char *user) {
     return balance;
 }
 
+void Wallet::addToWallet(char *user, char *coin, int amount) {
+    /* Traverse the list of coins */
+    /* If you find it just + */
+    /* If you don't find it add a new list node with this coin */
+    Wallet *current = this;
+    while ( current != NULL ) {
+        if(strcmp(user, current->userId) == 0) {
+            current->coins->addToWallet(coin, amount);
+            break;
+        }
+        current = current->next;
+    }
+}
+
+void Wallet::subtractFromWallet(char *user, char *coin, int amount) {
+
+}
+
 Wallet::~Wallet() {
     /* Delete the next */
     ListNode *current = this->coins, *temp;

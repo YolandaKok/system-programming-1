@@ -6,6 +6,13 @@
 #define SYSTEM_PROGRAMMING_1_TRANSACTION_H
 
 #include "CoinNode.h"
+#include "UsersHashTable.h"
+
+#include "WalletHashTable.h"
+
+class WalletHashTable;
+
+class UsersHashTable;
 
 class CoinNode;
 
@@ -34,9 +41,11 @@ class Transaction {
         void setNext(Transaction *head, Transaction *newTransaction);
         void setVirtualTransaction(int virtualTransaction);
         void setCoinNode(CoinNode *coin);
+        void insertLast(Transaction *transaction);
         CoinNode* getCoinNode();
         int getVirtualTransaction();
-        void traverseTransactions(char *user, Transaction *transaction);
+        void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
+                WalletHashTable *walletHashTable);
         Transaction* getNext();
         ~Transaction();
 };

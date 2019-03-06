@@ -5,6 +5,11 @@
 #ifndef SYSTEM_PROGRAMMING_1_DATABUCKET_H
 #define SYSTEM_PROGRAMMING_1_DATABUCKET_H
 #include "Transaction.h"
+#include "UsersHashTable.h"
+
+#include "WalletHashTable.h"
+
+class WalletHashTable;
 
 class DataBucket {
     private:
@@ -21,7 +26,8 @@ class DataBucket {
         void addTransaction(Transaction *head, Transaction *transaction);
         char* getName();
         void printTransactions();
-        void traverseTransactions(char *user, Transaction *transaction);
+        void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
+                WalletHashTable *walletHashTable);
         void printName();
         ~DataBucket();
 };

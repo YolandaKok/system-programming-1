@@ -41,20 +41,25 @@ int WalletHashTable::getBalance(char *userId) {
     this->wallets[hash]->getBalance(userId);
 }
 
-/* Print the HashTable */
-/* void TreeHashTable::print() {
-    int i;
-    for( i = 0; i < this->size; i++ ) {
-        printf("%d HashTableTree \n", i);
-        if( this->trees[i] != NULL ) {
-            this->trees[i]->print();
-        }
-    }
-} */
+/* Add Money to the User Wallet */
+
+void WalletHashTable::addToWallet(char *userId, char *coin, int amount) {
+    int hash = hashFunction(userId);
+    //printf("%d add to wallet hash \n", hash);
+    this->wallets[hash]->addToWallet(userId, coin, amount);
+}
+
+/* Subtract Money from the User Wallet */
+
+void WalletHashTable::subtractFromWallet(char *userId, char *coin, int amount) {
+    int hash = hashFunction(userId);
+    this->wallets[hash]->subtractFromWallet(userId, coin, amount);
+}
 
 /* Print Wallet of a user */
 void WalletHashTable::print(char *userId) {
     int hash = hashFunction(userId);
+    printf("%d print hash \n", hash);
     this->wallets[hash]->printCoins(userId);
 }
 

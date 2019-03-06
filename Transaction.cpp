@@ -19,7 +19,8 @@ Transaction* Transaction::getNext () {
     return this->next;
 }
 
-void Transaction::traverseTransactions(char *user, Transaction *transaction) {
+void Transaction::traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
+        WalletHashTable *walletHashTable) {
     Transaction *current = this;
     //CoinNode *coinNode;
     /* Make the Transaction */
@@ -29,15 +30,42 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction) {
             printf("%s IDDDD\n", current->coin->getCoinId());
             printf("Insert if Leaf\n");
             /* Let's see if we can insert two CoinNodes */
-            current->coin->insertTransaction(transaction);
-            //current->coin = coinNode;
-            //printf("is leaf %d\n",coinNode->isLeaf());
+            CoinNode *coinNode;
+            coinNode = current->coin->insertTransaction(transaction);
+            /* Add new transaction in the end of this list */
+            Transaction *transaction1 = new Transaction();
+            transaction1->setCoinNode(coinNode);
+            transaction1->setVirtualTransaction(1);
+            transaction1->setTransactionId("3");
+            transaction1->setSender(transaction->getSender());
+            transaction1->setReceiver(transaction->getSender());
+            transaction1->setAmount(coinNode->getValue());
+            /* Add to the end of the list */
+            current->insertLast(transaction1);
+            /* Get Left Node */
+            CoinNode *left;
+            left = current->coin->getLeft();
+            /* Insert into the receiverHashTable */
+            /* Add Pointer from left coinNode to the transaction */
+            left->setTransaction(transaction);
+            receiverHashTable->addTransaction(transaction->getReceiver(), transaction);
+            /* Put money into the receiver's wallet */
+            walletHashTable->addToWallet(transaction->getReceiver(), current->coin->getCoinId(), transaction->getAmount());
+            //walletHashTable->subtractFromWallet(transaction->getSender(), left->getCoinId(), transaction->getAmount());
             break;
         }
         else {
             current = current->next;
         }
     }
+}
+
+void Transaction::insertLast(Transaction *transaction) {
+    Transaction *current = this;
+    while( current->next != NULL ) {
+        current = current->next;
+    }
+    current->next = transaction;
 }
 
 void Transaction::setNext(Transaction *head, Transaction *newTransaction) {

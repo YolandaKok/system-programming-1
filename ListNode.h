@@ -20,6 +20,8 @@ class ListNode {
         ListNode* getNext();
         void print();
         int getBalance();
+        void addToWallet(char *coin, int amount);
+        void subtractFromWallet(char *coin, int amount);
         ~ListNode();
 };
 

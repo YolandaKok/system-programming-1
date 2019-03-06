@@ -16,6 +16,7 @@ class CoinNode {
         CoinNode *right;
         int value;
         char *coinId;
+        Transaction *transaction;
     public:
         CoinNode(char *owner, int value, char *coinId);
         void print();
@@ -23,7 +24,9 @@ class CoinNode {
         char* getCoinId();
         CoinNode* getLeft();
         int isLeaf();
-        void insertTransaction(Transaction *transaction);
+        int getValue();
+        void setTransaction(Transaction *transaction);
+        CoinNode* insertTransaction(Transaction *transaction);
         ~CoinNode();
 };
 

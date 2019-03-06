@@ -6,6 +6,12 @@
 #define SYSTEM_PROGRAMMING_1_BUCKET_H
 
 #include "Transaction.h"
+#include "UsersHashTable.h"
+#include "WalletHashTable.h"
+
+class WalletHashTable;
+class UsersHashTable;
+class Transaction;
 
 class Bucket {
     private:
@@ -21,7 +27,8 @@ class Bucket {
         int findUser(char *name);
         void printTransactions(char *userId);
         //int addTransaction(char *name, Transaction *transaction);
-        void traverseTransactions(char *user, Transaction *transaction);
+        void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
+                WalletHashTable *walletHashTable);
         Bucket* getNext();
         void printUsers();
         ~Bucket();

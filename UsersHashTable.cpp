@@ -31,11 +31,11 @@ int UsersHashTable::hashFunction(char *userId) {
     return hash % this->size;
 }
 
-void UsersHashTable::traverseTransactions(char *user, Transaction *transaction) {
+void UsersHashTable::traverseTransactions(char *user, Transaction *transaction, WalletHashTable *walletHashTable) {
     int i = hashFunction(user);
     /* If the user exists go to the next */
     if( this->buckets[i]->findUser(user) == 1 ) {
-        this->buckets[i]->traverseTransactions(user, transaction);
+        this->buckets[i]->traverseTransactions(user, transaction, this, walletHashTable);
     }
 }
 

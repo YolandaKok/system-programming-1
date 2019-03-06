@@ -17,6 +17,8 @@ class WalletHashTable {
         void print(char *userId);
         int insert(char *userId, ListNode *head);
         int getBalance(char *userId);
+        void addToWallet(char *userId, char *coin, int amount);
+        void subtractFromWallet(char *userId, char *coin, int amount);
         ~WalletHashTable();
 };
 

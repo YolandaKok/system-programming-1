@@ -23,6 +23,8 @@ class Wallet {
         void printCoins(char *userId);
         int getBalance(char* userId);
         Wallet* getNext();
+        void addToWallet(char *user, char *coin, int amount);
+        void subtractFromWallet(char *user, char *coin, int amount);
         ~Wallet();
 };
 

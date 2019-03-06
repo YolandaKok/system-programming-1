@@ -19,6 +19,7 @@ CoinNode::CoinNode(char *owner, int value, char *coinId) {
     /* Initialize left and right nodes to NULL */
     this->left = NULL;
     this->right = NULL;
+    this->transaction = NULL;
 }
 
 
@@ -42,16 +43,27 @@ CoinNode* CoinNode::getLeft() {
     return this->left;
 }
 
+int CoinNode::getValue() {
+    return this->value;
+}
+
+void CoinNode::setTransaction(Transaction *transaction) {
+    this->transaction = transaction;
+}
+
 /* Insert Coin Node */
-void CoinNode::insertTransaction(Transaction *transaction) {
+CoinNode* CoinNode::insertTransaction(Transaction *transaction) {
     /* Insert */
     this->left = new CoinNode(transaction->getReceiver(), transaction->getAmount(), this->coinId);
     //this->left->printNodes();
     /* Node to the right contains */
     if( this->value - transaction->getAmount() > 0) {
+        /* Create a new Transaction to put the unspent */
+
         /* Insert Node to the right */
         this->right = new CoinNode(this->owner, this->value - transaction->getAmount(), this->coinId);
     }
+    return this->right;
 }
 
 char* CoinNode::getCoinId() {

@@ -58,8 +58,10 @@ int main(int argc, char* argv[]) {
             /* Let's see our command */
             if(strcmp(token, "/findEarnings") == 0) {
                 token = strtok(NULL, " ");
-                printf("%s %d", token, strlen(token));
+                //printf("%s %d", token, strlen(token));
                 receiverHashTable->printTransactions(token);
+                int earnings = receiverHashTable->getEarnings(token);
+                printf("% WalletId: %s Earnings: %d \n", token, earnings);
             }
             token = strtok(NULL, " ");
         }

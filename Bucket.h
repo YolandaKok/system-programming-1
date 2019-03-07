@@ -31,6 +31,7 @@ class Bucket {
                 WalletHashTable *walletHashTable);
         Bucket* getNext();
         void printUsers();
+        int getEarnings(char *userId);
         ~Bucket();
 
 };

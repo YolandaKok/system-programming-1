@@ -68,6 +68,20 @@ void DataBucket::printTransactions() {
     }
 }
 
+int DataBucket::getEarnings() {
+    int earnings = 0;
+    Transaction *current = this->head, *temp;
+    while( current != NULL ) {
+        if(!current->getVirtualTransaction()) {
+        /* printf("Sender: %s, Receiver: %s, Amount: %d, Id: %s \n", current->getSender(), current->getReceiver(),
+               current->getAmount(), current->getTransactionId()); */
+            earnings += current->getAmount();
+        }
+        current = current->getNext();
+    }
+    return earnings;
+}
+
 /* Remove transactions from the DataBucket */
 DataBucket::~DataBucket() {
 

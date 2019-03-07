@@ -28,6 +28,7 @@ class UsersHashTable {
         void printUsers();
         void traverseTransactions(char *user, Transaction *transaction, WalletHashTable *walletHashTable);
         void printTransactions(char* userId);
+        int getEarnings (char *userId);
         ~UsersHashTable();
 };
 

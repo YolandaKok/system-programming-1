@@ -29,6 +29,7 @@ class DataBucket {
         void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
                 WalletHashTable *walletHashTable);
         void printName();
+        int getEarnings();
         ~DataBucket();
 };
 

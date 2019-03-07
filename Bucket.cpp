@@ -64,8 +64,32 @@ void Bucket::printTransactions(char *userId) {
             break;
         current = current->getNext();
     }
-    printf("%d alalla \n", found);
-    //return found;
+}
+
+int Bucket::getEarnings(char *userId) {
+    DataBucket dataBucket;
+    int found = 0;
+    int earnings = 0;
+    /* Search Into the Buckets */
+    Bucket *current = this;
+    while( current != NULL ) {
+        int off = 0;
+        while ( off < this->offset ) {
+            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+            /* We can see if it is the current name */
+            if(strcmp(userId, dataBucket.getName()) == 0) {
+                found = 1;
+                // Print the list of the transactions
+                earnings = dataBucket.getEarnings();
+                break;
+            }
+            off += sizeof(DataBucket);
+        }
+        if(found)
+            break;
+        current = current->getNext();
+    }
+    return earnings;
 }
 
 void Bucket::traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,

@@ -71,6 +71,11 @@ void UsersHashTable::printTransactions(char *userId) {
     this->buckets[hash]->printTransactions(userId);
 }
 
+int UsersHashTable::getEarnings (char *userId) {
+    int hash = hashFunction(userId);
+    return this->buckets[hash]->getEarnings(userId);
+}
+
 void UsersHashTable::printUsers() {
     int i;
     for ( i = 0; i < this->size; i++ ) {

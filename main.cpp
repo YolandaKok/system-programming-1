@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
     ssize_t read;
     char *token;
     int length;
-    int earnings, payments;
+    int earnings, payments, money;
     /* Switch for the commands */
     while(strcmp(command, "exit")) {
         read = getline(&line, &len, stdin);
@@ -70,13 +70,18 @@ int main(int argc, char* argv[]) {
                 payments = senderHashTable->getEarnings(token);
                 printf("% WalletId: %s Payments: %d \n", token, payments);
             }
+            else if(!strcmp(token, "/walletStatus")) {
+                token = strtok(NULL, " ");
+                money = walletHashTable->getBalance(token);
+                printf("% WalletId: %s Money: %d \n", token, money);
+            }
             token = strtok(NULL, " ");
         }
     }
 
-    printf("BALANCE %d \n", walletHashTable->getBalance("Antonella"));
+    /* printf("BALANCE %d \n", walletHashTable->getBalance("Antonella"));
     printf("BALANCE %d \n", walletHashTable->getBalance("Ioanna"));
-    printf("BALANCE %d \n", walletHashTable->getBalance("Tom"));
+    printf("BALANCE %d \n", walletHashTable->getBalance("Tom")); */
     delete walletHashTable;
     delete senderHashTable;
     delete receiverHashTable;

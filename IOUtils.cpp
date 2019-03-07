@@ -67,11 +67,9 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
             if(count == 0) {
                 userId = (char*)malloc(strlen(token) + 1);
                 strcpy(userId, token);
-                //printf("Userid %s \n", userId);
             }
             else {
                 if(count == 1) {
-                    //printf("Coin Id: %s", token);
                     coinNode = treeHashTable->insert(token, userId, coinValue);
                     transaction = new Transaction();
                     transaction->setReceiver(userId);
@@ -109,10 +107,6 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
         }
         free(userId);
     }
-    //walletHashTable->print("Kylian");
-    //int balance = walletHashTable->getBalance("Ioanna");
-    //treeHashTable->print();
-    //delete treeHashTable;
 
     fclose(fp);
     free(line);
@@ -173,12 +167,9 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
         int balance = walletHashTable->getBalance(transaction->getSender());
         /* Let's do the transaction */
         if( balance > transaction->getAmount() ) {
-            //printf("We can do the transaction !\n");
-            //printf("%s %d BALANCE\n", transaction->getSender(), balance);
             /* Traverse the receiverHashTable and the virtual nodes */
             receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable);
             senderHashTable->addTransaction(transaction->getSender(), transaction);
-            //receiverHashTable->addTransaction(transaction->getSender(), transaction);
             /* For every node, testify if it is leaf */
             /* If it is a leaf go to the CoinNode and find the amount on this node */
             /* Create two new nodes, One with the amount left to the initial user, the right node and one with the amount transfered to the other user */
@@ -190,9 +181,6 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
             /* User Has not enough money to make the transactiond */
             printf("Transaction failed. User: %s has not enough money in his / her wallet. \n", transaction->getSender());
         }
-        /* Insert into UsersHashTable */
-
-        //receiverHashTable->addTransaction(transaction1->getReceiver(), transaction1);
     }
 
     fclose(fp);

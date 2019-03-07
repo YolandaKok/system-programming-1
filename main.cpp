@@ -47,6 +47,7 @@ int main(int argc, char* argv[]) {
     ssize_t read;
     char *token;
     int length;
+    int earnings, payments;
     /* Switch for the commands */
     while(strcmp(command, "exit")) {
         read = getline(&line, &len, stdin);
@@ -56,12 +57,18 @@ int main(int argc, char* argv[]) {
         token = strtok(line, " ");
         while ( token != NULL ) {
             /* Let's see our command */
-            if(strcmp(token, "/findEarnings") == 0) {
+            if(!strcmp(token, "/findEarnings")) {
                 token = strtok(NULL, " ");
                 //printf("%s %d", token, strlen(token));
                 receiverHashTable->printTransactions(token);
-                int earnings = receiverHashTable->getEarnings(token);
+                earnings = receiverHashTable->getEarnings(token);
                 printf("% WalletId: %s Earnings: %d \n", token, earnings);
+            }
+            else if(!strcmp(token, "/findPayments")) {
+                token = strtok(NULL, " ");
+                senderHashTable->printTransactions(token);
+                payments = senderHashTable->getEarnings(token);
+                printf("% WalletId: %s Payments: %d \n", token, payments);
             }
             token = strtok(NULL, " ");
         }

@@ -64,6 +64,7 @@ void Bucket::printTransactions(char *userId) {
             break;
         current = current->getNext();
     }
+    printf("%d alalla \n", found);
     //return found;
 }
 
@@ -156,7 +157,6 @@ void Bucket::printUsers() {
     /* Print all the users */
     DataBucket dataBucket;
     int off = 0;
-    printf("%d offset \n", this->offset);
     while (off < this->offset) {
         memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
         dataBucket.printName();

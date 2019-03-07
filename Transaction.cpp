@@ -38,7 +38,7 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
             if( current_coin->isLeaf() ) {
                 //printf("%s IDDDD\n", current_coin->getCoinId());
                 //printf("Insert if Leaf\n");
-                printf("%d AMOUNT \n", transaction->getAmount());
+                //printf("%d AMOUNT \n", transaction->getAmount());
                 /* Let's see if we can insert two CoinNodes */
                 CoinNode *coinNode;
                 coinNode = current_coin->insertTransaction(transaction);
@@ -73,7 +73,7 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
                 else {
                     /* Let's see if we have a remainder */
                     remainder1 = current_coin->calculateRemainder(transaction);
-                    printf("%d REMAINDER \n", remainder1);
+                    //printf("%d REMAINDER \n", remainder1);
                     if(transaction1->getCoinNodeListHead() == NULL) {
                         transaction1->setCoinNodeListHead(current_coin->getLeft());
                     } else {
@@ -127,7 +127,7 @@ void Transaction::setNext(Transaction *head, Transaction *newTransaction) {
 /* Add a new CoinNode */
 void Transaction::addCoinNode(CoinNode *coin) {
     CoinNode *current = head;
-    printf("HEADDDD %s \n", head->getCoinId());
+    //printf("HEADDDD %s \n", head->getCoinId());
     while( current->getNext() != NULL ) {
         current = current->getNext();
     }

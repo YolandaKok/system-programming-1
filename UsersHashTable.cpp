@@ -67,6 +67,7 @@ int UsersHashTable::addTransaction(char *user, Transaction *transaction) {
 
 void UsersHashTable::printTransactions(char *userId) {
     int hash = hashFunction(userId);
+    printf("%d %s HASHHHH\n", hash, userId);
     this->buckets[hash]->printTransactions(userId);
 }
 

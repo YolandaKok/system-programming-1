@@ -24,10 +24,8 @@ int main(int argc, char* argv[]) {
 
     readArgs( argc, argv, bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries,
             receiverHashTableNumOfEntries, bucketSize);
-    printf("%s %s %d %d %d %d \n", bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries,
-            receiverHashTableNumOfEntries, bucketSize);
 
-    /* Read the bitcoin balances files */
+
     fp = fopen( bitCoinBalancesFile, "r");
     fp1 = fopen( transactionsFile, "r");
 
@@ -37,30 +35,43 @@ int main(int argc, char* argv[]) {
     walletHashTable = new WalletHashTable(10);
     treeHashTable = new TreeHashTable(3);
 
+    /* Read the bitcoin balances files */
     readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
     readTransactions(fp1, transactionsFile, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
 
-    free(bitCoinBalancesFile);
-    free(transactionsFile);
+    char command[200];
+    strcpy(command, "start");
+    //strcpy(command, "exit");
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+    char *token;
+    int length;
+    /* Switch for the commands */
+    while(strcmp(command, "exit")) {
+        read = getline(&line, &len, stdin);
+        length = strlen(line);
+        if( line[length-1] == '\n' )
+            line[length-1] = 0;
+        token = strtok(line, " ");
+        while ( token != NULL ) {
+            /* Let's see our command */
+            if(strcmp(token, "/findEarnings") == 0) {
+                token = strtok(NULL, " ");
+                printf("%s %d", token, strlen(token));
+                receiverHashTable->printTransactions(token);
+            }
+            token = strtok(NULL, " ");
+        }
+    }
 
-
-    // receiverHashTable->printTransactions("Antonella");
-
-    treeHashTable->printCoin("934");
-
-    receiverHashTable->printTransactions("Antonella");
-
-    walletHashTable->print("Ioanna");
-    //walletHashTable->addToWallet("Ioanna", "123", 30);
     printf("BALANCE %d \n", walletHashTable->getBalance("Antonella"));
     printf("BALANCE %d \n", walletHashTable->getBalance("Ioanna"));
     printf("BALANCE %d \n", walletHashTable->getBalance("Tom"));
-    //senderHashTable->printTransactions("Ioanna");
-    //CoinNode *node = treeHashTable->getRoot("123");
-    //node->print();
-    //node->printNodes();
     delete walletHashTable;
     delete senderHashTable;
     delete receiverHashTable;
     delete treeHashTable;
+    free(bitCoinBalancesFile);
+    free(transactionsFile);
 }

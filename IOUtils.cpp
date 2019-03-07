@@ -67,7 +67,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
             if(count == 0) {
                 userId = (char*)malloc(strlen(token) + 1);
                 strcpy(userId, token);
-                printf("Userid %s \n", userId);
+                //printf("Userid %s \n", userId);
             }
             else {
                 if(count == 1) {
@@ -111,7 +111,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
     }
     //walletHashTable->print("Kylian");
     //int balance = walletHashTable->getBalance("Ioanna");
-    treeHashTable->print();
+    //treeHashTable->print();
     //delete treeHashTable;
 
     fclose(fp);
@@ -173,8 +173,8 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
         int balance = walletHashTable->getBalance(transaction->getSender());
         /* Let's do the transaction */
         if( balance > transaction->getAmount() ) {
-            printf("We can do the transaction !\n");
-            printf("%s %d BALANCE\n", transaction->getSender(), balance);
+            //printf("We can do the transaction !\n");
+            //printf("%s %d BALANCE\n", transaction->getSender(), balance);
             /* Traverse the receiverHashTable and the virtual nodes */
             receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable);
             //receiverHashTable->addTransaction(transaction->getSender(), transaction);
@@ -186,7 +186,8 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
             /* Return the CoinNodes */
         }
         else {
-            printf("Transaction Error !");
+            /* User Has not enough money to make the transactiond */
+            printf("Transaction failed. User: %s has not enough money in his / her wallet. \n", transaction->getSender());
         }
         /* Insert into UsersHashTable */
         senderHashTable->addTransaction(transaction->getSender(), transaction);

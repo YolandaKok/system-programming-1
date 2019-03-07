@@ -76,11 +76,8 @@ void CoinTree::print() {
 
 void CoinTree::printNodes(char *coinId) {
     CoinTree *current = this;
-    printf("xxxxxxxxxxxxxxxxxxxxxxxx \n");
     while (current != NULL ) {
-        printf("%s xxxxmamakxksl\n", current->coinId);
         if(strcmp(current->coinId, coinId) == 0) {
-            printf("LALALALLA \n");
             current->root->printNodes();
             break;
         }

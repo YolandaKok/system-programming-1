@@ -62,4 +62,5 @@ int main(int argc, char* argv[]) {
     delete walletHashTable;
     delete senderHashTable;
     delete receiverHashTable;
+    delete treeHashTable;
 }

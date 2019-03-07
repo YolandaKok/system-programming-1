@@ -32,6 +32,7 @@ class CoinNode {
         int findRemainder(Transaction *transaction);
         void setTransaction(Transaction *transaction);
         CoinNode* insertTransaction(Transaction *transaction);
+        void deleteTree(CoinNode *root);
         ~CoinNode();
 };
 

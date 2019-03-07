@@ -105,10 +105,19 @@ int CoinNode::isLeaf() {
     }
 }
 
-/* Now I have to insert new transaction Node for this bitcoin */
-
+void CoinNode::deleteTree(CoinNode *root) {
+    if(root == NULL) {
+        return;
+    }
+    else {
+        free(root->owner); free(root->coinId);
+        deleteTree(root->left);
+        deleteTree(root->right);
+    }
+    delete root;
+}
 
 
 CoinNode::~CoinNode() {
-    free(this->owner); free(this->coinId);
+
 }

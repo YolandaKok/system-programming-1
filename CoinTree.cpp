@@ -98,4 +98,7 @@ CoinTree* CoinTree::getNext() {
 CoinTree::~CoinTree() {
     free(this->coinId);
     free(this->initialOwner);
+    /* Remove the Trees */
+    CoinNode *current = this->root;
+    current->deleteTree(current);
 }

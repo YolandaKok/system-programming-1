@@ -83,7 +83,6 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
                     transaction->setCoinNodeListHead(coinNode);
                     receiverHashTable->addTransaction(userId, transaction);
                     list = new ListNode(token, coinValue);
-                    //coinNode->print();
                 }
                 else {
                     coinNode = treeHashTable->insert(token, userId, coinValue);

@@ -9,6 +9,7 @@
 
 Transaction::Transaction() {
     this->next = NULL;
+    this->head = NULL;
 }
 
 Transaction::Transaction(char *transactionId, char *sender, char *receiver, int amount) {
@@ -23,52 +24,78 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
         WalletHashTable *walletHashTable) {
 
     Transaction *current = this;
+    CoinNode *current_coin = this->getCoinNodeListHead();
     int remainder = transaction->getAmount();
+    int remainder1;
+    transaction->setRemainder(remainder);
+
+    Transaction *transaction1 = new Transaction();
 
     /* Make the Transaction */
-    while( current != NULL && remainder != 0) {
-        //coinNode = current->coin;
-        if( current->coin->isLeaf() ) {
-            printf("%s IDDDD\n", current->coin->getCoinId());
-            printf("Insert if Leaf\n");
-            /* Let's see if we can insert two CoinNodes */
-            CoinNode *coinNode;
-            coinNode = current->coin->insertTransaction(transaction);
-            /* If it is not NULL the right node */
-            if(coinNode != NULL) {
-                /* Add new transaction in the end of this list */
-                Transaction *transaction1 = new Transaction();
-                transaction1->setCoinNode(coinNode);
-                transaction1->setVirtualTransaction(1);
-                transaction1->setTransactionId("3");
-                transaction1->setSender(transaction->getSender());
-                transaction1->setReceiver(transaction->getSender());
-                transaction1->setAmount(coinNode->getValue());
-                /* Add to the end of the list */
-                current->insertLast(transaction1);
-                /* Get Left Node */
-                CoinNode *left = current->coin->getLeft();
-                /* Insert into the receiverHashTable */
-                /* Add Pointer from left coinNode to the transaction */
-                left->setTransaction(transaction);
-                receiverHashTable->addTransaction(transaction->getReceiver(), transaction);
-                /* Put money into the receiver's wallet */
-                walletHashTable->addToWallet(transaction->getReceiver(), current->coin->getCoinId(), transaction->getAmount());
-                walletHashTable->subtractFromWallet(transaction->getSender(), current->coin->getCoinId(), transaction->getAmount());
-                break;
+    while( current != NULL && remainder != 0 ) {
+        while ( current_coin != NULL && remainder != 0 ) {
+            //coinNode = current->coin;
+            if( current_coin->isLeaf() ) {
+                //printf("%s IDDDD\n", current_coin->getCoinId());
+                //printf("Insert if Leaf\n");
+                printf("%d AMOUNT \n", transaction->getAmount());
+                /* Let's see if we can insert two CoinNodes */
+                CoinNode *coinNode;
+                coinNode = current_coin->insertTransaction(transaction);
+                /* If it is not NULL the right node */
+                if(coinNode != NULL) {
+                    /* Add new transaction in the end of this list */
+                    //Transaction *transaction1 = new Transaction();
+                    if(transaction1->getCoinNodeListHead() == NULL) {
+                        transaction1->setCoinNodeListHead(coinNode);
+                    }
+                    else {
+                        transaction1->addCoinNode(coinNode);
+                    }
+                    transaction1->setVirtualTransaction(1);
+                    transaction1->setTransactionId("3");
+                    transaction1->setSender(transaction->getSender());
+                    transaction1->setReceiver(transaction->getSender());
+                    transaction1->setAmount(coinNode->getValue());
+                    /* Add to the end of the list */
+                    current->insertLast(transaction1);
+                    /* Get Left Node */
+                    CoinNode *left = current_coin->getLeft();
+                    /* Insert into the receiverHashTable */
+                    /* Add Pointer from left coinNode to the transaction */
+                    left->setTransaction(transaction);
+                    receiverHashTable->addTransaction(transaction->getReceiver(), transaction);
+                    /* Put money into the receiver's wallet */
+                    walletHashTable->addToWallet(transaction->getReceiver(), current_coin->getCoinId(), transaction->getRemainder());
+                    walletHashTable->subtractFromWallet(transaction->getSender(), current_coin->getCoinId(), transaction->getRemainder());
+                    remainder = 0;
+                }
+                else {
+                    /* Let's see if we have a remainder */
+                    remainder1 = current_coin->calculateRemainder(transaction);
+                    printf("%d REMAINDER \n", remainder1);
+                    if(transaction1->getCoinNodeListHead() == NULL) {
+                        transaction1->setCoinNodeListHead(current_coin->getLeft());
+                    } else {
+                        transaction1->addCoinNode(current_coin->getLeft());
+                    }
+                    //transaction->addCoinNode(current_coin->getLeft());
+                    /* Set Remainder for your transaction */
+
+                    walletHashTable->addToWallet(transaction->getReceiver(), current_coin->getCoinId(), transaction->getRemainder() - remainder1);
+                    walletHashTable->subtractFromWallet(transaction->getSender(), current_coin->getCoinId(), transaction->getRemainder() - remainder1);
+                    transaction->setRemainder(remainder1);
+                    /* Pass CoinNode to the transaction */
+                    current_coin = current_coin->getNext();
+                    remainder = transaction->getRemainder();
+                }
             }
             else {
-                /* Let's see if we have a remainder */
-                remainder = current->coin->calculateRemainder(transaction);
-                /* Set Remainder for your transaction */
-                transaction->setRemainder(remainder);
-                /* Pass CoinNode to the transaction */
+                current_coin = current_coin->getNext();
             }
-            // break;
         }
-        else {
-            current = current->next;
-        }
+        current = current->next;
+        current_coin = current->getCoinNodeListHead();
     }
 }
 
@@ -97,13 +124,24 @@ void Transaction::setNext(Transaction *head, Transaction *newTransaction) {
     current->next = newTransaction;
 }
 
-void Transaction::setCoinNode(CoinNode *coin) {
-    this->coin = coin;
+/* Add a new CoinNode */
+void Transaction::addCoinNode(CoinNode *coin) {
+    CoinNode *current = head;
+    printf("HEADDDD %s \n", head->getCoinId());
+    while( current->getNext() != NULL ) {
+        current = current->getNext();
+    }
+    current->setNext(coin);
 }
 
-CoinNode* Transaction::getCoinNode() {
-    return this->coin;
+CoinNode* Transaction::getCoinNodeListHead() {
+    return this->head;
 }
+
+void Transaction::setCoinNodeListHead(CoinNode *head) {
+    this->head = head;
+}
+
 
 /* Getters and Setters */
 void Transaction::setTransactionId(char *id) {

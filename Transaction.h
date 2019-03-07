@@ -24,7 +24,9 @@ class Transaction {
         int amount;
         int virtualTransaction;
         Transaction *next;
-        CoinNode *coin;
+        /* List Of CoinNodes in every transaction */
+        /* Because we may have used more than one */
+        CoinNode *head;
         int remainder;
         // Date // Time make a struct for them
     public:
@@ -41,11 +43,13 @@ class Transaction {
         void setAmount(int amount);
         void setNext(Transaction *head, Transaction *newTransaction);
         void setVirtualTransaction(int virtualTransaction);
-        void setCoinNode(CoinNode *coin);
+        /* Create a list of CoinNodes */
+        void addCoinNode(CoinNode *coin);
+        CoinNode* getCoinNodeListHead();
+        void setCoinNodeListHead(CoinNode *head);
         void setRemainder(int remainder);
         int getRemainder();
         void insertLast(Transaction *transaction);
-        CoinNode* getCoinNode();
         int getVirtualTransaction();
         void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
                 WalletHashTable *walletHashTable);

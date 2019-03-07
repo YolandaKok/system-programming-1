@@ -21,8 +21,17 @@ CoinNode::CoinNode(char *owner, int value, char *coinId) {
     this->left = NULL;
     this->right = NULL;
     this->transaction = NULL;
+    this->next = NULL;
 }
 
+
+CoinNode* CoinNode::getNext() {
+    return this->next;
+}
+
+void CoinNode::setNext(CoinNode *coin) {
+    this->next = coin;
+}
 
 void CoinNode::print() {
     printf("%s Owner %d amount %s id \n", this->owner, this->value, this->coinId);
@@ -53,14 +62,14 @@ void CoinNode::setTransaction(Transaction *transaction) {
 }
 
 int CoinNode::findRemainder(Transaction *transaction) {
-    if( this->value - transaction->getAmount() < 0 ) {
+    if( this->value - transaction->getRemainder() < 0 ) {
         return 1;
     }
     return 0;
 }
 
 int CoinNode::calculateRemainder(Transaction *transaction) {
-    return abs(this->value - transaction->getAmount());
+    return abs(this->value - transaction->getRemainder());
 }
 
 /* Insert Coin Node */
@@ -74,7 +83,7 @@ CoinNode* CoinNode::insertTransaction(Transaction *transaction) {
 
         /* Create a new Transaction to put the unspent */
         /* Insert Node to the right */
-        this->right = new CoinNode(this->owner, this->value - transaction->getAmount(), this->coinId);
+        this->right = new CoinNode(this->owner, this->value - transaction->getRemainder(), this->coinId);
     }
     else {
         // TODO: Check if it is worth it

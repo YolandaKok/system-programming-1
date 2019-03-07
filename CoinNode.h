@@ -17,6 +17,7 @@ class CoinNode {
         int value;
         char *coinId;
         Transaction *transaction;
+        CoinNode *next;
     public:
         CoinNode(char *owner, int value, char *coinId);
         void print();
@@ -25,6 +26,8 @@ class CoinNode {
         CoinNode* getLeft();
         int isLeaf();
         int getValue();
+        CoinNode* getNext();
+        void setNext(CoinNode *coin);
         int calculateRemainder(Transaction *transaction);
         int findRemainder(Transaction *transaction);
         void setTransaction(Transaction *transaction);

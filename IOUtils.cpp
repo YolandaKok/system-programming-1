@@ -79,7 +79,8 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
                     transaction->setAmount(coinValue);
                     transaction->setTransactionId("1");
                     transaction->setVirtualTransaction(1);
-                    transaction->setCoinNode(coinNode);
+                    /* Add the CoinNode List Head */
+                    transaction->setCoinNodeListHead(coinNode);
                     receiverHashTable->addTransaction(userId, transaction);
                     list = new ListNode(token, coinValue);
                     //coinNode->print();
@@ -92,10 +93,10 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
                     transaction->setAmount(coinValue);
                     transaction->setTransactionId("2");
                     transaction->setVirtualTransaction(1);
-                    transaction->setCoinNode(coinNode);
+                    /* Set CoinNode List Head for virtual transaction */
+                    transaction->setCoinNodeListHead(coinNode);
                     receiverHashTable->addTransaction(userId, transaction);
                     list->insert(token, list);
-                    //coinNode->print();
                 }
             }
             token = strtok(NULL, " ");
@@ -192,9 +193,6 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
         senderHashTable->addTransaction(transaction->getSender(), transaction);
         //receiverHashTable->addTransaction(transaction1->getReceiver(), transaction1);
     }
-    //receiverHashTable->printTransactions("Katerina");
-    //receiverHashTable->printUsers();
-    //senderHashTable->printUsers();
 
     fclose(fp);
     free(line);

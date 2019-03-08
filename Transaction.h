@@ -9,12 +9,15 @@
 #include "UsersHashTable.h"
 
 #include "WalletHashTable.h"
+#include "TreeHashTable.h"
 
 class WalletHashTable;
 
 class UsersHashTable;
 
 class CoinNode;
+
+class TreeHashTable;
 
 class Transaction {
     private:
@@ -52,7 +55,7 @@ class Transaction {
         void insertLast(Transaction *transaction);
         int getVirtualTransaction();
         void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
-                WalletHashTable *walletHashTable);
+                WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
         Transaction* getNext();
         ~Transaction();
 };

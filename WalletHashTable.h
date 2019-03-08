@@ -19,6 +19,7 @@ class WalletHashTable {
         int getBalance(char *userId);
         void addToWallet(char *userId, char *coin, int amount);
         void subtractFromWallet(char *userId, char *coin, int amount);
+        int findIfWalletNotFound(char *userId);
         ~WalletHashTable();
 };
 

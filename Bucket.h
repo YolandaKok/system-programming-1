@@ -9,6 +9,11 @@
 #include "UsersHashTable.h"
 #include "WalletHashTable.h"
 
+#include "TreeHashTable.h"
+
+
+class TreeHashTable;
+
 class WalletHashTable;
 class UsersHashTable;
 class Transaction;
@@ -28,7 +33,7 @@ class Bucket {
         void printTransactions(char *userId);
         //int addTransaction(char *name, Transaction *transaction);
         void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
-                WalletHashTable *walletHashTable);
+                WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
         Bucket* getNext();
         void printUsers();
         int getEarnings(char *userId);

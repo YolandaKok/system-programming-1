@@ -30,6 +30,19 @@ int Wallet::insert(char *userId, ListNode *head) {
     current->next = new Wallet(userId, head);
 }
 
+int Wallet::findUserWallet(char *userId) {
+    int found = 1;
+    Wallet *current = this;
+    while( current != NULL ) {
+        if(strcmp(current->userId, userId) == 0) {
+            found = 0;
+            break;
+        }
+        current = current->next;
+    }
+    return found;
+}
+
 Wallet* Wallet::getNext() {
     return this->next;
 }

@@ -25,6 +25,7 @@ class Wallet {
         Wallet* getNext();
         void addToWallet(char *user, char *coin, int amount);
         void subtractFromWallet(char *user, char *coin, int amount);
+        int findUserWallet(char *userId);
         ~Wallet();
 };
 

@@ -8,6 +8,9 @@
 #include "UsersHashTable.h"
 
 #include "WalletHashTable.h"
+#include "TreeHashTable.h"
+
+class TreeHashTable;
 
 class WalletHashTable;
 
@@ -27,7 +30,7 @@ class DataBucket {
         char* getName();
         void printTransactions();
         void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
-                WalletHashTable *walletHashTable);
+                WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
         void printName();
         int getEarnings();
         ~DataBucket();

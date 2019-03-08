@@ -75,17 +75,17 @@ int main(int argc, char* argv[]) {
                 money = walletHashTable->getBalance(token);
                 printf("% WalletId: %s Money: %d \n", token, money);
             }
+            else if(!strcmp(token, "exit")) {
+                token = strtok(NULL, " ");
+                delete walletHashTable;
+                delete senderHashTable;
+                delete receiverHashTable;
+                delete treeHashTable;
+                free(bitCoinBalancesFile);
+                free(transactionsFile);
+                exit(0);
+            }
             token = strtok(NULL, " ");
         }
     }
-
-    /* printf("BALANCE %d \n", walletHashTable->getBalance("Antonella"));
-    printf("BALANCE %d \n", walletHashTable->getBalance("Ioanna"));
-    printf("BALANCE %d \n", walletHashTable->getBalance("Tom")); */
-    delete walletHashTable;
-    delete senderHashTable;
-    delete receiverHashTable;
-    delete treeHashTable;
-    free(bitCoinBalancesFile);
-    free(transactionsFile);
 }

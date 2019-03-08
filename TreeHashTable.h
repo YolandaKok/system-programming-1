@@ -8,6 +8,9 @@
 #include "CoinTree.h"
 #include "CoinNode.h"
 
+class CoinTree;
+class CoinNode;
+
 class TreeHashTable {
     private:
         CoinTree **trees;

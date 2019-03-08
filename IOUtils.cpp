@@ -103,7 +103,8 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
             walletHashTable->insert(userId, list);
         }
         else {
-            //printf("%s !@# \n", userId);
+            /* Initialize the data structures for a user that does not have money on start */
+            // walletHashTable->insert(userId, list);
         }
         free(userId);
     }
@@ -168,7 +169,7 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
         /* Let's do the transaction */
         if( balance > transaction->getAmount() ) {
             /* Traverse the receiverHashTable and the virtual nodes */
-            receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable);
+            receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
             senderHashTable->addTransaction(transaction->getSender(), transaction);
             /* For every node, testify if it is leaf */
             /* If it is a leaf go to the CoinNode and find the amount on this node */

@@ -16,7 +16,6 @@ ListNode::ListNode(char* coin, int coinValue) {
     this->coinValue = coinValue;
 }
 
-
 void ListNode::insert(char* coin, ListNode *head) {
     ListNode *current = head;
     while(current->next != NULL) {

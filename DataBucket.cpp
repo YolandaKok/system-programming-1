@@ -32,8 +32,8 @@ void DataBucket::addTransaction(Transaction *head, Transaction *transaction) {
 }
 
 void DataBucket::traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
-        WalletHashTable *walletHashTable) {
-    this->head->traverseTransactions(user, transaction, receiverHashTable, walletHashTable);
+        WalletHashTable *walletHashTable, TreeHashTable *treeHashTable) {
+    this->head->traverseTransactions(user, transaction, receiverHashTable, walletHashTable, treeHashTable);
 }
 
 Transaction* DataBucket::getTransactionListHead() {

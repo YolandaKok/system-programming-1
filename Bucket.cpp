@@ -93,7 +93,7 @@ int Bucket::getEarnings(char *userId) {
 }
 
 void Bucket::traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
-        WalletHashTable *walletHashTable) {
+        WalletHashTable *walletHashTable, TreeHashTable *treeHashTable) {
     /*  */
     DataBucket dataBucket;
     int found = 0;
@@ -105,7 +105,7 @@ void Bucket::traverseTransactions(char *user, Transaction *transaction, UsersHas
             memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
             if(strcmp(user, dataBucket.getName()) == 0) {
-                dataBucket.traverseTransactions(user, transaction, receiverHashTable, walletHashTable);
+                dataBucket.traverseTransactions(user, transaction, receiverHashTable, walletHashTable, treeHashTable);
                 found = 1;
                 break;
             }

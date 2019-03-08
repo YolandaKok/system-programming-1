@@ -21,6 +21,13 @@ int Timestamp::isLessThan(Timestamp& t2) {
     return 0;
 }
 
+int Timestamp::isBetweenHour(int hour1, int minutes1, int hour2, int minutes2) {
+    /* Write Code to find if it is between these hours */
+    if((hour1 <= this->hour <= hour2) && (minutes1 <= this->minutes <= minutes2))
+        return 1;
+    return 0;
+}
+
 Timestamp::~Timestamp() {
 
 }

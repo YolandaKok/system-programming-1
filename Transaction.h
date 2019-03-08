@@ -10,6 +10,7 @@
 
 #include "WalletHashTable.h"
 #include "TreeHashTable.h"
+#include "Timestamp.h"
 
 class WalletHashTable;
 
@@ -18,6 +19,7 @@ class UsersHashTable;
 class CoinNode;
 
 class TreeHashTable;
+class Timestamp;
 
 class Transaction {
     private:
@@ -31,7 +33,7 @@ class Transaction {
         /* Because we may have used more than one */
         CoinNode *head;
         int remainder;
-        // Date // Time make a struct for them
+        Timestamp *timestamp;
     public:
         Transaction();
         Transaction(char *transactionId, char *sender, char *receiver, int amount);

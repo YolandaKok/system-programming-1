@@ -70,6 +70,7 @@ int main(int argc, char* argv[]) {
                 }
                 else {
                     char *token2 = token;
+                    int hour1, hour2, minutes1, minutes2;
                     printf("Hour1: %s\n", token);
                     token = strtok(NULL, " ");
                     printf("Minutes1: %s\n", token);

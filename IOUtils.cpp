@@ -180,6 +180,7 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
             count++;
             printf("token %s \n", token);
         }
+        /* Create a timestamp */
         transaction->setVirtualTransaction(0);
         transaction1->setVirtualTransaction(0);
         int balance = walletHashTable->getBalance(transaction->getSender());

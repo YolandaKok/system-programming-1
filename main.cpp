@@ -45,9 +45,10 @@ int main(int argc, char* argv[]) {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
-    char *token;
+    char *token, *token1;
     int length;
     int earnings, payments, money;
+    char *userId;
     /* Switch for the commands */
     while(strcmp(command, "exit")) {
         read = getline(&line, &len, stdin);
@@ -59,10 +60,26 @@ int main(int argc, char* argv[]) {
             /* Let's see our command */
             if(!strcmp(token, "/findEarnings")) {
                 token = strtok(NULL, " ");
-                //printf("%s %d", token, strlen(token));
-                receiverHashTable->printTransactions(token);
-                earnings = receiverHashTable->getEarnings(token);
-                printf("% WalletId: %s Earnings: %d \n", token, earnings);
+                userId = token;
+                /* Between dates */
+                token = strtok(NULL, ":");
+                if( token == NULL ) {
+                    receiverHashTable->printTransactions(userId);
+                    earnings = receiverHashTable->getEarnings(userId);
+                    printf("% WalletId: %s Earnings: %d \n", token, earnings);
+                }
+                else {
+                    char *token2 = token;
+                    printf("Hour1: %s\n", token);
+                    token = strtok(NULL, " ");
+                    printf("Minutes1: %s\n", token);
+                    token2 = strtok(NULL, " ");
+                    token1 = strtok_r(token2, ":", &token2);
+                    printf("Hour2: %s\n", token1);
+                    token1 = strtok_r(NULL, " ", &token2);
+                    printf("Minutes2: %s\n", token1);
+                }
+                printf("%s xxxx\n", token);
             }
             else if(!strcmp(token, "/findPayments")) {
                 token = strtok(NULL, " ");

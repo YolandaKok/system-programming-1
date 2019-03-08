@@ -53,12 +53,15 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
     char *userId;
     Transaction *transaction;
     CoinNode *coinNode;
-
+    int length;
     if (fp == NULL)
         exit(EXIT_FAILURE);
 
     while ((read = getline(&line, &len, fp)) != -1) {
         /* get the first token */
+        length = strlen(line);
+        if( line[length-1] == '\n' )
+            line[length-1] = 0;
         token = strtok(line, " ");
         int count = 0;
         list = NULL;
@@ -102,10 +105,6 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
         if( list != NULL ) {
             walletHashTable->insert(userId, list);
         }
-        else {
-            /* Initialize the data structures for a user that does not have money on start */
-            // walletHashTable->insert(userId, list);
-        }
         free(userId);
     }
 
@@ -118,13 +117,17 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
-    char *token;
+    char *token, *token1;
+    int length, posn;
     Transaction *transaction, *transaction1;
 
     if (fp == NULL)
         exit(EXIT_FAILURE);
 
     while ((read = getline(&line, &len, fp)) != -1) {
+        length = strlen(line);
+        if( line[length-1] == '\n' )
+            line[length-1] = 0;
         transaction = new Transaction();
         transaction1 = new Transaction();
         /* get the first token */
@@ -155,13 +158,27 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
                 transaction1->setAmount(atoi(token));
             }
             else if(count == 4) {
-                // printf("Date: %s \n", token);
+                printf("Date: %s \n", token);
+                char *token2 = token;
+                token1 = strtok_r(token2, "-", &token2);
+                printf("%s Day\n", token1);
+                token1 = strtok_r(NULL, "-", &token2);
+                printf("%s Month\n", token1);
+                token1 = strtok_r(NULL, " ", &token2);
+                printf("%s Year\n", token1);
+                printf("%s tttt\n", token);
             }
             else if(count == 5) {
-                // printf("Time: %s \n", token);
+                char *token3 = token;
+                printf("HOURRRRR %s\n", token);
+                token1 = strtok(token3, ":");
+                printf("%s Hour\n", token1);
+                token1 = strtok(NULL, ":");
+                printf("%s Minutes\n", token1);
             }
             token = strtok(NULL, " ");
             count++;
+            printf("token %s \n", token);
         }
         transaction->setVirtualTransaction(0);
         transaction1->setVirtualTransaction(0);

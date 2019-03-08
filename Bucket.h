@@ -37,6 +37,7 @@ class Bucket {
         Bucket* getNext();
         void printUsers();
         int getEarnings(char *userId);
+        int getEarnings(char *userId, int hour1, int minutes1, int hour2, int minutes2);
         ~Bucket();
 
 };

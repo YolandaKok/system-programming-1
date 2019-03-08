@@ -59,6 +59,8 @@ class Transaction {
         void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
                 WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
         Transaction* getNext();
+        void setTimestamp(Timestamp*);
+        Timestamp* getTimeStamp();
         ~Transaction();
 };
 

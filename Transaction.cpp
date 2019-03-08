@@ -10,6 +10,7 @@
 Transaction::Transaction() {
     this->next = NULL;
     this->head = NULL;
+    this->timestamp = NULL;
 }
 
 Transaction::Transaction(char *transactionId, char *sender, char *receiver, int amount) {
@@ -122,6 +123,10 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
     }
 }
 
+void Transaction::setTimestamp(Timestamp *timestamp) {
+    this->timestamp = timestamp;
+}
+
 void Transaction::setRemainder(int remainder) {
     this->remainder = remainder;
 }
@@ -210,8 +215,14 @@ int Transaction::getVirtualTransaction() {
     return this->virtualTransaction;
 }
 
+Timestamp* Transaction::getTimeStamp() {
+    return this->timestamp;
+}
+
 Transaction::~Transaction() {
     //printf("delete transaction %s\n", this->transactionId);
     free(this->receiver); free(this->sender);
     free(this->transactionId);
+    if(this->timestamp != NULL)
+        delete this->timestamp;
 }

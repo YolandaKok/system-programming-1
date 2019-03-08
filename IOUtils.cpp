@@ -120,7 +120,7 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
     char *token, *token1;
     int length, posn;
     Transaction *transaction, *transaction1;
-
+    int day, month, year, hour, minutes;
     if (fp == NULL)
         exit(EXIT_FAILURE);
 
@@ -162,9 +162,12 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
                 char *token2 = token;
                 token1 = strtok_r(token2, "-", &token2);
                 printf("%s Day\n", token1);
+                day = atoi(token1);
                 token1 = strtok_r(NULL, "-", &token2);
+                month = atoi(token1);
                 printf("%s Month\n", token1);
                 token1 = strtok_r(NULL, " ", &token2);
+                year = atoi(token1);
                 printf("%s Year\n", token1);
                 printf("%s tttt\n", token);
             }
@@ -172,15 +175,22 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
                 char *token3 = token;
                 printf("HOURRRRR %s\n", token);
                 token1 = strtok(token3, ":");
+                hour = atoi(token1);
                 printf("%s Hour\n", token1);
                 token1 = strtok(NULL, ":");
+                minutes = atoi(token1);
                 printf("%s Minutes\n", token1);
             }
             token = strtok(NULL, " ");
             count++;
             printf("token %s \n", token);
         }
+        Timestamp *timestamp = new Timestamp(day, month, year, hour, minutes);
+        Timestamp *timestamp1 = new Timestamp(day, month, year, hour, minutes);
         /* Create a timestamp */
+        transaction->setTimestamp(timestamp);
+        transaction1->setTimestamp(timestamp1);
+
         transaction->setVirtualTransaction(0);
         transaction1->setVirtualTransaction(0);
         int balance = walletHashTable->getBalance(transaction->getSender());

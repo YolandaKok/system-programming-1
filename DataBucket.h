@@ -33,6 +33,7 @@ class DataBucket {
                 WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
         void printName();
         int getEarnings();
+        int getEarnings(int hour1, int minutes1, int hour2, int minutes2);
         ~DataBucket();
 };
 

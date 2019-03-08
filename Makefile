@@ -20,9 +20,11 @@ TreeHashTable.o: TreeHashTable.cpp
 	g++ -c TreeHashTable.cpp
 CoinNode.o: CoinNode.cpp
 	g++ -c CoinNode.cpp
+Timestamp.o: Timestamp.cpp
+	g++ -c Timestamp.cpp
 WalletHashTable.o: WalletHashTable.cpp
 	g++ -c WalletHashTable.cpp
-all: main.o IOUtils.o ListNode.o Wallet.o Bucket.o DataBucket.o UsersHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o WalletHashTable.o
-	g++ -o bitcoin main.o IOUtils.o ListNode.o Wallet.o Bucket.o DataBucket.o UsersHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o WalletHashTable.o
+all: main.o IOUtils.o ListNode.o Timestamp.o Wallet.o Bucket.o DataBucket.o UsersHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o WalletHashTable.o
+	g++ -o bitcoin main.o IOUtils.o Timestamp.o ListNode.o Wallet.o Bucket.o DataBucket.o UsersHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o WalletHashTable.o
 clean:
 	rm -f *.o bitcoin

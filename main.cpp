@@ -70,15 +70,21 @@ int main(int argc, char* argv[]) {
                 }
                 else {
                     char *token2 = token;
-                    int hour1, hour2, minutes1, minutes2;
+                    int hour1, minutes1, hour2, minutes2;
                     printf("Hour1: %s\n", token);
+                    hour1 = atoi(token);
                     token = strtok(NULL, " ");
                     printf("Minutes1: %s\n", token);
+                    minutes1 = atoi(token);
                     token2 = strtok(NULL, " ");
                     token1 = strtok_r(token2, ":", &token2);
                     printf("Hour2: %s\n", token1);
+                    hour2 = atoi(token1);
                     token1 = strtok_r(NULL, " ", &token2);
                     printf("Minutes2: %s\n", token1);
+                    minutes2 = atoi(token1);
+                    earnings = receiverHashTable->getEarnings(userId, hour1, minutes1, hour2, minutes2);
+                    printf("% WalletId: %s Earnings: %d \n", userId, earnings);
                 }
                 printf("%s xxxx\n", token);
             }

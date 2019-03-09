@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cstring>
+#include <time.h>
 #include "IOUtils.h"
 #include "Wallet.h"
 #include "Transaction.h"
@@ -14,6 +15,7 @@
 #include "CoinNode.h"
 
 int current_transaction_id = 0;
+int current_hour = -1, current_minutes = -1, current_day = -1, current_month = -1, current_year = -1;
 
 /* Read the arguments */
 int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, int& bitcoinValue,
@@ -119,10 +121,13 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
-    char *token, *token1;
+    char *token = NULL, *token1 = NULL;
     int length, posn;
-    Transaction *transaction, *transaction1;
+    Transaction *transaction = NULL, *transaction1 = NULL;
     int day, month, year, hour, minutes;
+    /* Structure to keep the date and time */
+
+
     if (fp == NULL)
         exit(EXIT_FAILURE);
 
@@ -198,11 +203,20 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
         transaction->setVirtualTransaction(0);
         transaction1->setVirtualTransaction(0);
         int balance = walletHashTable->getBalance(transaction->getSender());
+
         /* Let's do the transaction */
-        if( balance > transaction->getAmount() ) {
-            /* Traverse the receiverHashTable and the virtual nodes */
-            receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
-            senderHashTable->addTransaction(transaction->getSender(), transaction);
+        if( (balance > transaction->getAmount())) {
+
+            if(dateIsValid(day, month, year, hour, minutes)) {
+                current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
+                receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
+                senderHashTable->addTransaction(transaction->getSender(), transaction);
+            }
+            else {
+                printf("Failed ! Error with transaction time !\n");
+                delete transaction; delete transaction1;
+            }
+
             /* For every node, testify if it is leaf */
             /* If it is a leaf go to the CoinNode and find the amount on this node */
             /* Create two new nodes, One with the amount left to the initial user, the right node and one with the amount transfered to the other user */
@@ -219,4 +233,33 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
 
     fclose(fp);
     free(line);
+}
+
+int dateIsValid(int day, int month, int year, int hour, int minutes) {
+    struct tm t = { 0 };
+    time_t t_of_day, t_of_day2;
+
+    t.tm_year = year - 1900;
+    t.tm_mon = month;           // Month, 0 - jan
+    t.tm_mday = day;          // Day of the month
+    t.tm_hour = hour;
+    t.tm_min = minutes;
+    t.tm_isdst = -1;        // Is DST on? 1 = yes, 0 = no, -1 = unknown
+    t_of_day = mktime(&t);
+
+    t.tm_year = current_year - 1900;
+    t.tm_mon = current_month;           // Month, 0 - jan
+    t.tm_mday = current_day;          // Day of the month
+    t.tm_hour = current_hour;
+    t.tm_min = current_minutes;
+    t.tm_isdst = -1;        // Is DST on? 1 = yes, 0 = no, -1 = unknown
+    t_of_day2 = mktime(&t);
+
+    if((t_of_day - t_of_day2) >= 0) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+
 }

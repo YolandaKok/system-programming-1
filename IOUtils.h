@@ -21,4 +21,6 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
 int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiverHashTable,
                       UsersHashTable *senderHashTable, WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
 
+int dateIsValid(int day, int month, int year, int hour, int minutes);
+
 #endif //SYSTEM_PROGRAMMING_1_IOUTILS_H

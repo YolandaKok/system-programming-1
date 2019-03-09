@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
                 if( token == NULL ) {
                     receiverHashTable->printTransactions(userId);
                     earnings = receiverHashTable->getEarnings(userId);
-                    printf("% WalletId: %s Earnings: %d \n", userId, earnings);
+                    printf("WalletId: %s Earnings: %d \n", userId, earnings);
                 }
                 else {
                     char *token2 = token;
@@ -81,7 +81,6 @@ int main(int argc, char* argv[]) {
                     minutes1 = atoi(token);
                     token2 = strtok(NULL, " ");
                     token1 = strtok_r(token2, "-", &token2);
-                    //printf("%s %d XOXO \n", token2, atoi(token2));
                     if(strlen(token2) > 2) {
                         printf("Day: %s\n", token1);
                         day1 = atoi(token1);
@@ -126,14 +125,14 @@ int main(int argc, char* argv[]) {
                     if( year1 == -1 && year2 == -1 ) {
                         printf("LALALAL\n");
                         earnings = receiverHashTable->getEarnings(userId, hour1, minutes1, hour2, minutes2);
-                        printf("% WalletId: %s Earnings: %d \n", userId, earnings);
+                        printf("WalletId: %s Earnings: %d \n", userId, earnings);
                     }
                     else {
                         printf("LALALAL\n");
 
                         earnings = receiverHashTable->getEarnings(userId, hour1, minutes1, day1, month1, year1,
                                                                   hour2, minutes2, day2, month2, year2);
-                        printf("XIXI WalletId: %s Earnings: %d \n", userId, earnings);
+                        printf("WalletId: %s Earnings: %d \n", userId, earnings);
                     }
                 }
             }
@@ -158,6 +157,7 @@ int main(int argc, char* argv[]) {
                 delete senderHashTable;
                 delete receiverHashTable;
                 delete treeHashTable;
+                //free(line);
                 free(bitCoinBalancesFile);
                 free(transactionsFile);
                 exit(0);

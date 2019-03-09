@@ -57,6 +57,8 @@ int main(int argc, char* argv[]) {
         length = strlen(line);
         if( line[length-1] == '\n' )
             line[length-1] = 0;
+        char *line2 = (char*)malloc(strlen(line) + 1);
+        strcpy(line2, line);
         token = strtok(line, " ");
         while ( token != NULL ) {
             /* Let's see our command */
@@ -151,6 +153,21 @@ int main(int argc, char* argv[]) {
                 /* Token Contains all the data */
                 requestTransaction(token, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
             }
+            else if(!strcmp(token, "/requestTransactions")) {
+                char *ret = NULL;
+                char ch = ';';
+                ret = strchr(line2, ch);
+                if(ret != NULL) {
+                    printf("It is an stdin string !");
+                    requestTransactions(token, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
+                }
+                else {
+                    printf("It is a file\n");
+                }
+                //token1 = strtok_r(token2, ";", &token2);
+                /* Find if it is an input file or transactions from stdin */
+                printf("%s ttetete\n", token);
+            }
             else if(!strcmp(token, "exit")) {
                 token = strtok(NULL, " ");
                 delete walletHashTable;
@@ -160,9 +177,11 @@ int main(int argc, char* argv[]) {
                 free(line);
                 free(bitCoinBalancesFile);
                 free(transactionsFile);
+                free(line2);
                 exit(0);
             }
             token = strtok(NULL, " ");
         }
+        free(line2);
     }
 }

@@ -125,3 +125,43 @@ int requestTransaction(char *line, UsersHashTable *receiverHashTable,
     }
     /* Do the transaction */
 }
+
+/* Request Transactions from command line */
+void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHashTable *senderHashTable,
+        WalletHashTable *walletHashTable, TreeHashTable *treeHashTable) {
+    char *token;
+    token = strtok(NULL, ";");
+    char *token2 = token;
+    char *token1;
+    char *token3, *token4;
+
+    while( token != NULL ) {
+        printf("%s whatttt\n", token);
+        token2 = token;
+        token1 = strtok_r(token2, " ", &token2);
+        int count = 0;
+        while( token1 != NULL ) {
+            count++;
+            if(count == 4) {
+                printf("%s lololo\n", token1);
+                token3 = token1;
+                token4 = strtok_r(token3, "-", &token3);
+                printf("%s day\n", token4);
+                token4 = strtok_r(NULL, "-", &token3);
+                printf("%s month\n", token4);
+                token4 = strtok_r(NULL, "-", &token3);
+                printf("%s year\n", token4);
+            }
+            if(count == 5) {
+                printf("%s lololo\n", token1);
+                token3 = token1;
+                token4 = strtok_r(token3, ":", &token3);
+                printf("%s hour\n", token4);
+                token4 = strtok_r(NULL, ":", &token3);
+                printf("%s minutes\n", token4);
+            }
+            token1 = strtok_r(token2, " ", &token2);
+        }
+        token = strtok(NULL, ";");
+    }
+}

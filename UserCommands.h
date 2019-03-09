@@ -15,5 +15,7 @@
 
 int requestTransaction(char *token, UsersHashTable *receiverHashTable,
                        UsersHashTable *senderHashTable, WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
+void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHashTable *senderHashTable,
+                         WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
 
 #endif //SYSTEM_PROGRAMMING_1_USERCOMMANDS_H

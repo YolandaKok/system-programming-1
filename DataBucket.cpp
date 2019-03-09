@@ -55,6 +55,7 @@ void DataBucket::removeTransactions() {
         delete current;
         current = temp;
     }
+    this->head = NULL;
 }
 
 void DataBucket::printTransactions() {

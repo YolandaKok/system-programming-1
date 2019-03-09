@@ -13,6 +13,8 @@
 #include "WalletHashTable.h"
 #include "CoinNode.h"
 
+int current_transaction_id = 0;
+
 /* Read the arguments */
 int readArgs(int argc, char* argv[], char*& bitCoinBalancesFile, char*& transactionsFile, int& bitcoinValue,
              int& UsersHashTableNumOfEntries, int& receiverHashtableNumOfEntries, int& bucketSize) {
@@ -136,7 +138,9 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
         /* walk through other tokens */
         while( token != NULL ) {
             if(count == 0) {
-                // printf("TransactionID: %s \n", token);
+                if(atoi(token) > current_transaction_id) {
+                    current_transaction_id = atoi(token);
+                }
                 transaction->setTransactionId(token);
                 transaction1->setTransactionId(token);
             }
@@ -209,6 +213,7 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
         else {
             /* User Has not enough money to make the transactiond */
             printf("Transaction failed. User: %s has not enough money in his / her wallet. \n", transaction->getSender());
+            delete transaction; delete transaction1;
         }
     }
 

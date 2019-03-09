@@ -10,6 +10,7 @@
 #include "DataBucket.h"
 #include "UsersHashTable.h"
 #include "TreeHashTable.h"
+#include "UserCommands.h"
 
 int main(int argc, char* argv[]) {
     char *bitCoinBalancesFile, *transactionsFile;
@@ -146,6 +147,10 @@ int main(int argc, char* argv[]) {
                 token = strtok(NULL, " ");
                 money = walletHashTable->getBalance(token);
                 printf("% WalletId: %s Money: %d \n", token, money);
+            }
+            else if(!strcmp(token, "/requestTransaction")) {
+                /* Token Contains all the data */
+                requestTransaction(token, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
             }
             else if(!strcmp(token, "exit")) {
                 token = strtok(NULL, " ");

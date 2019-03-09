@@ -24,7 +24,9 @@ Timestamp.o: Timestamp.cpp
 	g++ -c Timestamp.cpp
 WalletHashTable.o: WalletHashTable.cpp
 	g++ -c WalletHashTable.cpp
-all: main.o IOUtils.o ListNode.o Timestamp.o Wallet.o Bucket.o DataBucket.o UsersHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o WalletHashTable.o
-	g++ -o bitcoin main.o IOUtils.o Timestamp.o ListNode.o Wallet.o Bucket.o DataBucket.o UsersHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o WalletHashTable.o
+UserCommands.o: UserCommands.cpp
+	g++ -c UserCommands.cpp
+all: main.o IOUtils.o UserCommands.o ListNode.o Timestamp.o Wallet.o Bucket.o DataBucket.o UsersHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o WalletHashTable.o
+	g++ -o bitcoin main.o IOUtils.o UserCommands.o Timestamp.o ListNode.o Wallet.o Bucket.o DataBucket.o UsersHashTable.o Transaction.o CoinTree.o TreeHashTable.o CoinNode.o WalletHashTable.o
 clean:
 	rm -f *.o bitcoin

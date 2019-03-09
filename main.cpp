@@ -13,14 +13,14 @@
 #include "UserCommands.h"
 
 int main(int argc, char* argv[]) {
-    char *bitCoinBalancesFile, *transactionsFile;
+    char *bitCoinBalancesFile, *transactionsFile = NULL;
     int bitCoinValue;
     int senderHashTableNumOfEntries, receiverHashTableNumOfEntries, bucketSize;
-    FILE *fp, *fp1;
+    FILE *fp = NULL, *fp1 = NULL;
     /* Create a hashtable for the senders */
-    UsersHashTable *senderHashTable, *receiverHashTable;
-    WalletHashTable *walletHashTable;
-    TreeHashTable *treeHashTable;
+    UsersHashTable *senderHashTable = NULL, *receiverHashTable = NULL;
+    WalletHashTable *walletHashTable = NULL;
+    TreeHashTable *treeHashTable = NULL;
 
 
     readArgs( argc, argv, bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries,
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
-    char *token, *token1;
+    char *token = NULL, *token1 = NULL;
     int length;
     int earnings, payments, money;
     char *userId;
@@ -157,7 +157,7 @@ int main(int argc, char* argv[]) {
                 delete senderHashTable;
                 delete receiverHashTable;
                 delete treeHashTable;
-                //free(line);
+                free(line);
                 free(bitCoinBalancesFile);
                 free(transactionsFile);
                 exit(0);

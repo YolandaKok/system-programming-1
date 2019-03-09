@@ -6,16 +6,19 @@
 #include <stdlib.h>
 #include <cstring>
 #include "UserCommands.h"
+#include "IOUtils.h"
 
 extern int current_transaction_id;
+extern int current_day, current_month, current_year, current_hour, current_minutes;
 
 int requestTransaction(char *line, UsersHashTable *receiverHashTable,
                        UsersHashTable *senderHashTable, WalletHashTable *walletHashTable, TreeHashTable *treeHashTable) {
 
     printf("%d CURRENT TRANSACTION ID\n", current_transaction_id);
     int day, month, year, hour, minutes;
-    char *token, *token1;
+    char *token = NULL, *token1 = NULL;
     int length, posn;
+    int balance = 0;
     Transaction *transaction, *transaction1;
     printf("Inside request transaction %s \n", line);
     /* Find the senderWallet, receiverWallet, Day, Time */
@@ -46,7 +49,8 @@ int requestTransaction(char *line, UsersHashTable *receiverHashTable,
         }
         else if(count == 3) {
             printf("Date: %s \n", token);
-            char *token2 = token;
+            char *token2 = NULL;
+            token2 = token;
             token1 = strtok_r(token2, "-", &token2);
             printf("%s Day\n", token1);
             day = atoi(token1);
@@ -59,7 +63,8 @@ int requestTransaction(char *line, UsersHashTable *receiverHashTable,
             printf("%s tttt\n", token);
         }
         else if(count == 4) {
-            char *token3 = token;
+            char *token3 = NULL;
+            token3 = token;
             printf("HOURRRRR %s\n", token);
             token1 = strtok(token3, ":");
             hour = atoi(token1);
@@ -99,16 +104,24 @@ int requestTransaction(char *line, UsersHashTable *receiverHashTable,
 
     transaction->setVirtualTransaction(0);
     transaction1->setVirtualTransaction(0);
-    int balance = walletHashTable->getBalance(transaction->getSender());
+    balance = walletHashTable->getBalance(transaction->getSender());
+    printf("%d %d %d %d %d \n", current_day, current_month, current_year, current_hour, current_minutes);
     /* Let's do the transaction */
     if( balance > transaction->getAmount() ) {
-        /* Traverse the receiverHashTable and the virtual nodes */
-        receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
-        senderHashTable->addTransaction(transaction->getSender(), transaction);
+        if(dateIsValid(day, month, year, hour, minutes)) {
+            current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
+            receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
+            senderHashTable->addTransaction(transaction->getSender(), transaction);
+        }
+        else {
+            printf("Failed ! Error with transaction time !\n");
+            delete transaction; delete transaction1;
+        }
     }
     else {
         /* User Has not enough money to make the transactiond */
         printf("Transaction failed. User: %s has not enough money in his / her wallet. \n", transaction->getSender());
+        delete transaction; delete transaction1;
     }
     /* Do the transaction */
 }

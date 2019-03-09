@@ -36,7 +36,8 @@ int main(int argc, char* argv[]) {
     treeHashTable = new TreeHashTable(3);
 
     /* Read the bitcoin balances files */
-    readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
+    readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue, receiverHashTable, senderHashTable, walletHashTable,
+            treeHashTable);
     readTransactions(fp1, transactionsFile, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
 
     char command[200];
@@ -66,27 +67,74 @@ int main(int argc, char* argv[]) {
                 if( token == NULL ) {
                     receiverHashTable->printTransactions(userId);
                     earnings = receiverHashTable->getEarnings(userId);
-                    printf("% WalletId: %s Earnings: %d \n", token, earnings);
+                    printf("% WalletId: %s Earnings: %d \n", userId, earnings);
                 }
                 else {
                     char *token2 = token;
-                    int hour1, minutes1, hour2, minutes2;
+                    int hour1 = -1, minutes1 = -1, hour2 = -1, minutes2 = -1, day1 = -1;
+                    int month1 = -1, year1 = -1, day2 = -1, month2 = -1, year2 = -1;
                     printf("Hour1: %s\n", token);
                     hour1 = atoi(token);
                     token = strtok(NULL, " ");
                     printf("Minutes1: %s\n", token);
                     minutes1 = atoi(token);
                     token2 = strtok(NULL, " ");
-                    token1 = strtok_r(token2, ":", &token2);
-                    printf("Hour2: %s\n", token1);
-                    hour2 = atoi(token1);
-                    token1 = strtok_r(NULL, " ", &token2);
-                    printf("Minutes2: %s\n", token1);
-                    minutes2 = atoi(token1);
-                    earnings = receiverHashTable->getEarnings(userId, hour1, minutes1, hour2, minutes2);
-                    printf("% WalletId: %s Earnings: %d \n", userId, earnings);
+                    token1 = strtok_r(token2, "-", &token2);
+                    //printf("%s %d XOXO \n", token2, atoi(token2));
+                    if(strlen(token2) > 2) {
+                        printf("Day: %s\n", token1);
+                        day1 = atoi(token1);
+                        token1 = strtok_r(token2, "-", &token2);
+                        printf("Month: %s\n", token1);
+                        month1 = atoi(token1);
+                        token1 = strtok_r(NULL, "-", &token2);
+                        printf("Year: %s\n", token1);
+                        year1 = atoi(token1);
+                    }
+                    if(year1 == -1) {
+                        printf("%s lll\n", token1);
+                        token1 = strtok(token1, ":");
+                        printf("Hour2: %s ll\n", token1);
+                        hour2 = atoi(token1);
+                        token1 = strtok(NULL, ":");
+                        printf("Minutes2: %s ll\n", token1);
+                        minutes2 = atoi(token1);
+                    }
+                    else {
+                        token2 = strtok(NULL, " ");
+                        token1 = strtok_r(token2, ":", &token2);
+                        printf("Hour2: %s\n", token1);
+                        hour2 = atoi(token1);
+                        token1 = strtok_r(NULL, " ", &token2);
+                        printf("Minutes2: %s\n", token1);
+                        minutes2 = atoi(token1);
+                    }
+                    token2 = strtok(NULL, " ");
+                    token1 = strtok_r(token2, "-", &token2);
+                    if(token1 != NULL) {
+                        printf("Day: %s\n", token1);
+                        day2 = atoi(token1);
+                        token1 = strtok_r(token2, "-", &token2);
+                        printf("Month: %s\n", token1);
+                        month2 = atoi(token1);
+                        token1 = strtok_r(NULL, "-", &token2);
+                        printf("Year: %s\n", token1);
+                        year2 = atoi(token1);
+                    }
+                    printf("Year1: %d Year2: %d \n", year1, year2);
+                    if( year1 == -1 && year2 == -1 ) {
+                        printf("LALALAL\n");
+                        earnings = receiverHashTable->getEarnings(userId, hour1, minutes1, hour2, minutes2);
+                        printf("% WalletId: %s Earnings: %d \n", userId, earnings);
+                    }
+                    else {
+                        printf("LALALAL\n");
+
+                        earnings = receiverHashTable->getEarnings(userId, hour1, minutes1, day1, month1, year1,
+                                                                  hour2, minutes2, day2, month2, year2);
+                        printf("XIXI WalletId: %s Earnings: %d \n", userId, earnings);
+                    }
                 }
-                printf("%s xxxx\n", token);
             }
             else if(!strcmp(token, "/findPayments")) {
                 token = strtok(NULL, " ");

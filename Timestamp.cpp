@@ -27,6 +27,14 @@ int Timestamp::isBetweenHour(int hour1, int minutes1, int hour2, int minutes2) {
     return 0;
 }
 
+int Timestamp::isBetweenDays(int hour1, int minutes1, int day1, int month1, int year1, int hour2, int minutes2, int day2, int month2, int year2) {
+    if(((hour1 <= this->hour) && (this->hour <= hour2)) && ((minutes1 <= this->minutes) && (this->minutes <= minutes2))
+    && ((day1 <= this->day) && (this->day <= day2)) && ((month1 <= this->month) && (this->month <= month2)) && ((year1 <= this->year) && (this->year <= year2)))
+        return 1;
+    return 0;
+}
+
+
 Timestamp::~Timestamp() {
 
 }

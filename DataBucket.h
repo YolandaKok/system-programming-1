@@ -34,6 +34,7 @@ class DataBucket {
         void printName();
         int getEarnings();
         int getEarnings(int hour1, int minutes1, int hour2, int minutes2);
+        int getEarnings(int hour1, int minutes1, int day1, int month1, int year1, int hour2, int minutes2, int day2, int month2, int year2);
         ~DataBucket();
 };
 

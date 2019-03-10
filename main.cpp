@@ -174,6 +174,11 @@ int main(int argc, char* argv[]) {
                 findBitCoinStatus(token, treeHashTable);
                 treeHashTable->printCoin(token);
             }
+            else if(!strcmp(token, "/traceCoin")) {
+                token = strtok(NULL, " ");
+                printf("%s BitCoinId\n", token);
+                //traceCoin(token, treeHashTable);
+            }
             else if(!strcmp(token, "exit")) {
                 token = strtok(NULL, " ");
                 delete walletHashTable;

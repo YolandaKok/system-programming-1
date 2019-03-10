@@ -35,6 +35,9 @@ void CoinNode::setNext(CoinNode *coin) {
 
 void CoinNode::print() {
     printf("%s Owner %d amount %s id \n", this->owner, this->value, this->coinId);
+    printf("TRANSACTION !\n");
+    if(this->transaction != NULL)
+        this->transaction->print();
 }
 
 void CoinNode::printNodes(CoinNode *node) {
@@ -127,12 +130,14 @@ CoinNode* CoinNode::insertTransaction(Transaction *transaction) {
     if(this->findRemainder(transaction) == 0) {
         /* There is some money left to sent */
         this->left = new CoinNode(transaction->getReceiver(), transaction->getRemainder(), this->coinId);
+        this->left->setTransaction(transaction);
         /* Create a new Transaction to put the unspent */
         /* Insert Node to the right */
         this->right = new CoinNode(this->owner, this->value - transaction->getRemainder(), this->coinId);
     }
     else {
         this->left = new CoinNode(transaction->getReceiver(), this->getValue(), this->coinId);
+        this->left->setTransaction(transaction);
         // TODO: Check if it is worth it
         this->right = NULL;
     }

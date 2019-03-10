@@ -256,6 +256,8 @@ int dateIsValid(int day, int month, int year, int hour, int minutes) {
     t_of_day2 = mktime(&t);
 
     if((t_of_day - t_of_day2) >= 0) {
+        printf("%ld TIMEEEEE \n", t_of_day - t_of_day2);
+        printf("%d current_day %d current_month %d month %d day\n", current_day, current_month, day, month);
         return 1;
     }
     else {

@@ -55,6 +55,7 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
                 if(coinNode != NULL) {
                     /* Add new transaction in the end of this list */
                     //Transaction *transaction1 = new Transaction();
+                    printf("xixixiix\n");
                     if(transaction1->getCoinNodeListHead() == NULL) {
                         transaction1->setCoinNodeListHead(coinNode);
                     }
@@ -95,7 +96,9 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
                     /* Let's see if we have a remainder */
                     remainder1 = current_coin->calculateRemainder(transaction);
                     //printf("%d REMAINDER \n", remainder1);
+                    printf("xooxoxox\n");
                     if(transaction1->getCoinNodeListHead() == NULL) {
+                        printf("xooxoxox\n");
                         transaction1->setCoinNodeListHead(current_coin->getLeft());
                     } else {
                         transaction1->addCoinNode(current_coin->getLeft());
@@ -124,7 +127,10 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
             }
         }
         current = current->next;
+        printf("new\n");
+        //printf("%s lala\n", current_coin->getCoinId());
         current_coin = current->getCoinNodeListHead();
+        printf("new2\n");
     }
 }
 

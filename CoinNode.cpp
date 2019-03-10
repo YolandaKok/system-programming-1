@@ -130,6 +130,12 @@ CoinNode* CoinNode::insertTransaction(Transaction *transaction) {
     if(this->findRemainder(transaction) == 0) {
         /* There is some money left to sent */
         this->left = new CoinNode(transaction->getReceiver(), transaction->getRemainder(), this->coinId);
+        if(transaction->getCoinNodeListHead() == NULL) {
+            transaction->setCoinNodeListHead(this->left);
+        }
+        else {
+            transaction->addCoinNode(this->left);
+        }
         this->left->setTransaction(transaction);
         /* Create a new Transaction to put the unspent */
         /* Insert Node to the right */

@@ -107,7 +107,7 @@ int requestTransaction(char *line, UsersHashTable *receiverHashTable,
     balance = walletHashTable->getBalance(transaction->getSender());
     printf("%d %d %d %d %d \n", current_day, current_month, current_year, current_hour, current_minutes);
     /* Let's do the transaction */
-    if( balance > transaction->getAmount() ) {
+    if( (balance - transaction->getAmount()) >= 0) {
         if(dateIsValid(day, month, year, hour, minutes)) {
             current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
             receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
@@ -227,7 +227,7 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
         balance = walletHashTable->getBalance(transaction->getSender());
         printf("%d %d %d %d %d \n", current_day, current_month, current_year, current_hour, current_minutes);
         /* Let's do the transaction */
-        if( balance > transaction->getAmount() ) {
+        if( (balance - transaction->getAmount()) >= 0)  {
             if(dateIsValid(day, month, year, hour, minutes)) {
                 current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
                 receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);

@@ -205,7 +205,7 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
         int balance = walletHashTable->getBalance(transaction->getSender());
 
         /* Let's do the transaction */
-        if( (balance > transaction->getAmount())) {
+        if( (balance - transaction->getAmount()) >= 0) {
 
             if(dateIsValid(day, month, year, hour, minutes)) {
                 current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;

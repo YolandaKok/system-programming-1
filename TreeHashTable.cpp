@@ -47,6 +47,20 @@ void TreeHashTable::print() {
     }
 }
 
+/* Find Number of Transactions */
+int TreeHashTable::findNumberOfTransactions(char *coinId) {
+    int i = hashFunction(coinId);
+    this->trees[i]->findNumberOfTransactions(coinId);
+}
+
+/* Find Unspent */
+
+int TreeHashTable::findUnspent(char *coinId) {
+    int i = hashFunction(coinId);
+    this->trees[i]->findUnspent(coinId);
+}
+
+
 void TreeHashTable::printCoin(char *coinId) {
     int i = hashFunction(coinId);
     printf("%d xiixixixixskalk!!!!\n", i);

@@ -78,11 +78,38 @@ void CoinTree::printNodes(char *coinId) {
     CoinTree *current = this;
     while (current != NULL ) {
         if(strcmp(current->coinId, coinId) == 0) {
-            current->root->printNodes();
+            current->root->printNodes(current->root);
             break;
         }
         current = current->next;
     }
+}
+
+/* Find the number of transactions */
+int CoinTree::findNumberOfTransactions(char *coinId){
+    int transactions;
+    CoinTree *current = this;
+    while (current != NULL ) {
+        if(strcmp(current->coinId, coinId) == 0) {
+            transactions = current->root->findNumberOfTransactions(current->root);
+            break;
+        }
+        current = current->next;
+    }
+    return transactions;
+}
+
+int CoinTree::findUnspent(char *coinId) {
+    int unspent = 0;
+    CoinTree *current = this;
+    while (current != NULL ) {
+        if(strcmp(current->coinId, coinId) == 0) {
+            unspent = current->root->findUnspent();
+            break;
+        }
+        current = current->next;
+    }
+    return unspent;
 }
 
 CoinTree* CoinTree::getNext() {

@@ -39,7 +39,7 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
     while( current != NULL && remainder != 0 ) {
         while ( current_coin != NULL && remainder != 0 ) {
             //coinNode = current->coin;
-            if( current_coin->isLeaf() ) {
+            if( current_coin->isLeaf() && (strcmp( current_coin->getOwner(), transaction->getSender() ) == 0) ) {
                 //printf("%s IDDDD\n", current_coin->getCoinId());
                 //printf("Insert if Leaf\n");
                 //printf("%d AMOUNT \n", transaction->getAmount());

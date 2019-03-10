@@ -37,16 +37,62 @@ void CoinNode::print() {
     printf("%s Owner %d amount %s id \n", this->owner, this->value, this->coinId);
 }
 
-void CoinNode::printNodes() {
-    printf("SAAAAA %s Owner %d Value %s CoinId \n", this->owner, this->value, this->coinId);
-    if(this->left == NULL) {
-        printf("LEFT NULL \n");
+void CoinNode::printNodes(CoinNode *node) {
+
+    if (node == NULL)
+        return;
+
+    /* first print data of node */
+    node->print();
+
+    /* then recur on left sutree */
+    printNodes(node->left);
+
+    /* now recur on right subtree */
+    printNodes(node->right);
+}
+
+int CoinNode::findUnspent() {
+    int unspent = this->value;
+    int count = 0;
+    CoinNode *previous = this;
+    CoinNode *current = this->right;
+    while( current != NULL ) {
+        unspent = current->value;
+        previous = current;
+        current = current->right;
+        count++;
     }
-    if(this->right == NULL) {
-        printf("RIGHT NULL \n");
+    if(this->left != NULL)
+        printf("Left: %d\n", this->left->getValue());
+    if(this->right != NULL)
+        printf("Right: %d\n", this->right->getValue());
+    if(previous->left != NULL) {
+        printf("%d Previous Left \n", previous->left->getValue());
+        unspent = 0;
     }
-    this->left->print();
-    this->right->print();
+    //if()
+    printf("%d COUNT \n", count);
+    return unspent;
+}
+
+int CoinNode::findNumberOfTransactions(CoinNode *root){
+    if(root == NULL){ return 0; }
+
+    if(root->left == NULL)
+    {
+        // NO Left child.
+        return findNumberOfTransactions(root->right);
+    }
+    else
+    {
+        // Left child present.
+        return findNumberOfTransactions(root->left) + findNumberOfTransactions(root->right) + 1;
+    }
+}
+
+char* CoinNode::getOwner() {
+    return this->owner;
 }
 
 CoinNode* CoinNode::getLeft() {
@@ -75,17 +121,18 @@ int CoinNode::calculateRemainder(Transaction *transaction) {
 /* Insert Coin Node */
 CoinNode* CoinNode::insertTransaction(Transaction *transaction) {
     /* Insert */
-    this->left = new CoinNode(transaction->getReceiver(), transaction->getAmount(), this->coinId);
+    //this->left = new CoinNode(transaction->getReceiver(), transaction->getAmount(), this->coinId);
     //this->left->printNodes();
     /* Node to the right contains */
     if(this->findRemainder(transaction) == 0) {
         /* There is some money left to sent */
-
+        this->left = new CoinNode(transaction->getReceiver(), transaction->getRemainder(), this->coinId);
         /* Create a new Transaction to put the unspent */
         /* Insert Node to the right */
         this->right = new CoinNode(this->owner, this->value - transaction->getRemainder(), this->coinId);
     }
     else {
+        this->left = new CoinNode(transaction->getReceiver(), this->getValue(), this->coinId);
         // TODO: Check if it is worth it
         this->right = NULL;
     }

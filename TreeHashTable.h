@@ -23,6 +23,8 @@ class TreeHashTable {
         void print();
         void printCoin(char *coinId);
         CoinNode* getRoot(char *coinId);
+        int findUnspent(char *coinId);
+        int findNumberOfTransactions(char *coinId);
         ~TreeHashTable();
 
 };

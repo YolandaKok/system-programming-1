@@ -168,6 +168,12 @@ int main(int argc, char* argv[]) {
                 /* Find if it is an input file or transactions from stdin */
                 printf("%s ttetete\n", token);
             }
+            else if(!strcmp(token, "/bitCoinStatus")) {
+                token = strtok(NULL, " ");
+                printf("%s BitCoinId\n", token);
+                findBitCoinStatus(token, treeHashTable);
+                treeHashTable->printCoin(token);
+            }
             else if(!strcmp(token, "exit")) {
                 token = strtok(NULL, " ");
                 delete walletHashTable;

@@ -249,6 +249,64 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
 }
 
 
+void findEarnings(char *userId, UsersHashTable *receiverHashTable, char *token) {
+    char *token2 = token;
+    char *token1;
+    int hour1 = -1, minutes1 = -1, hour2 = -1, minutes2 = -1, day1 = -1;
+    int month1 = -1, year1 = -1, day2 = -1, month2 = -1, year2 = -1;
+    int earnings;
+    hour1 = atoi(token);
+    token = strtok(NULL, " ");
+    minutes1 = atoi(token);
+    token2 = strtok(NULL, " ");
+    token1 = strtok_r(token2, "-", &token2);
+    if(strlen(token2) > 2) {
+        day1 = atoi(token1);
+        token1 = strtok_r(token2, "-", &token2);
+        month1 = atoi(token1);
+        token1 = strtok_r(NULL, "-", &token2);
+        year1 = atoi(token1);
+    }
+    if(year1 == -1) {
+        token1 = strtok(token1, ":");
+        hour2 = atoi(token1);
+        token1 = strtok(NULL, ":");
+        minutes2 = atoi(token1);
+    }
+    else {
+        token2 = strtok(NULL, " ");
+        token1 = strtok_r(token2, ":", &token2);
+        hour2 = atoi(token1);
+        token1 = strtok_r(NULL, " ", &token2);
+        minutes2 = atoi(token1);
+    }
+    token2 = strtok(NULL, " ");
+    token1 = strtok_r(token2, "-", &token2);
+    if(token1 != NULL) {
+        day2 = atoi(token1);
+        token1 = strtok_r(token2, "-", &token2);
+        month2 = atoi(token1);
+        token1 = strtok_r(NULL, "-", &token2);
+        year2 = atoi(token1);
+    }
+    if( year1 == -1 && year2 == -1 ) {
+        earnings = receiverHashTable->getEarnings(userId, hour1, minutes1, hour2, minutes2);
+        /* Print the transactions between these hours */
+        /* New function for this */
+        printf("WalletId: %s Earnings: %d \n", userId, earnings);
+        receiverHashTable->printTransactions(userId, hour1, minutes1, hour2, minutes2);
+    }
+    else {
+        printf("WalletId: %s Earnings: %d \n", userId, earnings);
+        earnings = receiverHashTable->getEarnings(userId, hour1, minutes1, day1, month1, year1,
+                                                  hour2, minutes2, day2, month2, year2);
+        receiverHashTable->printTransactions(userId, hour1, minutes1, day1, month1, year1,
+                                             hour2, minutes2, day2, month2, year2);
+    }
+
+}
+
+
 int findBitCoinStatus(char *bitCoinId, TreeHashTable *treeHashTable, int initialValue) {
     int unspent = treeHashTable->findUnspent(bitCoinId);
     /* Find The number of transactions */

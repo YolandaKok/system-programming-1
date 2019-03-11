@@ -66,6 +66,57 @@ void Bucket::printTransactions(char *userId) {
     }
 }
 
+void Bucket::printTransactions(char *userId, int hour1, int minutes1, int hour2, int minutes2) {
+    DataBucket dataBucket;
+    int found = 0;
+    /* Search Into the Buckets */
+    Bucket *current = this;
+    while( current != NULL ) {
+        int off = 0;
+        while ( off < this->offset ) {
+            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+            /* We can see if it is the current name */
+            if(strcmp(userId, dataBucket.getName()) == 0) {
+                found = 1;
+                // Print the list of the transactions
+                dataBucket.printTransactions(hour1, minutes1, hour2, minutes2);
+                break;
+            }
+            off += sizeof(DataBucket);
+        }
+        if(found)
+            break;
+        current = current->getNext();
+    }
+}
+
+void Bucket::printTransactions(char *userId, int hour1, int minutes1, int day1, int month1, int year1,
+        int hour2, int minutes2, int day2, int month2, int year2) {
+    DataBucket dataBucket;
+    int found = 0;
+    /* Search Into the Buckets */
+    Bucket *current = this;
+    while( current != NULL ) {
+        int off = 0;
+        while ( off < this->offset ) {
+            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+            /* We can see if it is the current name */
+            if(strcmp(userId, dataBucket.getName()) == 0) {
+                found = 1;
+                // Print the list of the transactions
+                dataBucket.printTransactions(hour1, minutes1, day1, month1, year1, hour2, minutes2, day2, month2, year2);
+                break;
+            }
+            off += sizeof(DataBucket);
+        }
+        if(found)
+            break;
+        current = current->getNext();
+    }
+}
+
+
+
 int Bucket::getEarnings(char *userId) {
     DataBucket dataBucket;
     int found = 0;
@@ -106,6 +157,7 @@ int Bucket::getEarnings(char *userId, int hour1, int minutes1, int hour2, int mi
             if(strcmp(userId, dataBucket.getName()) == 0) {
                 found = 1;
                 // Print the list of the transactions
+                printf("Buckettttt \n");
                 earnings = dataBucket.getEarnings(hour1, minutes1, hour2, minutes2);
                 break;
             }

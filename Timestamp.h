@@ -18,7 +18,6 @@ class Timestamp {
     public:
         Timestamp(int, int ,int , int, int);
         /* Functions that gives me if the d1 is less than d2 including hour */
-        int isLessThan(Timestamp&);
         int isBetween(Timestamp&, Timestamp&);
         int isBetweenDays(int, int, int, int, int, int, int, int, int, int);
         int isBetweenHour(int, int, int, int);

@@ -31,6 +31,9 @@ class Bucket {
         int addTransaction(char* user, Transaction *transaction);
         int findUser(char *name);
         void printTransactions(char *userId);
+        void printTransactions(char *userId, int, int, int, int);
+        void printTransactions(char *userId, int hour1, int minutes1, int day1, int month1, int year1,
+                                   int hour2, int minutes2, int day2, int month2, int year2);
         //int addTransaction(char *name, Transaction *transaction);
         void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
                 WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);

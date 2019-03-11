@@ -31,6 +31,9 @@ class UsersHashTable {
         void traverseTransactions(char *user, Transaction *transaction, WalletHashTable *walletHashTable,
                 TreeHashTable *treeHashTable);
         void printTransactions(char* userId);
+        void printTransactions(char* userId, int hour1, int minutes1, int hour2, int minutes2);
+        void printTransactions(char* userId, int hour1, int minutes1, int day1, int month1, int year1,
+                                           int hour2, int minutes2, int day2, int month2, int year2);
         int getEarnings (char *userId);
         int getEarnings (char *userId, int hour1, int minutes1, int hour2, int minutes2);
         int getEarnings (char *userId, int hour1, int minutes1, int day1, int month1, int year1, int hour2,

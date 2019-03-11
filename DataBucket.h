@@ -29,6 +29,9 @@ class DataBucket {
         void addTransaction(Transaction *head, Transaction *transaction);
         char* getName();
         void printTransactions();
+        void printTransactions(int day1, int minutes1, int day2, int minutes2);
+        void printTransactions(int hour1, int minutes1, int day1, int month1, int year1, int hour2, int minutes2,
+                                       int day2, int month2, int year2);
         void traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
                 WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
         void printName();

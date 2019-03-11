@@ -67,8 +67,19 @@ int UsersHashTable::addTransaction(char *user, Transaction *transaction) {
 
 void UsersHashTable::printTransactions(char *userId) {
     int hash = hashFunction(userId);
-    printf("%d %s HASHHHH\n", hash, userId);
     this->buckets[hash]->printTransactions(userId);
+}
+
+void UsersHashTable::printTransactions(char* userId, int hour1, int minutes1, int hour2, int minutes2) {
+    int hash = hashFunction(userId);
+    this->buckets[hash]->printTransactions(userId, hour1, minutes1, hour2, minutes2);
+}
+
+void UsersHashTable::printTransactions(char* userId, int hour1, int minutes1, int day1, int month1, int year1,
+        int hour2, int minutes2, int day2, int month2, int year2) {
+    int hash = hashFunction(userId);
+    this->buckets[hash]->printTransactions(userId, hour1, minutes1, day1, month1, year1, hour2, minutes2, day2,
+            month2, year2);
 }
 
 int UsersHashTable::getEarnings (char *userId) {
@@ -78,6 +89,7 @@ int UsersHashTable::getEarnings (char *userId) {
 
 int UsersHashTable::getEarnings (char *userId, int hour1, int minutes1, int hour2, int minutes2) {
     int hash = hashFunction(userId);
+    printf("HASH HOUR DAY %s %d", userId, hash);
     return this->buckets[hash]->getEarnings(userId, hour1, minutes1, hour2, minutes2);
 }
 

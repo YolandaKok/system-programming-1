@@ -58,12 +58,14 @@ void DataBucket::removeTransactions() {
     this->head = NULL;
 }
 
+
 void DataBucket::printTransactions() {
     Transaction *current = this->head, *temp;
     while( current != NULL ) {
         //if(!current->getVirtualTransaction()) {
             printf("Sender: %s, Receiver: %s, Amount: %d, Id: %s \n", current->getSender(), current->getReceiver(),
                    current->getAmount(), current->getTransactionId());
+            printf("%d memory\n", current);
         //}
         current = current->getNext();
     }
@@ -103,6 +105,7 @@ int DataBucket::getEarnings() {
         /* printf("Sender: %s, Receiver: %s, Amount: %d, Id: %s \n", current->getSender(), current->getReceiver(),
                current->getAmount(), current->getTransactionId()); */
             earnings += current->getAmount();
+            printf("XOXOXOXOOXOX\n");
         }
         current = current->getNext();
     }

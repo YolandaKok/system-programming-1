@@ -110,7 +110,6 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
                     /* Pass CoinNode to the transaction */
                     current_coin = current_coin->getNext();
                     remainder = transaction->getRemainder();
-                    //current->insertLast(transaction);
                 }
             }
             else {
@@ -119,11 +118,7 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
         }
         current->print();
         current = current->next;
-        printf("new\n");
-        //printf("%s lala\n", current_coin->getCoinId());
-        printf("new2\n");
     }
-    receiverHashTable->printTransactions(transaction->getSender());
 }
 
 void Transaction::setTimestamp(Timestamp *timestamp) {
@@ -223,9 +218,19 @@ Timestamp* Transaction::getTimeStamp() {
 }
 
 Transaction::~Transaction() {
-    //printf("delete transaction %s\n", this->transactionId);
-    free(this->receiver); free(this->sender);
-    free(this->transactionId);
+    //printf("%s Delete transaction\n", this->transactionId);
+    //printf("%d Memoryyyyy\n", this);
+    if(this->receiver != NULL) {
+        free(this->receiver);
+        this->receiver = NULL;
+        free(this->sender);
+        free(this->transactionId);
+        this->sender = NULL;
+        this->transactionId = NULL;
+    }
+
     if(this->timestamp != NULL)
         delete this->timestamp;
+
+
 }

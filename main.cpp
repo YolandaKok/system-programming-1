@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
     char *bitCoinBalancesFile, *transactionsFile = NULL;
     int bitCoinValue;
     int senderHashTableNumOfEntries, receiverHashTableNumOfEntries, bucketSize;
-    FILE *fp = NULL, *fp1 = NULL;
+    FILE *fp = NULL, *fp1 = NULL, *fp2 = NULL;
     /* Create a hashtable for the senders */
     UsersHashTable *senderHashTable = NULL, *receiverHashTable = NULL;
     WalletHashTable *walletHashTable = NULL;
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
     int earnings, payments, money;
     char *userId;
     /* Switch for the commands */
-    while(strcmp(command, "exit")) {
+    while(strcmp(command, "/exit")) {
         read = getline(&line, &len, stdin);
         length = strlen(line);
         if( line[length-1] == '\n' )
@@ -106,7 +106,10 @@ int main(int argc, char* argv[]) {
                     requestTransactions(token, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
                 }
                 else {
-                    printf("It is a file\n");
+                    token = strtok(NULL, " ");
+                    printf("It is a file %s \n", token);
+                    fp2 = fopen( token, "r");
+                    // requestTransactionsFile(fp2, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
                 }
             }
             else if(!strcmp(token, "/bitCoinStatus")) {
@@ -117,7 +120,7 @@ int main(int argc, char* argv[]) {
                 token = strtok(NULL, " ");
                 treeHashTable->traceCoin(token);
             }
-            else if(!strcmp(token, "exit")) {
+            else if(!strcmp(token, "/exit")) {
                 token = strtok(NULL, " ");
                 delete walletHashTable;
                 delete senderHashTable;

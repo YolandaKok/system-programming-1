@@ -11,7 +11,7 @@
 
 /* Constructor of a bucket */
 Bucket::Bucket(int bytes) {
-    this->records = (char*)malloc(bytes);
+    this->records = (void*)malloc(bytes);
     this->remainingBytes = bytes;
     this->offset = 0;
     this->next = NULL;
@@ -23,13 +23,14 @@ int Bucket::sizeInBytes() {
 
 /* Transaction will be added to the DataBucket */
 int Bucket::addUser(char *name, Transaction *transaction) {
-    if(offset + sizeof(DataBucket) < this->remainingBytes) {
+    if(this->offset + sizeof(DataBucket) < this->remainingBytes) {
         DataBucket dataBucket;
         dataBucket.setName(name);
         dataBucket.setTransactionListHead(transaction);
-
-        memcpy(this->records + offset, &dataBucket, sizeof(DataBucket));
+        printf("%s add User\n", name);
+        memcpy(this->records + this->offset, &dataBucket, sizeof(DataBucket));
         this->offset += sizeof(DataBucket);
+        printf("%d offset\n", this->offset);
     }
     else {
         if( this->next == NULL ) {
@@ -49,8 +50,8 @@ void Bucket::printTransactions(char *userId) {
     Bucket *current = this;
     while( current != NULL ) {
         int off = 0;
-        while ( off < this->offset ) {
-            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+        while ( off < current->offset ) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
             if(strcmp(userId, dataBucket.getName()) == 0) {
                 found = 1;
@@ -73,8 +74,8 @@ void Bucket::printTransactions(char *userId, int hour1, int minutes1, int hour2,
     Bucket *current = this;
     while( current != NULL ) {
         int off = 0;
-        while ( off < this->offset ) {
-            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+        while ( off < current->offset ) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
             if(strcmp(userId, dataBucket.getName()) == 0) {
                 found = 1;
@@ -98,8 +99,8 @@ void Bucket::printTransactions(char *userId, int hour1, int minutes1, int day1, 
     Bucket *current = this;
     while( current != NULL ) {
         int off = 0;
-        while ( off < this->offset ) {
-            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+        while ( off < current->offset ) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
             if(strcmp(userId, dataBucket.getName()) == 0) {
                 found = 1;
@@ -123,14 +124,18 @@ int Bucket::getEarnings(char *userId) {
     int earnings = 0;
     /* Search Into the Buckets */
     Bucket *current = this;
+    printf("XOOX1111\n");
+    printf("%d DataBucket\n", sizeof(DataBucket));
+    printf("%s\n", userId);
     while( current != NULL ) {
         int off = 0;
-        while ( off < this->offset ) {
-            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+        while ( off < current->offset ) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
             if(strcmp(userId, dataBucket.getName()) == 0) {
                 found = 1;
                 // Print the list of the transactions
+                printf("XOOX\n");
                 earnings = dataBucket.getEarnings();
                 break;
             }
@@ -151,8 +156,8 @@ int Bucket::getEarnings(char *userId, int hour1, int minutes1, int hour2, int mi
     Bucket *current = this;
     while( current != NULL ) {
         int off = 0;
-        while ( off < this->offset ) {
-            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+        while ( off < current->offset ) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
             if(strcmp(userId, dataBucket.getName()) == 0) {
                 found = 1;
@@ -179,8 +184,8 @@ int Bucket::getEarnings(char *userId, int hour1, int minutes1, int day1, int mon
     Bucket *current = this;
     while( current != NULL ) {
         int off = 0;
-        while ( off < this->offset ) {
-            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+        while ( off < current->offset ) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
             if(strcmp(userId, dataBucket.getName()) == 0) {
                 found = 1;
@@ -207,8 +212,8 @@ void Bucket::traverseTransactions(char *user, Transaction *transaction, UsersHas
     Bucket *current = this;
     while( current != NULL ) {
         int off = 0;
-        while ( off < this->offset ) {
-            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+        while ( off < current->offset ) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
             if(strcmp(user, dataBucket.getName()) == 0) {
                 dataBucket.traverseTransactions(user, transaction, receiverHashTable, walletHashTable, treeHashTable);
@@ -259,8 +264,8 @@ int Bucket::findUser(char *name) {
     Bucket *current = this;
     while( current != NULL ) {
         int off = 0;
-        while ( off < this->offset ) {
-            memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+        while ( off < current->offset ) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             /* We can see if it is the current name */
             if(strcmp(name, dataBucket.getName()) == 0) {
                 found = 1;
@@ -272,28 +277,24 @@ int Bucket::findUser(char *name) {
             break;
         current = current->getNext();
     }
+    printf("%s %d\n", name, found);
     return found;
 }
 
-/*int Bucket::addTransaction(char *name, Transaction *transaction) {
-    /* Find if user exists into the buckets */
-
-    /* If it exists insert the transaction into this */
-    /* If it does not exist make a new DataBucket */
-//}
 
 /* Traverse the buckets' list */
 void Bucket::printUsers() {
+    Bucket *current = this;
     /* Print all the users */
     DataBucket dataBucket;
-    int off = 0;
-    while (off < this->offset) {
-        memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
-        dataBucket.printName();
-        off += sizeof(DataBucket);
-    }
-    if(this->next != NULL) {
-        this->next->printUsers();
+    while(current != NULL) {
+        int off = 0;
+        while (off < current->offset) {
+            memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
+            dataBucket.printName();
+            off += sizeof(DataBucket);
+        }
+        current = current->next;
     }
 }
 

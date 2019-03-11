@@ -249,10 +249,9 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
 }
 
 
-int findBitCoinStatus(char *bitCoinId, TreeHashTable *treeHashTable) {
+int findBitCoinStatus(char *bitCoinId, TreeHashTable *treeHashTable, int initialValue) {
     int unspent = treeHashTable->findUnspent(bitCoinId);
-    printf("%d Unspent \n", unspent);
     /* Find The number of transactions */
     int num_of_transactions = treeHashTable->findNumberOfTransactions(bitCoinId);
-    printf("%d Number of Transactions\n", num_of_transactions);
+    printf("Initial Value: %d Transactions: %d Unspent: %d \n", initialValue, num_of_transactions, unspent);
 }

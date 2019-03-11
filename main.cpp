@@ -164,20 +164,14 @@ int main(int argc, char* argv[]) {
                 else {
                     printf("It is a file\n");
                 }
-                //token1 = strtok_r(token2, ";", &token2);
-                /* Find if it is an input file or transactions from stdin */
-                printf("%s ttetete\n", token);
             }
             else if(!strcmp(token, "/bitCoinStatus")) {
                 token = strtok(NULL, " ");
-                printf("%s BitCoinId\n", token);
-                findBitCoinStatus(token, treeHashTable);
-                treeHashTable->printCoin(token);
+                findBitCoinStatus(token, treeHashTable, bitCoinValue);
             }
             else if(!strcmp(token, "/traceCoin")) {
                 token = strtok(NULL, " ");
-                printf("%s BitCoinId\n", token);
-                //traceCoin(token, treeHashTable);
+                treeHashTable->traceCoin(token);
             }
             else if(!strcmp(token, "exit")) {
                 token = strtok(NULL, " ");

@@ -34,6 +34,14 @@ int Timestamp::isBetweenDays(int hour1, int minutes1, int day1, int month1, int 
     return 0;
 }
 
+/* Print the timestamp */
+void Timestamp::print() {
+    if(this->minutes < 10) {
+        printf(" %d-%d-%d %d:0%d\n", this->day, this->month, this->year, this->hour, this->minutes);
+    } else {
+        printf(" %d-%d-%d %d:%d\n", this->day, this->month, this->year, this->hour, this->minutes);
+    }
+}
 
 Timestamp::~Timestamp() {
 

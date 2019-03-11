@@ -22,6 +22,7 @@ class Timestamp {
         int isBetween(Timestamp&, Timestamp&);
         int isBetweenDays(int, int, int, int, int, int, int, int, int, int);
         int isBetweenHour(int, int, int, int);
+        void print();
         ~Timestamp();
 
 };

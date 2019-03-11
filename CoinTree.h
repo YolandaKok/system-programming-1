@@ -24,6 +24,7 @@ class CoinTree {
         CoinNode* getRoot(char *coinId);
         int findUnspent(char *coinId);
         int findNumberOfTransactions(char *coinId);
+        void traceCoin(char *coinId);
         CoinTree* getNext();
         void setRoot(char *owner, int value, char *coinId);
         void print();

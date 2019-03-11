@@ -34,10 +34,8 @@ void CoinNode::setNext(CoinNode *coin) {
 }
 
 void CoinNode::print() {
-    printf("%s Owner %d amount %s id \n", this->owner, this->value, this->coinId);
-    printf("TRANSACTION !\n");
     if(this->transaction != NULL)
-        this->transaction->print();
+        this->transaction->printTransaction();
 }
 
 void CoinNode::printNodes(CoinNode *node) {
@@ -55,6 +53,22 @@ void CoinNode::printNodes(CoinNode *node) {
     printNodes(node->right);
 }
 
+void CoinNode::traceCoin(CoinNode *node) {
+
+    if (node == NULL)
+        return;
+
+    /* first print data of node */
+    node->print();
+
+    /* then recur on left sutree */
+    printNodes(node->left);
+
+    /* now recur on right subtree */
+    printNodes(node->right);
+}
+
+
 int CoinNode::findUnspent() {
     int unspent = this->value;
     int count = 0;
@@ -66,16 +80,15 @@ int CoinNode::findUnspent() {
         current = current->right;
         count++;
     }
-    if(this->left != NULL)
+    /*if(this->left != NULL)
         printf("Left: %d\n", this->left->getValue());
     if(this->right != NULL)
-        printf("Right: %d\n", this->right->getValue());
+        printf("Right: %d\n", this->right->getValue());*/
     if(previous->left != NULL) {
-        printf("%d Previous Left \n", previous->left->getValue());
+        //printf("%d Previous Left \n", previous->left->getValue());
         unspent = 0;
     }
-    //if()
-    printf("%d COUNT \n", count);
+   // printf("%d COUNT \n", count);
     return unspent;
 }
 

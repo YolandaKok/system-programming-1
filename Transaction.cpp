@@ -21,9 +21,16 @@ Transaction* Transaction::getNext () {
     return this->next;
 }
 
+void Transaction::printTransaction() {
+    /* Let's also print the timestamp of the transaction */
+    printf("%s %s %s %d", this->transactionId, this->sender, this->receiver, this->amount);
+    this->timestamp->print();
+}
+
 void Transaction::print() {
-    //Timestamp *timestamp_current = this->timestamp->
-    printf("%s %s %s %d \n", this->transactionId, this->sender, this->receiver, this->amount);
+    /* Let's also print the timestamp of the transaction */
+    printf("%s %s %s %d\n", this->transactionId, this->sender, this->receiver, this->amount);
+    //this->timestamp->print();
 }
 
 void Transaction::traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,

@@ -61,10 +61,9 @@ int TreeHashTable::findUnspent(char *coinId) {
 }
 
 
-void TreeHashTable::printCoin(char *coinId) {
+void TreeHashTable::traceCoin(char *coinId) {
     int i = hashFunction(coinId);
-    printf("%d xiixixixixskalk!!!!\n", i);
-    this->trees[i]->printNodes(coinId);
+    this->trees[i]->traceCoin(coinId);
 }
 
 CoinNode* TreeHashTable::getRoot(char *coinId) {

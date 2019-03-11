@@ -62,6 +62,7 @@ class Transaction {
         void setTimestamp(Timestamp*);
         Timestamp* getTimeStamp();
         void print();
+        void printTransaction();
         ~Transaction();
 };
 

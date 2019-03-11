@@ -25,6 +25,7 @@ class TreeHashTable {
         CoinNode* getRoot(char *coinId);
         int findUnspent(char *coinId);
         int findNumberOfTransactions(char *coinId);
+        void traceCoin(char*);
         ~TreeHashTable();
 
 };

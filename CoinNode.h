@@ -35,6 +35,7 @@ class CoinNode {
         void deleteTree(CoinNode *root);
         int findUnspent();
         char *getOwner();
+        void traceCoin(CoinNode *node);
         int findNumberOfTransactions(CoinNode *root);
         ~CoinNode();
 };

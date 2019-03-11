@@ -85,6 +85,19 @@ void CoinTree::printNodes(char *coinId) {
     }
 }
 
+
+void CoinTree::traceCoin(char *coinId) {
+    CoinTree *current = this;
+    while (current != NULL ) {
+        if(strcmp(current->coinId, coinId) == 0) {
+            current->root->traceCoin(current->root);
+            break;
+        }
+        current = current->next;
+    }
+}
+
+
 /* Find the number of transactions */
 int CoinTree::findNumberOfTransactions(char *coinId){
     int transactions;

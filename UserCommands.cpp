@@ -249,7 +249,7 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
 }
 
 
-void findEarnings(char *userId, UsersHashTable *receiverHashTable, char *token) {
+void findEarnings(char *userId, UsersHashTable *receiverHashTable, char *token, int payments) {
     char *token2 = token;
     char *token1;
     int hour1 = -1, minutes1 = -1, hour2 = -1, minutes2 = -1, day1 = -1;
@@ -293,13 +293,23 @@ void findEarnings(char *userId, UsersHashTable *receiverHashTable, char *token) 
         earnings = receiverHashTable->getEarnings(userId, hour1, minutes1, hour2, minutes2);
         /* Print the transactions between these hours */
         /* New function for this */
-        printf("WalletId: %s Earnings: %d \n", userId, earnings);
+        if( payments ) {
+            printf("WalletId: %s Payments: %d \n", userId, earnings);
+        }
+        else {
+            printf("WalletId: %s Earnings: %d \n", userId, earnings);
+        }
         receiverHashTable->printTransactions(userId, hour1, minutes1, hour2, minutes2);
     }
     else {
-        printf("WalletId: %s Earnings: %d \n", userId, earnings);
         earnings = receiverHashTable->getEarnings(userId, hour1, minutes1, day1, month1, year1,
                                                   hour2, minutes2, day2, month2, year2);
+        if( payments ) {
+            printf("WalletId: %s Payments: %d \n", userId, earnings);
+        }
+        else {
+            printf("WalletId: %s Earnings: %d \n", userId, earnings);
+        }
         receiverHashTable->printTransactions(userId, hour1, minutes1, day1, month1, year1,
                                              hour2, minutes2, day2, month2, year2);
     }

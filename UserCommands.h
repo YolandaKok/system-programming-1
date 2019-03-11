@@ -18,6 +18,6 @@ int requestTransaction(char *token, UsersHashTable *receiverHashTable,
 void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHashTable *senderHashTable,
                          WalletHashTable *walletHashTable, TreeHashTable *treeHashTable);
 int findBitCoinStatus(char *, TreeHashTable*, int);
-void findEarnings(char *userId, UsersHashTable *usersHashTable, char *token);
+void findEarnings(char *userId, UsersHashTable *usersHashTable, char *token, int payments);
 
 #endif //SYSTEM_PROGRAMMING_1_USERCOMMANDS_H

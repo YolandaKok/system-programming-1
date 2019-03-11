@@ -72,14 +72,21 @@ int main(int argc, char* argv[]) {
                     receiverHashTable->printTransactions(userId);
                 }
                 else {
-                    findEarnings(userId, receiverHashTable, token);
+                    findEarnings(userId, receiverHashTable, token, 0);
                 }
             }
             else if(!strcmp(token, "/findPayments")) {
                 token = strtok(NULL, " ");
-                senderHashTable->printTransactions(token);
-                payments = senderHashTable->getEarnings(token);
-                printf("% WalletId: %s Payments: %d \n", token, payments);
+                userId = token;
+                token = strtok(NULL, ":");
+                if( token == NULL ) {
+                    payments = senderHashTable->getEarnings(userId);
+                    printf("WalletId: %s Payments: %d \n", userId, payments);
+                    senderHashTable->printTransactions(userId);
+                }
+                else {
+                    findEarnings(userId, senderHashTable, token, 1);
+                }
             }
             else if(!strcmp(token, "/walletStatus")) {
                 token = strtok(NULL, " ");

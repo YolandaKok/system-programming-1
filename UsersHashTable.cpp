@@ -34,7 +34,7 @@ int UsersHashTable::hashFunction(char *userId) {
 void UsersHashTable::traverseTransactions(char *user, Transaction *transaction, WalletHashTable *walletHashTable, TreeHashTable *treeHashTable) {
     int i = hashFunction(user);
     /* If the user exists go to the next */
-    if( this->buckets[i]->findUser(user) == 1 ) {
+    if( this->buckets[i]->findUser(user, this->buckets[i]) == 1 ) {
         this->buckets[i]->traverseTransactions(user, transaction, this, walletHashTable, treeHashTable);
     }
 }
@@ -54,7 +54,7 @@ int UsersHashTable::addTransaction(char *user, Transaction *transaction) {
     else {
         /* Find if the user exists */
         /* If it does not exists */
-        if(this->buckets[i]->findUser(user) == 0) {
+        if(this->buckets[i]->findUser(user, this->buckets[i]) == 0) {
             /* Add User to the bucket and First Transaction to the DataBucket */
             this->buckets[i]->addUser(user, transaction);
         }
@@ -109,6 +109,10 @@ void UsersHashTable::printUsers() {
     }
 }
 
+void UsersHashTable::printUsersBucket(int i) {
+    this->buckets[i]->printUserBucket();
+}
+
 /* Insert the sender and the transaction */
 void insertSender(char *sender) {
     /* Hash the value */
@@ -123,13 +127,7 @@ UsersHashTable::~UsersHashTable() {
     /* Deallocate memory for the buckets array */
     for( i = 0; i < this->size; i++ ) {
         if(this->buckets[i] != NULL) {
-            // delete this->buckets[i];
-            current = this->buckets[i];
-            while( current != NULL ) {
-                temp = current->getNext();
-                delete current;
-                current = temp;
-            }
+            delete this->buckets[i];
         }
     }
     free(this->buckets);

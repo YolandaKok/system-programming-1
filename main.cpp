@@ -123,6 +123,7 @@ int main(int argc, char* argv[]) {
             else if(!strcmp(token, "/exit")) {
                 token = strtok(NULL, " ");
                 delete walletHashTable;
+                receiverHashTable->printUsers();
                 delete senderHashTable;
                 delete receiverHashTable;
                 delete treeHashTable;

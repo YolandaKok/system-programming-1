@@ -28,6 +28,7 @@ class UsersHashTable {
         /* Add Transaction to the bucket */
         int addTransaction(char *user, Transaction *transaction);
         void printUsers();
+        void printUsersBucket(int i);
         void traverseTransactions(char *user, Transaction *transaction, WalletHashTable *walletHashTable,
                 TreeHashTable *treeHashTable);
         void printTransactions(char* userId);

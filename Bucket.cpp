@@ -28,6 +28,7 @@ int Bucket::addUser(char *name, Transaction *transaction) {
         dataBucket.setName(name);
         dataBucket.setTransactionListHead(transaction);
         printf("%s add User\n", name);
+        printf("Transaction: %s %s %s \n", transaction->getTransactionId(), transaction->getSender(), transaction->getReceiver());
         memcpy(this->records + this->offset, &dataBucket, sizeof(DataBucket));
         this->offset += sizeof(DataBucket);
         printf("%d offset\n", this->offset);
@@ -124,9 +125,6 @@ int Bucket::getEarnings(char *userId) {
     int earnings = 0;
     /* Search Into the Buckets */
     Bucket *current = this;
-    printf("XOOX1111\n");
-    printf("%d DataBucket\n", sizeof(DataBucket));
-    printf("%s\n", userId);
     while( current != NULL ) {
         int off = 0;
         while ( off < current->offset ) {
@@ -257,11 +255,11 @@ int Bucket::addTransaction(char *user, Transaction *transaction) {
 }
 
 /* Returns true or false */
-int Bucket::findUser(char *name) {
+int Bucket::findUser(char *name, Bucket *head) {
     DataBucket dataBucket;
     int found = 0;
     /* Search Into the Buckets */
-    Bucket *current = this;
+    Bucket *current = head;
     while( current != NULL ) {
         int off = 0;
         while ( off < current->offset ) {
@@ -282,11 +280,22 @@ int Bucket::findUser(char *name) {
 }
 
 
+void Bucket::printUserBucket() {
+    DataBucket dataBucket;
+    int off = 0;
+    while (off < this->offset) {
+        memcpy(&dataBucket, this->records + off, sizeof(DataBucket));
+        dataBucket.printName();
+        off += sizeof(DataBucket);
+    }
+}
+
 /* Traverse the buckets' list */
 void Bucket::printUsers() {
     Bucket *current = this;
     /* Print all the users */
     DataBucket dataBucket;
+    int count = 0;
     while(current != NULL) {
         int off = 0;
         while (off < current->offset) {
@@ -295,7 +304,9 @@ void Bucket::printUsers() {
             off += sizeof(DataBucket);
         }
         current = current->next;
+        count++;
     }
+    printf("%d\n", count);
 }
 
 Bucket* Bucket::getNext() {
@@ -304,20 +315,21 @@ Bucket* Bucket::getNext() {
 
 Bucket::~Bucket() {
     /* For every DataBucket Delete The Transactions List */
-    DataBucket dataBucket;
     int found = 0;
     /* Search Into the Buckets */
     Bucket *current = this;
+    int count = 0;
     while( current != NULL ) {
         int off = 0;
         while ( off < current->offset ) {
+            DataBucket dataBucket;
             memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             dataBucket.removeTransactions();
             /* We can see if it is the current name */
             off += sizeof(DataBucket);
         }
+        free(current->records);
         current = current->next;
     }
-    free(this->records);
 }
 

@@ -29,7 +29,7 @@ class Bucket {
         int sizeInBytes();
         int addUser(char *name, Transaction *transaction);
         int addTransaction(char* user, Transaction *transaction);
-        int findUser(char *name);
+        int findUser(char *name, Bucket *head);
         void printTransactions(char *userId);
         void printTransactions(char *userId, int, int, int, int);
         void printTransactions(char *userId, int hour1, int minutes1, int day1, int month1, int year1,
@@ -42,6 +42,7 @@ class Bucket {
         int getEarnings(char *userId);
         int getEarnings(char *userId, int hour1, int minutes1, int hour2, int minutes2);
         int getEarnings(char *userId, int hour1, int minutes1, int day1, int month1, int year1, int hour2, int minutes2, int day2, int month2, int year2);
+        void printUserBucket();
         ~Bucket();
 
 };

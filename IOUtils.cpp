@@ -167,32 +167,23 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
                 transaction1->setAmount(atoi(token));
             }
             else if(count == 4) {
-                printf("Date: %s \n", token);
                 char *token2 = token;
                 token1 = strtok_r(token2, "-", &token2);
-                printf("%s Day\n", token1);
                 day = atoi(token1);
                 token1 = strtok_r(NULL, "-", &token2);
                 month = atoi(token1);
-                printf("%s Month\n", token1);
                 token1 = strtok_r(NULL, " ", &token2);
                 year = atoi(token1);
-                printf("%s Year\n", token1);
-                printf("%s tttt\n", token);
             }
             else if(count == 5) {
                 char *token3 = token;
-                printf("HOURRRRR %s\n", token);
                 token1 = strtok(token3, ":");
                 hour = atoi(token1);
-                printf("%s Hour\n", token1);
                 token1 = strtok(NULL, ":");
                 minutes = atoi(token1);
-                printf("%s Minutes\n", token1);
             }
             token = strtok(NULL, " ");
             count++;
-            printf("token %s \n", token);
         }
         Timestamp *timestamp = new Timestamp(day, month, year, hour, minutes);
         Timestamp *timestamp1 = new Timestamp(day, month, year, hour, minutes);
@@ -256,7 +247,6 @@ int dateIsValid(int day, int month, int year, int hour, int minutes) {
     t_of_day2 = mktime(&t);
 
     if((t_of_day - t_of_day2) >= 0) {
-        printf("%ld TIMEEEEE \n", t_of_day - t_of_day2);
         printf("%d current_day %d current_month %d month %d day\n", current_day, current_month, day, month);
         return 1;
     }

@@ -116,7 +116,6 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
                 current_coin = current_coin->getNext();
             }
         }
-        current->print();
         current = current->next;
     }
 }
@@ -220,14 +219,10 @@ Timestamp* Transaction::getTimeStamp() {
 Transaction::~Transaction() {
     //printf("%s Delete transaction\n", this->transactionId);
     //printf("%d Memoryyyyy\n", this);
-    if(this->receiver != NULL) {
-        free(this->receiver);
-        this->receiver = NULL;
-        free(this->sender);
-        free(this->transactionId);
-        this->sender = NULL;
-        this->transactionId = NULL;
-    }
+    free(this->receiver);
+    free(this->sender);
+    free(this->transactionId);
+
 
     if(this->timestamp != NULL)
         delete this->timestamp;

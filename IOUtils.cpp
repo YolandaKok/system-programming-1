@@ -89,7 +89,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
                     transaction->setReceiver(userId);
                     transaction->setSender(userId);
                     transaction->setAmount(coinValue);
-                    //transaction->setTransactionId("1");
+                    transaction->setTransactionId("1");
                     transaction->setVirtualTransaction(1);
                     /* Add the CoinNode List Head */
                     transaction->setCoinNodeListHead(coinNode);
@@ -109,7 +109,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
                     transaction->setReceiver(userId);
                     transaction->setSender(userId);
                     transaction->setAmount(coinValue);
-                    //transaction->setTransactionId("2");
+                    transaction->setTransactionId("2");
                     transaction->setVirtualTransaction(1);
                     /* Set CoinNode List Head for virtual transaction */
                     transaction->setCoinNodeListHead(coinNode);

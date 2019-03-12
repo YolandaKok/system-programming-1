@@ -224,7 +224,6 @@ void Bucket::traverseTransactions(char *user, Transaction *transaction, UsersHas
             break;
         current = current->getNext();
     }
-    // return found;
 }
 
 int Bucket::addTransaction(char *user, Transaction *transaction) {
@@ -315,13 +314,13 @@ Bucket* Bucket::getNext() {
 Bucket::~Bucket() {
     /* For every DataBucket Delete The Transactions List */
     int found = 0;
+    DataBucket dataBucket;
     /* Search Into the Buckets */
     Bucket *current = this;
     int count = 0;
     while( current != NULL ) {
         int off = 0;
         while ( off < current->offset ) {
-            DataBucket dataBucket;
             memcpy(&dataBucket, current->records + off, sizeof(DataBucket));
             dataBucket.removeTransactions();
             /* We can see if it is the current name */

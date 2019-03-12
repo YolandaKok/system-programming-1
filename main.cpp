@@ -119,8 +119,8 @@ int main(int argc, char* argv[]) {
                 else {
                     token = strtok(NULL, " ");
                     printf("It is a file %s \n", token);
-                    fp2 = fopen( token, "r");
-                    // requestTransactionsFile(fp2, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
+                    fp2 = fopen( token, "r" );
+                    requestTransactionsFile(fp2, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
                 }
             }
             else if(!strcmp(token, "/bitCoinStatus")) {
@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
             else if(!strcmp(token, "/exit")) {
                 token = strtok(NULL, " ");
                 delete walletHashTable;
-                senderHashTable->printUsers();
+                receiverHashTable->printUsers();
                 delete senderHashTable;
                 delete receiverHashTable;
                 delete treeHashTable;

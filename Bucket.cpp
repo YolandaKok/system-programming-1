@@ -306,7 +306,6 @@ void Bucket::printUsers() {
         current = current->next;
         count++;
     }
-    printf("%d\n", count);
 }
 
 Bucket* Bucket::getNext() {

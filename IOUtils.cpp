@@ -77,12 +77,19 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
             }
             else {
                 if(count == 1) {
+                    if(treeHashTable->findCoin(token)) {
+                        printf("Error with transaction file\n");
+                        free(userId);
+                        free(line);
+                        fclose(fp);
+                        return 0;
+                    }
                     coinNode = treeHashTable->insert(token, userId, coinValue);
                     transaction = new Transaction();
                     transaction->setReceiver(userId);
                     transaction->setSender(userId);
                     transaction->setAmount(coinValue);
-                    transaction->setTransactionId("1");
+                    //transaction->setTransactionId("1");
                     transaction->setVirtualTransaction(1);
                     /* Add the CoinNode List Head */
                     transaction->setCoinNodeListHead(coinNode);
@@ -90,12 +97,19 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
                     list = new ListNode(token, coinValue);
                 }
                 else {
+                    if(treeHashTable->findCoin(token)) {
+                        printf("Error with transaction file !\n");
+                        free(userId);
+                        free(line);
+                        fclose(fp);
+                        return 0;
+                    }
                     coinNode = treeHashTable->insert(token, userId, coinValue);
                     transaction = new Transaction();
                     transaction->setReceiver(userId);
                     transaction->setSender(userId);
                     transaction->setAmount(coinValue);
-                    transaction->setTransactionId("2");
+                    //transaction->setTransactionId("2");
                     transaction->setVirtualTransaction(1);
                     /* Set CoinNode List Head for virtual transaction */
                     transaction->setCoinNodeListHead(coinNode);
@@ -114,6 +128,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
 
     fclose(fp);
     free(line);
+    return 1;
 }
 
 int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiverHashTable,

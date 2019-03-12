@@ -42,7 +42,6 @@ void UsersHashTable::traverseTransactions(char *user, Transaction *transaction, 
 /* Add The transaction to the right bucket */
 int UsersHashTable::addTransaction(char *user, Transaction *transaction) {
     int i = hashFunction(user);
-    printf("%s USERRRR\n", user);
     /* Find or insert the user */
     /* Let's see if a list of buckets exists */
     if(this->buckets[i] == NULL) {

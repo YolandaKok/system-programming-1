@@ -82,6 +82,11 @@ int TreeHashTable::hashFunction(char *userId) {
     return hash % this->size;
 }
 
+int TreeHashTable::findCoin(char *coinId) {
+    int hash = hashFunction(coinId);
+    return this->trees[hash]->find(coinId);
+}
+
 TreeHashTable::~TreeHashTable() {
     CoinTree *current, *temp;
     /* Delete every TreeCoin List */

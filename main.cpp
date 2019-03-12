@@ -35,8 +35,19 @@ int main(int argc, char* argv[]) {
     treeHashTable = new TreeHashTable(3);
 
     /* Read the bitcoin balances files */
-    readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue, receiverHashTable, senderHashTable, walletHashTable,
+    int ok = readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue, receiverHashTable, senderHashTable, walletHashTable,
             treeHashTable);
+
+    if(ok == 0) {
+        delete receiverHashTable;
+        delete senderHashTable;
+        delete walletHashTable;
+        delete treeHashTable;
+        free(bitCoinBalancesFile);
+        free(transactionsFile);
+        exit(1);
+    }
+
     readTransactions(fp1, transactionsFile, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
 
     char command[200];
@@ -123,7 +134,7 @@ int main(int argc, char* argv[]) {
             else if(!strcmp(token, "/exit")) {
                 token = strtok(NULL, " ");
                 delete walletHashTable;
-                receiverHashTable->printUsers();
+                senderHashTable->printUsers();
                 delete senderHashTable;
                 delete receiverHashTable;
                 delete treeHashTable;

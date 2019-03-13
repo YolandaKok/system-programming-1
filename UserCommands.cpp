@@ -231,22 +231,29 @@ void requestTransactionsFile(FILE *fp, UsersHashTable *receiverHashTable, UsersH
         transaction1->setVirtualTransaction(0);
         balance = walletHashTable->getBalance(transaction->getSender());
         /* Let's do the transaction */
-        if( (balance - transaction->getAmount()) >= 0)  {
-            if(dateIsValid(day, month, year, hour, minutes)) {
-                current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
-                receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
-                senderHashTable->addTransaction(transaction->getSender(), transaction);
+        if(strcmp(transaction->getSender(), transaction->getReceiver()) != 0) {
+            if( (balance - transaction->getAmount()) >= 0)  {
+                if(dateIsValid(day, month, year, hour, minutes)) {
+                    current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
+                    receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
+                    senderHashTable->addTransaction(transaction->getSender(), transaction);
+                }
+                else {
+                    printf("Failed ! Error with transaction time !\n");
+                    delete transaction; delete transaction1;
+                }
             }
             else {
-                printf("Failed ! Error with transaction time !\n");
+                /* User Has not enough money to make the transactiond */
+                printf("Transaction failed. User: %s has not enough money in his / her wallet. \n", transaction->getSender());
                 delete transaction; delete transaction1;
             }
         }
         else {
-            /* User Has not enough money to make the transactiond */
-            printf("Transaction failed. User: %s has not enough money in his / her wallet. \n", transaction->getSender());
+            printf("Sender has to be different from receiver !\n");
             delete transaction; delete transaction1;
         }
+
         /* End of the transaction */
         token = strtok(NULL, ";");
     }
@@ -313,6 +320,16 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
             token1 = strtok_r(token2, " ", &token2);
         }
 
+        if(count == 3) {
+            /* Insert the current date and time */
+            time_t t = time(NULL);
+            struct tm tm = *localtime(&t);
+            day = tm.tm_mday;
+            month = tm.tm_mon + 1;
+            year = tm.tm_year + 1900;
+            hour = tm.tm_hour;
+            minutes = tm.tm_min;
+        }
 
         // TODO: Make this a function
         /* Let's do that for one transaction */
@@ -345,20 +362,26 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
         transaction1->setVirtualTransaction(0);
         balance = walletHashTable->getBalance(transaction->getSender());
         /* Let's do the transaction */
-        if( (balance - transaction->getAmount()) >= 0)  {
-            if(dateIsValid(day, month, year, hour, minutes)) {
-                current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
-                receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
-                senderHashTable->addTransaction(transaction->getSender(), transaction);
+        if(strcmp(transaction->getSender(), transaction->getReceiver()) != 0) {
+            if( (balance - transaction->getAmount()) >= 0)  {
+                if(dateIsValid(day, month, year, hour, minutes)) {
+                    current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
+                    receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
+                    senderHashTable->addTransaction(transaction->getSender(), transaction);
+                }
+                else {
+                    printf("Failed ! Error with transaction time !\n");
+                    delete transaction; delete transaction1;
+                }
             }
             else {
-                printf("Failed ! Error with transaction time !\n");
+                /* User Has not enough money to make the transactiond */
+                printf("Transaction failed. User: %s has not enough money in his / her wallet. \n", transaction->getSender());
                 delete transaction; delete transaction1;
             }
         }
         else {
-            /* User Has not enough money to make the transactiond */
-            printf("Transaction failed. User: %s has not enough money in his / her wallet. \n", transaction->getSender());
+            printf("Sender has to be different from receiver !\n");
             delete transaction; delete transaction1;
         }
         /* End of the transaction */

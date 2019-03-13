@@ -223,30 +223,35 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
         transaction->setVirtualTransaction(0);
         transaction1->setVirtualTransaction(0);
         int balance = walletHashTable->getBalance(transaction->getSender());
+        if(strcmp(transaction->getSender(), transaction->getReceiver()) != 0) {
+            /* Let's do the transaction */
+            if( (balance - transaction->getAmount()) >= 0) {
 
-        /* Let's do the transaction */
-        if( (balance - transaction->getAmount()) >= 0) {
+                if(dateIsValid(day, month, year, hour, minutes) ) {
+                    current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
+                    receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
+                    senderHashTable->addTransaction(transaction->getSender(), transaction);
+                }
+                else {
+                    printf("Failed ! Error with transaction time !\n");
+                    delete transaction; delete transaction1;
+                }
 
-            if(dateIsValid(day, month, year, hour, minutes)) {
-                current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
-                receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
-                senderHashTable->addTransaction(transaction->getSender(), transaction);
+                /* For every node, testify if it is leaf */
+                /* If it is a leaf go to the CoinNode and find the amount on this node */
+                /* Create two new nodes, One with the amount left to the initial user, the right node and one with the amount transfered to the other user */
+                /* Update the wallets of the two users */
+                /* If the amount is not transfered go to the next transaction node and do the same until you transfer all the amount to the receiver */
+                /* Return the CoinNodes */
             }
             else {
-                printf("Failed ! Error with transaction time !\n");
+                /* User Has not enough money to make the transactiond */
+                printf("Transaction failed. User: %s has not enough money in his / her wallet. \n", transaction->getSender());
                 delete transaction; delete transaction1;
             }
-
-            /* For every node, testify if it is leaf */
-            /* If it is a leaf go to the CoinNode and find the amount on this node */
-            /* Create two new nodes, One with the amount left to the initial user, the right node and one with the amount transfered to the other user */
-            /* Update the wallets of the two users */
-            /* If the amount is not transfered go to the next transaction node and do the same until you transfer all the amount to the receiver */
-            /* Return the CoinNodes */
         }
         else {
-            /* User Has not enough money to make the transactiond */
-            printf("Transaction failed. User: %s has not enough money in his / her wallet. \n", transaction->getSender());
+            printf("Sender has to be different from receiver !\n");
             delete transaction; delete transaction1;
         }
     }

@@ -62,11 +62,10 @@ void DataBucket::removeTransactions() {
 void DataBucket::printTransactions() {
     Transaction *current = this->head, *temp;
     while( current != NULL ) {
-        //if(!current->getVirtualTransaction()) {
+        if(!current->getVirtualTransaction()) {
             printf("Sender: %s, Receiver: %s, Amount: %d, Id: %s \n", current->getSender(), current->getReceiver(),
                    current->getAmount(), current->getTransactionId());
-            printf("%d memory\n", current);
-        //}
+        }
         current = current->getNext();
     }
 }
@@ -102,10 +101,7 @@ int DataBucket::getEarnings() {
     Transaction *current = this->head, *temp;
     while( current != NULL ) {
         if(!current->getVirtualTransaction()) {
-        /* printf("Sender: %s, Receiver: %s, Amount: %d, Id: %s \n", current->getSender(), current->getReceiver(),
-               current->getAmount(), current->getTransactionId()); */
             earnings += current->getAmount();
-            printf("XOXOXOXOOXOX\n");
         }
         current = current->getNext();
     }
@@ -117,9 +113,6 @@ int DataBucket::getEarnings(int hour1, int minutes1, int hour2, int minutes2) {
     Transaction *current = this->head, *temp;
     while( current != NULL ) {
         if(!current->getVirtualTransaction() && current->getTimeStamp()->isBetweenHour(hour1, minutes1, hour2, minutes2)) {
-            printf("%d %d %d %d\n", hour1, minutes1, hour2, minutes2);
-            /* printf("Sender: %s, Receiver: %s, Amount: %d, Id: %s \n", current->getSender(), current->getReceiver(),
-                   current->getAmount(), current->getTransactionId()); */
             earnings += current->getAmount();
         }
         current = current->getNext();
@@ -127,14 +120,13 @@ int DataBucket::getEarnings(int hour1, int minutes1, int hour2, int minutes2) {
     return earnings;
 }
 
-int DataBucket::getEarnings(int hour1, int minutes1, int day1, int month1, int year1, int hour2, int minutes2, int day2, int month2, int year2) {
+int DataBucket::getEarnings(int hour1, int minutes1, int day1, int month1, int year1, int hour2, int minutes2, int day2,
+        int month2, int year2) {
     int earnings = 0;
     Transaction *current = this->head, *temp;
     while( current != NULL ) {
-        if(!current->getVirtualTransaction() && current->getTimeStamp()->isBetweenDays(hour1, minutes1, day1, month1, year1, hour2, minutes2, day2, month2, year2)) {
-            printf("%d %d %d %d\n", hour1, minutes1, hour2, minutes2);
-            /* printf("Sender: %s, Receiver: %s, Amount: %d, Id: %s \n", current->getSender(), current->getReceiver(),
-                   current->getAmount(), current->getTransactionId()); */
+        if(!current->getVirtualTransaction() && current->getTimeStamp()->isBetweenDays(hour1, minutes1, day1, month1,
+                year1, hour2, minutes2, day2, month2, year2)) {
             earnings += current->getAmount();
         }
         current = current->getNext();

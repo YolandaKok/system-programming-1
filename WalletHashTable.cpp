@@ -68,7 +68,6 @@ void WalletHashTable::subtractFromWallet(char *userId, char *coin, int amount) {
 /* Print Wallet of a user */
 void WalletHashTable::print(char *userId) {
     int hash = hashFunction(userId);
-    printf("%d print hash \n", hash);
     this->wallets[hash]->printCoins(userId);
 }
 

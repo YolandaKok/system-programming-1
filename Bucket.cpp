@@ -27,11 +27,8 @@ int Bucket::addUser(char *name, Transaction *transaction) {
         DataBucket dataBucket;
         dataBucket.setName(name);
         dataBucket.setTransactionListHead(transaction);
-        printf("%s add User\n", name);
-        printf("Transaction: %s %s %s \n", transaction->getTransactionId(), transaction->getSender(), transaction->getReceiver());
         memcpy(this->records + this->offset, &dataBucket, sizeof(DataBucket));
         this->offset += sizeof(DataBucket);
-        printf("%d offset\n", this->offset);
     }
     else {
         if( this->next == NULL ) {
@@ -133,7 +130,6 @@ int Bucket::getEarnings(char *userId) {
             if(strcmp(userId, dataBucket.getName()) == 0) {
                 found = 1;
                 // Print the list of the transactions
-                printf("XOOX\n");
                 earnings = dataBucket.getEarnings();
                 break;
             }
@@ -160,7 +156,6 @@ int Bucket::getEarnings(char *userId, int hour1, int minutes1, int hour2, int mi
             if(strcmp(userId, dataBucket.getName()) == 0) {
                 found = 1;
                 // Print the list of the transactions
-                printf("Buckettttt \n");
                 earnings = dataBucket.getEarnings(hour1, minutes1, hour2, minutes2);
                 break;
             }
@@ -274,7 +269,6 @@ int Bucket::findUser(char *name, Bucket *head) {
             break;
         current = current->getNext();
     }
-    printf("%s %d\n", name, found);
     return found;
 }
 
@@ -327,6 +321,7 @@ Bucket::~Bucket() {
             off += sizeof(DataBucket);
         }
         free(current->records);
+        //free(current);
         current = current->next;
     }
 }

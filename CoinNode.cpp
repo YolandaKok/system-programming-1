@@ -80,15 +80,11 @@ int CoinNode::findUnspent() {
         current = current->right;
         count++;
     }
-    /*if(this->left != NULL)
-        printf("Left: %d\n", this->left->getValue());
-    if(this->right != NULL)
-        printf("Right: %d\n", this->right->getValue());*/
+
+    /* If the left node of the previous is not null, it's not the root */
     if(previous->left != NULL) {
-        //printf("%d Previous Left \n", previous->left->getValue());
         unspent = 0;
     }
-   // printf("%d COUNT \n", count);
     return unspent;
 }
 
@@ -137,8 +133,7 @@ int CoinNode::calculateRemainder(Transaction *transaction) {
 /* Insert Coin Node */
 CoinNode* CoinNode::insertTransaction(Transaction *transaction) {
     /* Insert */
-    //this->left = new CoinNode(transaction->getReceiver(), transaction->getAmount(), this->coinId);
-    //this->left->printNodes();
+
     /* Node to the right contains */
     if(this->findRemainder(transaction) == 0) {
         /* There is some money left to sent */
@@ -157,7 +152,6 @@ CoinNode* CoinNode::insertTransaction(Transaction *transaction) {
     else {
         this->left = new CoinNode(transaction->getReceiver(), this->getValue(), this->coinId);
         this->left->setTransaction(transaction);
-        // TODO: Check if it is worth it
         this->right = NULL;
     }
     return this->right;

@@ -25,6 +25,7 @@ int main(int argc, char* argv[]) {
     readArgs( argc, argv, bitCoinBalancesFile, transactionsFile, bitCoinValue, senderHashTableNumOfEntries,
             receiverHashTableNumOfEntries, bucketSize);
 
+    /* File Opening */
     fp = fopen( bitCoinBalancesFile, "r");
     fp1 = fopen( transactionsFile, "r");
 
@@ -38,6 +39,7 @@ int main(int argc, char* argv[]) {
     int ok = readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue, receiverHashTable, senderHashTable, walletHashTable,
             treeHashTable);
 
+    /* If a bitcoin already exists exit */
     if(ok == 0) {
         delete receiverHashTable;
         delete senderHashTable;
@@ -50,9 +52,9 @@ int main(int argc, char* argv[]) {
 
     readTransactions(fp1, transactionsFile, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
 
+    /* Enter commands */
     char command[200];
     strcpy(command, "start");
-    //strcpy(command, "exit");
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
@@ -62,6 +64,7 @@ int main(int argc, char* argv[]) {
     char *userId;
     /* Switch for the commands */
     while(strcmp(command, "/exit")) {
+        printf("Enter Command: \n");
         read = getline(&line, &len, stdin);
         length = strlen(line);
         if( line[length-1] == '\n' )
@@ -113,12 +116,10 @@ int main(int argc, char* argv[]) {
                 char ch = ';';
                 ret = strchr(line2, ch);
                 if(ret != NULL) {
-                    printf("It is an stdin string !");
                     requestTransactions(token, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
                 }
                 else {
                     token = strtok(NULL, " ");
-                    printf("It is a file %s \n", token);
                     fp2 = fopen( token, "r" );
                     requestTransactionsFile(fp2, receiverHashTable, senderHashTable, walletHashTable, treeHashTable);
                 }
@@ -134,7 +135,6 @@ int main(int argc, char* argv[]) {
             else if(!strcmp(token, "/exit")) {
                 token = strtok(NULL, " ");
                 delete walletHashTable;
-                receiverHashTable->printUsers();
                 delete senderHashTable;
                 delete receiverHashTable;
                 delete treeHashTable;

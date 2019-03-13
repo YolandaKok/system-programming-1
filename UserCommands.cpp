@@ -152,23 +152,19 @@ void requestTransactionsFile(FILE *fp, UsersHashTable *receiverHashTable, UsersH
     while( token != NULL ) {
         transaction = new Transaction();
         transaction1 = new Transaction();
-        printf("%s whatttt\n", token);
         token2 = token;
         token1 = strtok_r(token2, " ", &token2);
         int count = 0;
         while( token1 != NULL ) {
             if(count == 0) {
-                printf("SenderWalletID: %s \n", token1);
                 transaction->setSender(token1);
                 transaction1->setSender(token1);
             }
             else if(count == 1) {
-                printf("ReceiverWalletID: %s \n", token1);
                 transaction->setReceiver(token1);
                 transaction1->setReceiver(token1);
             }
             else if(count == 2) {
-                printf("Value: %s \n", token1);
                 transaction->setAmount(atoi(token1));
                 /* It's the transaction that we want to pass */
                 transaction1->setRemainder(atoi(token1));
@@ -177,23 +173,17 @@ void requestTransactionsFile(FILE *fp, UsersHashTable *receiverHashTable, UsersH
             if(count == 3) {
                 token3 = token1;
                 token4 = strtok_r(token3, "-", &token3);
-                printf("%s day\n", token4);
                 day = atoi(token4);
                 token4 = strtok_r(NULL, "-", &token3);
-                printf("%s month\n", token4);
                 month = atoi(token4);
                 token4 = strtok_r(NULL, "-", &token3);
-                printf("%s year\n", token4);
                 year = atoi(token4);
             }
             if(count == 4) {
-                printf("%s lololo\n", token1);
                 token3 = token1;
                 token4 = strtok_r(token3, ":", &token3);
-                printf("%s hour\n", token4);
                 hour = atoi(token4);
                 token4 = strtok_r(NULL, ":", &token3);
-                printf("%s minutes\n", token4);
                 minutes = atoi(token4);
             }
             count++;
@@ -201,7 +191,6 @@ void requestTransactionsFile(FILE *fp, UsersHashTable *receiverHashTable, UsersH
         }
 
 
-        // TODO: Make this a function
         /* Let's do that for one transaction */
 
         timestamp = new Timestamp(day, month, year, hour, minutes);
@@ -222,7 +211,6 @@ void requestTransactionsFile(FILE *fp, UsersHashTable *receiverHashTable, UsersH
         id = (char*)malloc(totalDigits + 1);
         sprintf(id, "%d", current_transaction_id);
 
-        printf("%s YEAAAAH\n", id);
 
         transaction->setTransactionId(id);
         transaction1->setTransactionId(id);
@@ -232,7 +220,6 @@ void requestTransactionsFile(FILE *fp, UsersHashTable *receiverHashTable, UsersH
         transaction->setVirtualTransaction(0);
         transaction1->setVirtualTransaction(0);
         balance = walletHashTable->getBalance(transaction->getSender());
-        printf("%d %d %d %d %d \n", current_day, current_month, current_year, current_hour, current_minutes);
         /* Let's do the transaction */
         if( (balance - transaction->getAmount()) >= 0)  {
             if(dateIsValid(day, month, year, hour, minutes)) {
@@ -278,23 +265,19 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
     while( token != NULL ) {
         transaction = new Transaction();
         transaction1 = new Transaction();
-        printf("%s whatttt\n", token);
         token2 = token;
         token1 = strtok_r(token2, " ", &token2);
         int count = 0;
         while( token1 != NULL ) {
             if(count == 0) {
-                printf("SenderWalletID: %s \n", token1);
                 transaction->setSender(token1);
                 transaction1->setSender(token1);
             }
             else if(count == 1) {
-                printf("ReceiverWalletID: %s \n", token1);
                 transaction->setReceiver(token1);
                 transaction1->setReceiver(token1);
             }
             else if(count == 2) {
-                printf("Value: %s \n", token1);
                 transaction->setAmount(atoi(token1));
                 /* It's the transaction that we want to pass */
                 transaction1->setRemainder(atoi(token1));
@@ -303,23 +286,17 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
             if(count == 3) {
                 token3 = token1;
                 token4 = strtok_r(token3, "-", &token3);
-                printf("%s day\n", token4);
                 day = atoi(token4);
                 token4 = strtok_r(NULL, "-", &token3);
-                printf("%s month\n", token4);
                 month = atoi(token4);
                 token4 = strtok_r(NULL, "-", &token3);
-                printf("%s year\n", token4);
                 year = atoi(token4);
             }
             if(count == 4) {
-                printf("%s lololo\n", token1);
                 token3 = token1;
                 token4 = strtok_r(token3, ":", &token3);
-                printf("%s hour\n", token4);
                 hour = atoi(token4);
                 token4 = strtok_r(NULL, ":", &token3);
-                printf("%s minutes\n", token4);
                 minutes = atoi(token4);
             }
             count++;
@@ -348,7 +325,6 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
         id = (char*)malloc(totalDigits + 1);
         sprintf(id, "%d", current_transaction_id);
 
-        printf("%s YEAAAAH\n", id);
 
         transaction->setTransactionId(id);
         transaction1->setTransactionId(id);
@@ -358,7 +334,6 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
         transaction->setVirtualTransaction(0);
         transaction1->setVirtualTransaction(0);
         balance = walletHashTable->getBalance(transaction->getSender());
-        printf("%d %d %d %d %d \n", current_day, current_month, current_year, current_hour, current_minutes);
         /* Let's do the transaction */
         if( (balance - transaction->getAmount()) >= 0)  {
             if(dateIsValid(day, month, year, hour, minutes)) {

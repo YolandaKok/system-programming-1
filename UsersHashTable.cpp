@@ -88,7 +88,6 @@ int UsersHashTable::getEarnings (char *userId) {
 
 int UsersHashTable::getEarnings (char *userId, int hour1, int minutes1, int hour2, int minutes2) {
     int hash = hashFunction(userId);
-    printf("HASH HOUR DAY %s %d", userId, hash);
     return this->buckets[hash]->getEarnings(userId, hour1, minutes1, hour2, minutes2);
 }
 
@@ -112,17 +111,10 @@ void UsersHashTable::printUsersBucket(int i) {
     this->buckets[i]->printUserBucket();
 }
 
-/* Insert the sender and the transaction */
-void insertSender(char *sender) {
-    /* Hash the value */
-    /* If you don't find the sender in the list */
-    /* Add it to the last position */
-}
 
 /* Destructor for this class */
 UsersHashTable::~UsersHashTable() {
     int i = 0;
-    Bucket *current, *temp;
     /* Deallocate memory for the buckets array */
     for( i = 0; i < this->size; i++ ) {
         if(this->buckets[i] != NULL) {

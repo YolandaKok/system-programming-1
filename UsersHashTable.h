@@ -24,7 +24,6 @@ class UsersHashTable {
     public:
         UsersHashTable(int size, int bytes);
         int hashFunction(char *userId);
-        void insertSender(char *sender);
         /* Add Transaction to the bucket */
         int addTransaction(char *user, Transaction *transaction);
         void printUsers();

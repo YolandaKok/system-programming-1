@@ -30,7 +30,6 @@ void Transaction::printTransaction() {
 void Transaction::print() {
     /* Let's also print the timestamp of the transaction */
     printf("%s %s %s %d\n", this->transactionId, this->sender, this->receiver, this->amount);
-    //this->timestamp->print();
 }
 
 void Transaction::traverseTransactions(char *user, Transaction *transaction, UsersHashTable *receiverHashTable,
@@ -47,7 +46,6 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
     while( current != NULL && remainder != 0 ) {
         current_coin = current->getCoinNodeListHead();
         while ( current_coin != NULL && remainder != 0 ) {
-            //coinNode = current->coin;
             if( current_coin->isLeaf() && (strcmp( current_coin->getOwner(), transaction->getSender() ) == 0) ) {
                 /* Let's see if we can insert two CoinNodes */
                 CoinNode *coinNode;
@@ -89,7 +87,6 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
                 else {
                     /* Let's see if we have a remainder */
                     remainder1 = current_coin->calculateRemainder(transaction);
-                    printf("%d REMAINDER \n", remainder1);
                     if(transaction->getCoinNodeListHead() == NULL) {
                         transaction->setCoinNodeListHead(current_coin->getLeft());
                     } else {
@@ -217,8 +214,6 @@ Timestamp* Transaction::getTimeStamp() {
 }
 
 Transaction::~Transaction() {
-    //printf("%s Delete transaction\n", this->transactionId);
-    //printf("%d Memoryyyyy\n", this);
     free(this->receiver);
     free(this->sender);
     free(this->transactionId);
@@ -226,6 +221,4 @@ Transaction::~Transaction() {
 
     if(this->timestamp != NULL)
         delete this->timestamp;
-
-
 }

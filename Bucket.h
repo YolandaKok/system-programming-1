@@ -20,7 +20,7 @@ class Transaction;
 
 class Bucket {
     private:
-        void *records;
+        char *records;
         Bucket *next;
         int remainingBytes;
         int offset;

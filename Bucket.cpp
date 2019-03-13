@@ -11,7 +11,7 @@
 
 /* Constructor of a bucket */
 Bucket::Bucket(int bytes) {
-    this->records = (void*)malloc(bytes);
+    this->records = (char*)malloc(bytes);
     this->remainingBytes = bytes;
     this->offset = 0;
     this->next = NULL;

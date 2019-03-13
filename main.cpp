@@ -105,7 +105,7 @@ int main(int argc, char* argv[]) {
             else if(!strcmp(token, "/walletStatus")) {
                 token = strtok(NULL, " ");
                 money = walletHashTable->getBalance(token);
-                printf("% WalletId: %s Money: %d \n", token, money);
+                printf("WalletId: %s Money: %d \n", token, money);
             }
             else if(!strcmp(token, "/requestTransaction")) {
                 /* Token Contains all the data */

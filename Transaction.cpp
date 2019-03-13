@@ -41,6 +41,10 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
     int remainder1;
     transaction->setRemainder(remainder);
 
+    char *t_id;
+    t_id = (char*)malloc(strlen("3") + 1);
+    strcpy(t_id, "3");
+
     Transaction *transaction1 = new Transaction();
     /* Make the Transaction */
     while( current != NULL && remainder != 0 ) {
@@ -61,7 +65,7 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
                         transaction1->addCoinNode(coinNode);
                     }
                     transaction1->setVirtualTransaction(1);
-                    transaction1->setTransactionId("3");
+                    transaction1->setTransactionId(t_id);
                     transaction1->setSender(transaction->getSender());
                     transaction1->setReceiver(transaction->getSender());
                     transaction1->setAmount(coinNode->getValue());
@@ -115,6 +119,7 @@ void Transaction::traverseTransactions(char *user, Transaction *transaction, Use
         }
         current = current->next;
     }
+    free(t_id);
 }
 
 void Transaction::setTimestamp(Timestamp *timestamp) {

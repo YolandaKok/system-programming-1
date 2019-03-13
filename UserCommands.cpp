@@ -68,8 +68,6 @@ int requestTransaction(char *line, UsersHashTable *receiverHashTable,
         count++;
     }
 
-    printf("%d COUNTTTT\n", count);
-
     if(count == 3) {
         /* Insert the current date and time */
         time_t t = time(NULL);
@@ -190,6 +188,18 @@ void requestTransactionsFile(FILE *fp, UsersHashTable *receiverHashTable, UsersH
             token1 = strtok_r(token2, " ", &token2);
         }
 
+
+
+        if(count == 3) {
+            /* Insert the current date and time */
+            time_t t = time(NULL);
+            struct tm tm = *localtime(&t);
+            day = tm.tm_mday;
+            month = tm.tm_mon + 1;
+            year = tm.tm_year + 1900;
+            hour = tm.tm_hour;
+            minutes = tm.tm_min;
+        }
 
         /* Let's do that for one transaction */
 

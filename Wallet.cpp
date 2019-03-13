@@ -43,6 +43,19 @@ int Wallet::findUserWallet(char *userId) {
     return found;
 }
 
+int Wallet::find(char *userId) {
+    int found = 0;
+    Wallet *current = this;
+    while( current != NULL ) {
+        if(strcmp(current->userId, userId) == 0) {
+            found = 1;
+            break;
+        }
+        current = current->next;
+    }
+    return found;
+}
+
 Wallet* Wallet::getNext() {
     return this->next;
 }

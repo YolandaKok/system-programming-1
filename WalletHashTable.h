@@ -20,6 +20,7 @@ class WalletHashTable {
         void addToWallet(char *userId, char *coin, int amount);
         void subtractFromWallet(char *userId, char *coin, int amount);
         int findIfWalletNotFound(char *userId);
+        int find(char *userId);
         ~WalletHashTable();
 };
 

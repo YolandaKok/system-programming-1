@@ -32,6 +32,21 @@ int WalletHashTable::findIfWalletNotFound(char *userId) {
     }
 }
 
+int WalletHashTable::find(char *userId) {
+    int hash = hashFunction(userId);
+    if(this->wallets[hash] != NULL) {
+        if(this->wallets[hash]->find(userId)) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+    else {
+        return 0;
+    }
+}
+
 /* Insert CoinId */
 int WalletHashTable::insert(char *userId, ListNode *head) {
     /* Find the hash */

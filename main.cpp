@@ -32,8 +32,9 @@ int main(int argc, char* argv[]) {
     /* Initialize the HashTables */
     senderHashTable = new UsersHashTable(senderHashTableNumOfEntries, bucketSize);
     receiverHashTable = new UsersHashTable(receiverHashTableNumOfEntries, bucketSize);
-    walletHashTable = new WalletHashTable(10);
-    treeHashTable = new TreeHashTable(3);
+    /* Create a hashtable for the wallets and a hashtable for the bitcoin trees */
+    walletHashTable = new WalletHashTable(senderHashTableNumOfEntries);
+    treeHashTable = new TreeHashTable(senderHashTableNumOfEntries);
 
     /* Read the bitcoin balances files */
     int ok = readCoinsBalance(fp, bitCoinBalancesFile, bitCoinValue, receiverHashTable, senderHashTable, walletHashTable,

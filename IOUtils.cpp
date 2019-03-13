@@ -79,11 +79,19 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
             if(count == 0) {
                 userId = (char*)malloc(strlen(token) + 1);
                 strcpy(userId, token);
+                if(walletHashTable->find(userId)) {
+                    printf("User with ID: %s already exists !\n", userId);
+                    free(userId);
+                    free(line);
+                    fclose(fp);
+                    free(t_id);
+                    return 0;
+                }
             }
             else {
                 if(count == 1) {
                     if(treeHashTable->findCoin(token)) {
-                        printf("Error with transaction file\n");
+                        printf("Bitcoin with ID: %s already exists !\n", token);
                         free(userId);
                         free(line);
                         fclose(fp);

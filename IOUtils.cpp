@@ -112,7 +112,7 @@ int readCoinsBalance( FILE *fp, char* bitCoinBalancesFile, int coinValue, UsersH
                 }
                 else {
                     if(treeHashTable->findCoin(token)) {
-                        printf("Error with transaction file !\n");
+                        printf("Error with balances file. Same bitcoins in two users !\n");
                         free(userId);
                         free(line);
                         fclose(fp);
@@ -231,6 +231,8 @@ int readTransactions( FILE *fp, char* transactionsFile, UsersHashTable *receiver
                     current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
                     receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
                     senderHashTable->addTransaction(transaction->getSender(), transaction);
+                    printf("Successful transaction with Id: %s from %s to %s Amount: %d\n", transaction->getTransactionId(), transaction->getSender(),
+                            transaction->getReceiver(), transaction->getAmount());
                 }
                 else {
                     printf("Failed ! Error with transaction time !\n");

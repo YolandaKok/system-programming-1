@@ -113,6 +113,8 @@ int requestTransaction(char *line, UsersHashTable *receiverHashTable,
             current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
             receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
             senderHashTable->addTransaction(transaction->getSender(), transaction);
+            printf("Successful transaction with Id: %s from %s to %s Amount: %d\n", transaction->getTransactionId(), transaction->getSender(),
+                   transaction->getReceiver(), transaction->getAmount());
         }
         else {
             printf("Failed ! Error with transaction time !\n");
@@ -237,6 +239,8 @@ void requestTransactionsFile(FILE *fp, UsersHashTable *receiverHashTable, UsersH
                     current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
                     receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
                     senderHashTable->addTransaction(transaction->getSender(), transaction);
+                    printf("Successful transaction with Id: %s from %s to %s Amount: %d\n", transaction->getTransactionId(), transaction->getSender(),
+                           transaction->getReceiver(), transaction->getAmount());
                 }
                 else {
                     printf("Failed ! Error with transaction time !\n");
@@ -368,6 +372,8 @@ void requestTransactions(char *line, UsersHashTable *receiverHashTable, UsersHas
                     current_day = day; current_minutes = minutes; current_year = year; current_hour = hour; current_month = month;
                     receiverHashTable->traverseTransactions(transaction->getSender(), transaction1, walletHashTable, treeHashTable);
                     senderHashTable->addTransaction(transaction->getSender(), transaction);
+                    printf("Successful transaction with Id: %s from %s to %s Amount: %d\n", transaction->getTransactionId(), transaction->getSender(),
+                           transaction->getReceiver(), transaction->getAmount());
                 }
                 else {
                     printf("Failed ! Error with transaction time !\n");
